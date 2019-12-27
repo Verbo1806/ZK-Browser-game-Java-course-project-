@@ -24,7 +24,7 @@
 		<v.postgres>42.2.7</v.postgres>
 		
 		<!-- JDBC Connection Pooling Version -->
-		<v.c3p0>0.9.5.2</v.c3p0>
+		<v.c3p0>0.9.5.4</v.c3p0>
 		
 		<!-- Log4j Logging Version -->
 		<!-- <v.log4j>2.11.2</v.log4j> -->
