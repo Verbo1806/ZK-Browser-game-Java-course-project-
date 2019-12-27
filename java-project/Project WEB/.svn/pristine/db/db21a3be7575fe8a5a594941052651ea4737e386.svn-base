@@ -1,0 +1,30 @@
+package bg.infosys.daeu.web.service;
+
+import java.util.List;
+
+import javax.transaction.Transactional;
+
+import org.hibernate.Hibernate;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import bg.infosys.daeu.db.dao.projects.ProjectFormConfigDAO;
+import bg.infosys.daeu.db.entity.projects.ProjectFormConfig;
+import bg.infosys.daeu.db.entity.pub.FormType;
+
+@Service
+public class FormConfigService {
+
+	@Autowired
+	private ProjectFormConfigDAO projectFormConfigDAO;
+	
+	@Transactional
+	public List<ProjectFormConfig> findAllByFormType(FormType type) {
+		List<ProjectFormConfig> formConfigs = projectFormConfigDAO.findAllByFormType(type);
+		for (ProjectFormConfig formConfig : formConfigs)
+			Hibernate.initialize(formConfig.getRowType());
+		
+		return formConfigs;
+	}
+
+}

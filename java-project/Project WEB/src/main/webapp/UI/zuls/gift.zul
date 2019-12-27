@@ -1,0 +1,9 @@
+<window closable="true" onClick="self.detach()" viewModel="@id('vm') @init('bg.verbo.project.web.vm.GiftVM')">
+	<div width="300pt" height="300pt" style="text-align: center;">
+		<vlayout>
+			<image src="@load(vm.gift.code)" width="150pt" height="150pt" />
+			<separator style="margin: 30pt;" />
+			<label value="@load(vm.gift.name)" style="font-weight: bold; font-size: 30pt;" />
+		</vlayout>
+	</div>
+</window>

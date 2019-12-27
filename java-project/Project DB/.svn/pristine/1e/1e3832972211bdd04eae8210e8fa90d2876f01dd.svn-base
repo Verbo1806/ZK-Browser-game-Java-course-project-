@@ -1,0 +1,57 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	
+	<groupId>bg.infosys.daeu.db</groupId>
+	<artifactId>daeu-system-db</artifactId>
+	<version>0.0.1</version> <!-- DON'T FORGET TO BUMP THE ARTIFACT VERSION! -->
+
+	<properties>
+		<!-- Java and Maven plug-ins Versions -->
+		<v.java>11</v.java>
+		<v.compiler.plugin>3.7.0</v.compiler.plugin>
+
+		<!-- Infosys Common Version -->
+		<v.infosys.common>1.11</v.infosys.common>
+		
+		<!-- Default encoding -->
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+	</properties>
+
+	<build>
+		<sourceDirectory>src</sourceDirectory>
+		<resources>
+			<resource>
+				<directory>src</directory>
+				<excludes>
+					<exclude>**/*.java</exclude>
+				</excludes>
+			</resource>
+			<resource>
+				<directory>src/main/resources</directory>
+			</resource>
+		</resources>
+		
+		<plugins>
+			<plugin>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>${v.compiler.plugin}</version>
+				<configuration>
+					<source>${v.java}</source>
+					<target>${v.java}</target>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+	
+	<dependencies>
+		<!-- Infosys Common Dependency -->
+		<dependency>
+			<groupId>bg.infosys.common</groupId>
+			<artifactId>common</artifactId>
+			<version>${v.infosys.common}</version>
+		</dependency>
+	</dependencies>
+	
+</project>

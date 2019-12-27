@@ -1,0 +1,22 @@
+.gift {
+    width: 50pt;
+    height: 50pt;
+    margin: 10pt;
+}
+
+.gift:hover {
+    width: 60pt;
+    height: 60pt;
+    margin: 0pt;
+}
+
+.gift-big {
+    width: 150pt;
+    height: 150pt;
+}
+
+.gift-big:hover {
+    width: 175pt;
+    height: 175pt;
+}
+

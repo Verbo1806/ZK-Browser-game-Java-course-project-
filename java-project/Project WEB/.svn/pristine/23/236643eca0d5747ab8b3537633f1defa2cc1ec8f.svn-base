@@ -1,0 +1,33 @@
+package bg.infosys.daeu.web.service;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import bg.infosys.daeu.db.dao.MessageDao;
+import bg.infosys.daeu.web.dto.MessageDto;
+
+@Service
+public class MessageService {
+
+	@Autowired
+	private MessageDao messageDao;
+	
+	@Transactional
+	public void saveOrUpdate(MessageDto message) {
+		Long id = messageDao.saveOrUpdate(message.toEntity()).getId();
+		message.setId(id);
+	}
+	
+	@Transactional
+	public void delete(MessageDto message) {
+		messageDao.delete(message.toEntity());
+	}
+
+	public List<MessageDto> list() {
+		return MessageDto.produceDtoList(messageDao.findAll());
+	}
+
+}

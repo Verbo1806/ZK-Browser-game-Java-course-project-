@@ -1,0 +1,83 @@
+/* ########## GLOBAL ########## */
+:root {
+	/* Colors */
+	--icon-color:	 #3465A4;
+	--icon-hover-color:	 #729FCF;
+}
+
+.icon {
+	font-family: ZK85Icons,FontAwesome;
+	font-size: 20pt;
+	color: var(--icon-color);
+	cursor: pointer;
+}
+
+.icon_align_middle:before {
+	vertical-align: -webkit-baseline-middle;
+}
+
+.icon:hover {
+	color: var(--icon-hover-color);
+}
+
+.icon-message:before {
+	content: '\f0e0';
+	font-size: 25pt;
+}
+
+.icon-edit:before {
+	content: '\f14b';
+}
+
+.icon-add:before {
+	content: '\f055';
+}
+
+.icon-search:before {
+	content: '\f002';
+}
+
+.icon-reset {
+	font-size: 16pt;
+}
+
+.icon-reset:before {
+	content: '\f0e2';
+}
+
+.icon-delete:before {
+	content: '\f057';
+}
+
+.icon-delete:hover {
+	color: red;
+}
+
+.icon-error:before {
+	content: '\f06a';
+	color: red;
+}
+
+.icon-user:before {
+	content: '\f007';
+}
+
+.icon-lock:before {
+	content: '\f23e';
+}
+
+.icon-circle:before {
+	content: '\f111';
+}
+
+.icon-phone:before {
+	content: '\f095';
+}
+
+.icon-marker:before {
+	content: '\f041';
+}
+
+.icon-document:before {
+	content: '\f15c';
+}

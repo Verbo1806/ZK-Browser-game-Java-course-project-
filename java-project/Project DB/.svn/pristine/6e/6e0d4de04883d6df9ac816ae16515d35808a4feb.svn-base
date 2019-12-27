@@ -1,0 +1,40 @@
+package bg.infosys.daeu.db.entity.projects;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+
+import bg.infosys.daeu.db.entity.pub.ComponentType;
+
+@Entity
+@Table(schema = "projects", name = "n_row_types")
+public class RowType {
+	@Id
+	@Column(name = "code", nullable = false)
+	private String code;
+	public static final String _code = "code";
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "component_type_code")
+	private ComponentType componentType;
+
+	public String getCode() {
+		return code;
+	}
+
+	public void setCode(String code) {
+		this.code = code;
+	}
+
+	public ComponentType getComponentType() {
+		return componentType;
+	}
+
+	public void setComponentType(ComponentType componentType) {
+		this.componentType = componentType;
+	}
+}

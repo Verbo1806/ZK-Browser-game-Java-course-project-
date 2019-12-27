@@ -1,0 +1,48 @@
+package bg.infosys.daeu.web.service;
+
+import java.util.List;
+
+import javax.transaction.Transactional;
+
+import org.hibernate.Hibernate;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import bg.infosys.daeu.db.dao.pub.OrganizationTypeDAO;
+import bg.infosys.daeu.db.dao.tech_specs.InfoSystemTypeDAO;
+import bg.infosys.daeu.db.dao.tech_specs.TechSpecsFormConfigDAO;
+import bg.infosys.daeu.db.entity.pub.FormType;
+import bg.infosys.daeu.db.entity.pub.OrganizationType;
+import bg.infosys.daeu.db.entity.tech_specs.InfoSystemType;
+import bg.infosys.daeu.db.entity.tech_specs.TechSpecsFormConfig;
+
+@Service
+public class TechSpecsService {
+	@Autowired
+	private TechSpecsFormConfigDAO techSpecsFormConfigDAO;
+	
+	@Autowired
+	private InfoSystemTypeDAO infoSystemTypeDAO;
+	
+	@Autowired
+	private OrganizationTypeDAO organizationTypeDAO;
+	
+	@Transactional
+	public List<TechSpecsFormConfig> findAllByFormType(FormType type) {
+		List<TechSpecsFormConfig> formConfigs = techSpecsFormConfigDAO.findAllByFormType(type);
+		for (TechSpecsFormConfig formConfig : formConfigs)
+			Hibernate.initialize(formConfig.getRowType());
+		
+		return formConfigs;
+	}
+	
+	@Transactional
+	public List<InfoSystemType> findAllInfoSystemTypes() {
+		return infoSystemTypeDAO.findAll();
+	}
+	
+	@Transactional
+	public List<OrganizationType> findAllOrganizationTypes() {
+		return organizationTypeDAO.findAll();
+	}
+}

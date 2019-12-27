@@ -1,0 +1,17 @@
+package bg.infosys.daeu.db.entity.projects;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+@Entity
+@Table(schema = "projects", name = "n_row_types")
+public class RowType {
+	@Id
+	@Column(name = "code", nullable = false)
+	private String code;
+	public static final String _code = "code";
+	
+	
+}

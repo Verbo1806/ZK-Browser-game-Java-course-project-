@@ -1,0 +1,9 @@
+# Global
+messages=Съобщения
+data=Данни
+save=Запис
+dbLoad=Зареждане от ДБ
+clear=Изчистване
+delete=Изтриване
+placeholder=Какво се е случило?
+reloadLabels=Презареждане на i18n

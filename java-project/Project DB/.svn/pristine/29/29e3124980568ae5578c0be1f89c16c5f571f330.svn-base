@@ -1,0 +1,80 @@
+package bg.infosys.daeu.db.entity.pub;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
+
+@Entity
+@Table(name = "n_indicators")
+public class Indicator {
+
+	@Id
+	@SequenceGenerator(name = "indicators__seq", sequenceName = "n_indicators_id_seq", allocationSize = 1)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "indicators_seq")
+	private int id;
+	
+	@Column(name = _code)
+	private String code;
+	public static final String _code = "code";
+	
+	@Column(name = _name)
+	private String name;
+	public static final String _name = "name";
+	
+	@Column(name = _definition)
+	private String definition;
+	public static final String _definition = "definition";
+	
+	@ManyToOne(fetch = FetchType.LAZY, optional = false)
+	@JoinColumn(name = "value_type")
+	private ComponentType type;
+	
+	@ManyToOne(fetch = FetchType.LAZY, optional = false)
+	@JoinColumn(name = "parent_id")
+	private Indicator parent;
+	
+	public int getId() {
+		return id;
+	}
+	public void setId(int id) {
+		this.id = id;
+	}
+	public String getCode() {
+		return code;
+	}
+	public void setCode(String code) {
+		this.code = code;
+	}
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
+	public String getDefinition() {
+		return definition;
+	}
+	public void setDefinition(String definition) {
+		this.definition = definition;
+	}
+	public ComponentType getType() {
+		return type;
+	}
+	public void setType(ComponentType type) {
+		this.type = type;
+	}
+	public Indicator getParent() {
+		return parent;
+	}
+	public void setParent(Indicator parent) {
+		this.parent = parent;
+	}
+	
+}

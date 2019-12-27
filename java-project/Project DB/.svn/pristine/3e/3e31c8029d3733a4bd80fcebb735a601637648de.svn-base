@@ -1,0 +1,32 @@
+package bg.infosys.daeu.db.dao.projects;
+
+import static bg.infosys.daeu.db.entity.projects.ProjectFormConfig._formType;
+import static bg.infosys.daeu.db.entity.projects.ProjectFormConfig._orderNum;
+
+import java.util.List;
+
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
+
+import org.springframework.stereotype.Repository;
+
+import bg.infosys.common.db.dao.GenericDaoImpl;
+import bg.infosys.daeu.db.entity.projects.ProjectFormConfig;
+import bg.infosys.daeu.db.entity.pub.FormType;
+
+@Repository
+public class ProjectFormConfigDAO extends GenericDaoImpl<ProjectFormConfig, Integer> {
+
+	public List<ProjectFormConfig> findAllByFormType(FormType type) {
+		CriteriaBuilder builder = criteriaBuilder();
+		CriteriaQuery<ProjectFormConfig> criteria = builder.createQuery(ProjectFormConfig.class);
+		Root<ProjectFormConfig> root = criteria.from(ProjectFormConfig.class);
+		
+		criteria.where(builder.equal(root.get(_formType), type));
+		criteria.orderBy(builder.asc(root.get(_orderNum)));
+		
+		return createQuery(criteria).getResultList();
+	}
+
+}

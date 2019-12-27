@@ -1,0 +1,84 @@
+package bg.infosys.daeu.db.entity.budgets;
+
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
+
+import bg.infosys.daeu.db.entity.pub.FormType;
+import bg.infosys.daeu.db.entity.pub.Status;
+import bg.infosys.daeu.db.entity.pub.SubjectVersion;
+
+@Entity
+@Table(schema = "budgets", name = "budget_notes")
+public class BudgetNote {
+	@Id
+	@SequenceGenerator(name = "budget_notes_seq", sequenceName = "budget_notes_id_seq", allocationSize = 1)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "budget_notes_seq")
+	private Integer id;
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "form_type_code")
+	private FormType formType;
+	public static final String _formType = "formType";
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "last_version_id")
+	private BudgetFormVersion budgetFormVersion;
+	public static final String _budgetFormVersion = "budgetFormVersion";
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "subject_version_id")
+	private SubjectVersion subjectVersion;
+	public static final String _subjectVersion = "subjectVersion";
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "status_id")
+	private Status status;
+	public static final String _status = "status";
+
+	public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
+	}
+
+	public FormType getFormType() {
+		return formType;
+	}
+
+	public void setFormType(FormType formType) {
+		this.formType = formType;
+	}
+
+	public BudgetFormVersion getBudgetFormVersion() {
+		return budgetFormVersion;
+	}
+
+	public void setBudgetFormVersion(BudgetFormVersion budgetFormVersion) {
+		this.budgetFormVersion = budgetFormVersion;
+	}
+
+	public SubjectVersion getSubjectVersion() {
+		return subjectVersion;
+	}
+
+	public void setSubjectVersion(SubjectVersion subjectVersion) {
+		this.subjectVersion = subjectVersion;
+	}
+
+	public Status getStatus() {
+		return status;
+	}
+
+	public void setStatus(Status status) {
+		this.status = status;
+	}
+}

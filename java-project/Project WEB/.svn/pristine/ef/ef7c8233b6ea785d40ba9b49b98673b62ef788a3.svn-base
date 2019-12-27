@@ -1,0 +1,154 @@
+/* ########## GLOBAL ########## */
+:root {
+	 /* Main Colors */
+	--main-bg-color:	#F5F5F5;
+	
+	/* Icon Colors */
+	--icon-color:	 #3465A4;
+	
+	--settings-bg-color: #DADEE6;
+}
+
+/* ########## HTML Components ########## */
+body {
+	background-color: var(--main-bg-color);
+}
+
+input[type="checkbox"]:checked:before {
+	position: absolute;
+}
+
+/* ########## ZK Components ########## */
+/* ########## Border layout ########## */
+.z-west {
+	height: 100% !important;
+	top: 0pt !important;
+}
+
+.z-west-body {
+	height: 100% !important;
+}
+
+.z-north {
+	left: var(--west-size) !important;
+	width: 100% !important;
+}
+
+.z-north-body {
+	width: calc(100% - var(--west-size)) !important;
+}
+
+/* ########## Grid ########## */
+.z-grid-body {
+	overflow: hidden !important;
+}
+
+/* ########## Listbox ########## */
+.z-listheader-content {
+    color: #000000;
+    font-weight: bold;
+    padding: 5px 16px;
+}
+
+.z-listcell-content {
+	padding: 0px 0px;
+}
+
+.z-listitem > .z-listcell {
+	background: #e7e7e7;
+}
+
+/* ########## Tabbox ########## */
+.z-tabbox, .z-tabs, .z-tab {
+	background: none;
+}
+
+.z-tab {
+	border: 0.5pt solid var(--icon-color);
+	width: 25%;
+}
+
+.z-tab-selected {
+    background: var(--settings-bg-color); 
+}
+
+.z-tab-selected .z-tab-text, .z-tab-text:hover {
+    color: var(--icon-color);
+}
+
+.z-tab-text {
+	color: var(--icon-color);
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.z-tabs-content {
+	justify-content: center;
+}
+
+/* ########## Textbox ########## */
+.z-textbox {
+    border: 1px solid #000000;
+    color: rgba(0,0,0,0.9);
+    font-style: normal;
+    font-weight: normal;
+}
+
+/* ########## Combobox, Datebox ########## */
+.z-combobox-input, .z-datebox-input {
+    border: 1px solid #000000;
+    border-right: none;
+}
+
+.z-combobox-button, .z-datebox-button {
+   	border: 1px solid #000000;
+   	border-left: none;
+	padding-top: 8pt !important;
+}
+
+.z-combobox-button {
+	padding-top: 4px;
+}
+
+/* ########## FIELDS ########## */
+.z-row-content, .z-row-inner, .z-rows, .z-row, .z-grid-odd, .z-grid-body, .z-grid-header, .z-cell {
+	background: transparent !important;
+}
+
+.z-listbox-header, .z-listheader, .z-listitem.z-listbox-odd > .z-listcell {
+    background: #FFFFFF;
+}
+
+.z-grid-header-border, .z-listbox-header-border, .z-listheader, .z-tabbox, .z-tabs {
+	border: none;
+}
+
+.z-row .z-row-inner, .z-row .z-cell, .z-tabpanel {
+    border-top: none;
+}
+
+.z-textbox, .z-combobox-button, .z-datebox-button, .z-combobox-input, .z-datebox-input {
+	-webkit-border-radius: 0pt;
+    -moz-border-radius: 0pt;
+    -o-border-radius: 0pt;
+    -ms-border-radius: 0pt;
+    border-radius: 0pt;
+    
+    height: 30pt;
+}
+
+.z-listheader-content, .z-tab-text, input[type="checkbox"]:checked:before {
+	font-size: 10pt;
+}
+
+body, .z-window-content, .z-north-body {
+	padding: 0pt;
+}
+
+.z-listitem.z-listbox-odd > .z-listcell, .z-listitem > .z-listcell {
+    padding: 5pt;
+}
+
+.z-hlayout-inner {
+	vertical-align: middle;
+}

@@ -1,0 +1,41 @@
+package bg.infosys.daeu.db.entity.budgets;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
+
+@Entity
+@Table(schema = "budgets", name = "auxheaders")
+public class Auxheader {
+	@Id
+	@SequenceGenerator(name = "auxheaders_seq", sequenceName = "auxheaders_id_seq", allocationSize = 1)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "auxheaders_seq")
+	private Integer id;
+	
+	@Column(name = "label")
+	private String label;
+	public static final String _label = "label";
+	
+	@Column(name = "colspan")
+	private Integer colspan;
+	public static final String _colspan = "colspan";
+	
+	@Column(name = "year")
+	private String year;
+	public static final String _year = "year";
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "auxheader_type_code")
+	private AuxheaderType auxheaderType;
+	
+	@Column(name = "is_valid")
+	private String isValid;
+	public static final String _isValid = "is_valid";
+}

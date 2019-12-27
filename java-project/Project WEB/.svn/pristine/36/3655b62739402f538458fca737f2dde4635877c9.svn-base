@@ -1,0 +1,20 @@
+<vlayout sclass="centered_vlayout" viewModel="@id('vm') @init('bg.infosys.daeu.web.vm.submit.SubmitVM')" vflex="1">
+	<div sclass="custom_component_row" if="${vm.searchType eq 'app' }">
+		<include src="custom/custom-component.zul" name="${labels.applicationOne }" icon="icon icon-document"
+			color="#1992B9" onClick="@global-command('changeCenterContent', zulName='budgetControl')" />
+		<include src="custom/custom-component.zul" name="${labels.applicationTwo }" icon="icon icon-document" 
+			color="#1992B9" onClick='Executions.getCurrent().sendRedirect("")' />
+	</div>
+	<div sclass="custom_component_row" if="${vm.searchType eq 'app' }">
+		<include src="custom/custom-component.zul" name="3" icon="icon icon-document"
+			color="#1992B9" onClick='Executions.getCurrent().sendRedirect("")' style="custom-component" />
+		<include src="custom/custom-component.zul" name="4" icon="icon icon-document" 
+			color="#1992B9" onClick='Executions.getCurrent().sendRedirect("")' />
+	</div>
+	<div sclass="custom_component_row" if="${vm.searchType eq 'proposal' }">
+		<include src="custom/custom-component.zul" name="${labels.projectName }" icon="icon icon-document"
+			color="#1992B9" onClick="@global-command('changeCenterContent', zulName='projects')" style="custom-component" />
+		<include src="custom/custom-component.zul" name="${labels.techAssignment }" icon="icon icon-document"
+			color="#1992B9" onClick='Executions.getCurrent().sendRedirect("")' />
+	</div>
+</vlayout>

@@ -1,0 +1,5 @@
+package bg.infosys.daeu.web.vm.budget;
+
+public class BudgetReportVM {
+
+}

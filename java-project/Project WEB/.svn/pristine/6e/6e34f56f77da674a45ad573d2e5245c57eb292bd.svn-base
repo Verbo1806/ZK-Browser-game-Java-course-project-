@@ -1,0 +1,59 @@
+package bg.infosys.daeu.web.vm.nomenclatures;
+
+import java.util.AbstractMap.SimpleEntry;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.zkoss.bind.BindUtils;
+import org.zkoss.bind.annotation.BindingParam;
+import org.zkoss.bind.annotation.Command;
+import org.zkoss.bind.annotation.Init;
+import org.zkoss.zk.ui.Executions;
+import org.zkoss.zk.ui.select.annotation.VariableResolver;
+import org.zkoss.zk.ui.select.annotation.WireVariable;
+import org.zkoss.zkplus.spring.DelegatingVariableResolver;
+import org.zkoss.zul.Window;
+
+import bg.infosys.common.web.interfaces.Refreshable;
+import bg.infosys.common.web.utils.ZulLocator;
+import bg.infosys.daeu.db.entity.pub.CPVCode;
+import bg.infosys.daeu.web.service.NomenclaturesService;
+
+@VariableResolver(DelegatingVariableResolver.class)
+public class CPVCodesVM implements Refreshable<SimpleEntry<CPVCode, CPVCode>> {
+	@WireVariable
+	private NomenclaturesService nomenclaturesService;
+	
+	Map<CPVCode, List<CPVCode>> codes;
+	
+	@Init
+	public void init() {
+		codes = nomenclaturesService.findAllCPVCodes();
+	}
+	
+	@Command
+	public void add(@BindingParam("parent") CPVCode parent) {
+		Map<String, Object> params = new HashMap<>();
+		params.put(PARENT_VM, this);
+		params.put("PRC", parent);
+		
+		Window window = (Window) Executions.createComponents(ZulLocator.zulLocationByName("addEditCPVCode.zul"), null, params);
+		window.doModal();
+	}
+	
+	@Override
+	public void refresh(SimpleEntry<CPVCode, CPVCode> result) {
+		List<CPVCode> codesSubList = codes.get(result.getKey());
+		codesSubList.add(result.getValue());
+		BindUtils.postNotifyChange(null, null, codesSubList, "*");
+	}
+	
+	public Map<CPVCode, List<CPVCode>> getCodes() {
+		return codes;
+	}
+
+	public void setCodes(Map<CPVCode, List<CPVCode>> codes) {
+		this.codes = codes;
+	}	
+}

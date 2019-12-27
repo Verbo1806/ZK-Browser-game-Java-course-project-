@@ -1,0 +1,60 @@
+package bg.infosys.daeu.db.entity.pub;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
+
+@Entity
+@Table(name = "n_letter_templates")
+public class LetterTemplate {
+
+	@Id
+	@SequenceGenerator(name = "letter_templates_seq", sequenceName = "n_letter_templates_id_seq", allocationSize = 1)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "letter_templates_seq")
+	private int id;
+	
+	@Column(name = _mainText)
+	private String mainText;
+	public static final String _mainText = "main_text";
+	
+	@ManyToOne(fetch = FetchType.LAZY, optional = false)
+	@JoinColumn(name = "letter_type_id")
+	private LetterType type;
+	
+	@Column(name = _isValid)
+	private boolean isValid;
+	public static final String _isValid = "is_valid";
+	
+	public int getId() {
+		return id;
+	}
+	public void setId(int id) {
+		this.id = id;
+	}
+	public String getMainText() {
+		return mainText;
+	}
+	public void setMainText(String mainText) {
+		this.mainText = mainText;
+	}
+	public LetterType getType() {
+		return type;
+	}
+	public void setType(LetterType type) {
+		this.type = type;
+	}
+	public boolean isValid() {
+		return isValid;
+	}
+	public void setValid(boolean isValid) {
+		this.isValid = isValid;
+	}
+	
+}

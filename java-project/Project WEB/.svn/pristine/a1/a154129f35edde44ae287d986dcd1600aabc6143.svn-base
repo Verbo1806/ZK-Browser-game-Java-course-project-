@@ -1,0 +1,54 @@
+<vlayout viewModel="@id('vm') @init('bg.infosys.daeu.web.vm.projects.SearchProjectVM')" vflex="1">
+
+	<grid>
+		<columns>
+			<column/>
+			<column/>
+			<column/>
+			<column/>
+			<column/>
+		</columns>
+		<rows>
+			<row>
+				<cell><label value="${labels.docType }" style="display: block;"/><checkbox/></cell>
+				<cell><checkbox/></cell>
+				<cell><checkbox/></cell>
+			</row>
+			<row>
+				<cell colspan="2"><label value="${labels.name }" style="display: block;"/><textbox/></cell>
+				<cell colspan="2"><label value="${labels.outNum }" style="display: block;"/><textbox/></cell>
+				<cell><label value="${labels.status }" style="display: block;"/><combobox/></cell>
+			</row>
+			<row>
+				<cell><label value="${labels.period }" style="display: block;"/><datebox/></cell>
+				<cell><label value="${labels.to }"/></cell>
+				<cell><datebox/></cell>
+				<cell><label value="${labels.showAll }" sclass="label_button bold cursor_pointer" onClick="@command('showAll')"/></cell>
+				<cell><button label="${labels.search }" sclass="button_standard no_border_radius bold" /></cell>
+			</row>
+		</rows>
+	</grid>
+	
+	<listbox model="@load(vm.projectVersions)" sclass="search_listbox menu_background_color">
+		<listhead>
+			<listheader hflex="min" />
+			<listheader label="${labels.outNum}" />
+			<listheader label="${labels.type}" />
+			<listheader label="${labels.authority}" />
+			<listheader label="${labels.date}" />
+			<listheader hflex="min" />
+		</listhead>
+		
+		<template name="model">
+			<listitem>
+				<listcell> <label sclass="icon icon-circle" style="color: darkgreen;" /> </listcell>
+				<listcell> <label value="@load(each.incomingNum)"/> </listcell>
+				<listcell> <label value="@load(each.type)"/> </listcell>
+				<listcell> <label value=""/> </listcell>
+				<listcell> <label value="@load(each.dateCreated) @converter('bg.infosys.common.web.converters.DateConverter')"/> </listcell>
+				<listcell> <label sclass="icon icon-edit" /> </listcell>
+			</listitem>
+		</template>
+			
+	</listbox>
+</vlayout>

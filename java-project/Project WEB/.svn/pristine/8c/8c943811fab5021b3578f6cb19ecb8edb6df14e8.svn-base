@@ -1,0 +1,88 @@
+package bg.infosys.daeu.web.service;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+
+import javax.transaction.Transactional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import bg.infosys.daeu.db.dao.pub.CPVCodeDAO;
+import bg.infosys.daeu.db.dao.pub.ChecklistConfigDAO;
+import bg.infosys.daeu.db.dao.pub.EBKCodeDAO;
+import bg.infosys.daeu.db.dao.pub.FormTypeDAO;
+import bg.infosys.daeu.db.dao.security.AuthorityDAO;
+import bg.infosys.daeu.db.entity.pub.CPVCode;
+import bg.infosys.daeu.db.entity.pub.ChecklistConfig;
+import bg.infosys.daeu.db.entity.pub.EBKCode;
+import bg.infosys.daeu.db.entity.pub.FormType;
+
+@Service
+public class NomenclaturesService {
+	@Autowired
+	private EBKCodeDAO ebkCodeDAO;
+	
+	@Autowired 
+	private CPVCodeDAO cpvCodeDAO;
+	
+	@Autowired 
+	private FormTypeDAO formTypeDAO;
+	
+	@Autowired
+	private ChecklistConfigDAO checklistConfigDAO;
+	
+	@Autowired
+	private AuthorityDAO authorityDAO;
+	
+	public List<EBKCode> findAllEBKCodes() {
+		return ebkCodeDAO.findAll();
+	}
+	
+	@Transactional
+	public FormType getFormTypeByCode(String code) {
+		return formTypeDAO.getBudgetControlFormType(code);
+	}
+	
+	@Transactional
+	public Map<CPVCode, List<CPVCode>> findAllCPVCodes() {
+		List<CPVCode> allCodes = cpvCodeDAO.findAll();
+		
+		List<CPVCode> parentCodes = allCodes.stream()
+										.filter(code -> code.getParent() == null)
+										.collect(Collectors.toList());
+		
+		allCodes.removeAll(parentCodes);
+		
+		Map<CPVCode, List<CPVCode>> result = new HashMap<CPVCode, List<CPVCode>>();
+		
+		for (CPVCode parent : parentCodes) {
+			List<CPVCode> childrenCodes = allCodes.stream()
+													.filter(code -> code.getParent().equals(parent))
+													.collect(Collectors.toList());
+			
+			result.put(parent, childrenCodes);
+			
+			allCodes.removeAll(childrenCodes);
+		}
+		
+		return result;
+	}
+	
+	@Transactional
+	public void saveEBKCode(EBKCode newEntry) {
+		ebkCodeDAO.save(newEntry);	
+	}
+	
+	@Transactional
+	public void saveCPVCode(CPVCode newEntry) {
+		cpvCodeDAO.save(newEntry);
+	}
+
+	@Transactional
+	public List<ChecklistConfig> findChecklistElementsByFormType(FormType formType) {
+		return checklistConfigDAO.findChecklistElementsByFormType(formType);
+	}
+}

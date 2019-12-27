@@ -1,0 +1,44 @@
+<?page id="testZul" title="Hardware System"?>
+<?meta name="viewport" content="width=device-width,initial-scale=0.75, user-scalable=yes" ?>
+<window id="loginwin" title="" border="normal" width="450px"
+	mode="overlapped" position="center,center">
+	<html style="color:red" if="${not empty param.login_error}">
+		<![CDATA[
+	        Неуспешен опит за влизане, опитайте отново.<br/>
+	        Причина: ${SPRING_SECURITY_LAST_EXCEPTION.message}
+      	 ]]>
+    </html>
+    
+	<h:form name='f' action='/base/login' method="POST" xmlns:h="native">
+		<grid>
+			<columns>
+				<column width="35%"></column>
+				<column width="65%"></column>
+			</columns>
+			<rows>
+				<row>
+					<cell align="left">
+						<label value="Потребител:" />
+					</cell>
+					<cell align="left">
+						<textbox id="username" name="username" maxlength="255" />
+					</cell>
+				</row>
+				<row>
+					<cell align="left">
+						<label value="Парола:" />
+					</cell>
+					<cell align="left">
+						<textbox id="password" type="password" maxlength="255" name="password" />
+					</cell>
+				</row>
+				<!--  <row><checkbox id="r" name="j_spring_security_remember_me"/>Don't ask for my password for two weeks</row> -->
+				<row>
+					<cell colspan="2" align="right">
+						<button label="Вход" type="submit"/>
+					</cell>
+				</row>
+			</rows>
+		</grid>
+	</h:form>
+</window>

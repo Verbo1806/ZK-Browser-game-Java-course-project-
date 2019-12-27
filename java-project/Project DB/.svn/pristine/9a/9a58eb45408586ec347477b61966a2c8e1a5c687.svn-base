@@ -1,0 +1,53 @@
+package bg.infosys.daeu.db.entity.tech_specs;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
+
+@Entity
+@Table(schema = "tech_specs" ,name = "n_tech_specs")
+public class TechSpecsType {
+	@Id
+	@SequenceGenerator(name = "n_tech_specs_seq", sequenceName = "n_tech_specs_id_seq", allocationSize = 1)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "n_tech_specs_seq")
+	private Integer id;
+	
+	@ManyToOne
+	@JoinColumn(name = "row_type_id")
+	private TechRowType techRowType;
+	public static final String _techRowType = "techRowType";
+	
+	@Column(name = _value)
+	private String value;
+	public static final String _value = "value";
+	
+	public Integer getId() {
+		return id;
+	}
+	
+	public void setId(Integer id) {
+		this.id = id;
+	}
+	
+	public TechRowType getTechRowType() {
+		return techRowType;
+	}
+	
+	public void setTechRowType(TechRowType techRowType) {
+		this.techRowType = techRowType;
+	}
+	
+	public String getValue() {
+		return value;
+	}
+	
+	public void setValue(String value) {
+		this.value = value;
+	}
+}

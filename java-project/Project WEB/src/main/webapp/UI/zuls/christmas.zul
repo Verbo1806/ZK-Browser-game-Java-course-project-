@@ -1,0 +1,25 @@
+<zk>
+<style src="/UI/style/christmas-style.css"></style>
+<borderlayout height="100%" width="100%" viewModel="@id('vm') @init('bg.verbo.project.web.vm.ChristmasVM')"
+	style="background-image:url('../../UI/icons/christmas.jpg'); background-position: center; background-repeat: no-repeat; background-size: cover;">
+	<north size="20%" style="background: none;" border="0" >
+		<div width="100%" style="text-align: center;">
+			<image src="/UI/icons/logo19.png" width="180pt" height="100pt" />
+		</div>
+	</north>
+	<west size="30%" style="background: none;" border="0" />
+	<east size="20%" style="background: none;" border="0" />
+	<center style="background: none;" border="0">
+		<vlayout>
+			<div children="@load(vm.list) @template('gift')" width="450pt" style="text-align: center;">
+				<template name="gift">
+					<image sclass="gift" src="/UI/icons/gift.png" onClick="@command('openGift')" />
+				</template>
+			</div>
+			<div width="450pt" style="text-align: center;">
+				<image sclass="gift-big" src="/UI/icons/giftB.png" onClick="@command('openGiftBig')" />
+			</div>
+		</vlayout>
+	</center>
+</borderlayout>
+</zk>

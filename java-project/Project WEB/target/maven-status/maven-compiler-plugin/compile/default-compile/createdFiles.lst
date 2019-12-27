@@ -1,0 +1,6 @@
+bg\verbo\project\web\vm\IndexVM.class
+bg\verbo\project\web\vm\alarms\AddEditAlarmVM.class
+bg\verbo\project\web\service\NomenclatureService.class
+bg\verbo\project\web\vm\alarms\AlarmsVM.class
+bg\verbo\project\web\utils\ZulLocator.class
+bg\verbo\project\web\vm\arenas\ArenasVM.class

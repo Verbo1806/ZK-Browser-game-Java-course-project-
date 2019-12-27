@@ -1,0 +1,29 @@
+package bg.infosys.daeu.web.custom;
+
+import org.zkoss.bind.annotation.ExecutionArgParam;
+import org.zkoss.bind.annotation.Init;
+
+public class CustomComponent {
+	private String name;
+	private String iconUrl;
+	private String color;
+
+	@Init
+	public void init(@ExecutionArgParam("name") String name, @ExecutionArgParam("icon") String icon, @ExecutionArgParam("color") String color) {
+		this.name = name;
+		this.iconUrl = icon;
+		this.color = color;
+	}
+	
+	public String getName() {
+		return name;
+	}
+
+	public String getIconUrl() {
+		return iconUrl;
+	}
+
+	public String getColor() {
+		return color;
+	}
+}

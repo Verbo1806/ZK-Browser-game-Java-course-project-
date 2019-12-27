@@ -1,0 +1,22 @@
+package bg.infosys.daeu.db.entity.projects;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
+
+@Entity
+@Table(schema = "projects", name = "n_project_budget_types")
+public class ProjectBudgetType {
+	@Id
+	@SequenceGenerator(name = "n_project_budget_types_seq", sequenceName = "n_project_budget_types_id_seq", allocationSize = 1)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "n_project_budget_types_seq")
+	private Integer id;
+	
+	@Column(name = "name")
+	private String name;
+	public static final String _name = "name";
+}

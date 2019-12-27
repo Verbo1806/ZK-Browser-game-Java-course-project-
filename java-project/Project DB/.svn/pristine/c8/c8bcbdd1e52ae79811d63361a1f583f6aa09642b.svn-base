@@ -1,0 +1,71 @@
+package bg.infosys.daeu.db.entity.budgets;
+
+import java.util.Set;
+import java.util.TreeSet;
+
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
+
+@Entity
+@Table(schema = "budgets", name = "version_rows")
+public class VersionRow {
+	@Id
+	@SequenceGenerator(name = "version_rows_seq", sequenceName = "budgets.version_rows_id_seq", allocationSize = 1)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "version_rows_seq")
+	private Integer id;
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "version_id")
+	private BudgetFormVersion budgetFormVersion;
+	public static final String _budgetFormVersion = "budgetFormVersion";
+	
+	@Column(name = _section)
+	private String section;
+	public static final String _section = "section";
+	
+	@OneToMany(mappedBy = "versionRow", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	private Set<RowValue> values = new TreeSet<RowValue>();
+	
+	public Integer getId() {
+		return id;
+	}
+	
+	public void setId(Integer id) {
+		this.id = id;
+	}
+	
+	public BudgetFormVersion getBudgetFormVersion() {
+		return budgetFormVersion;
+	}
+	
+	public void setBudgetFormVersion(BudgetFormVersion budgetFormVersion) {
+		this.budgetFormVersion = budgetFormVersion;
+	}
+	
+	public String getSection() {
+		return section;
+	}
+	
+	public void setSection(String section) {
+		this.section = section;
+	}
+	
+	public Set<RowValue> getValues() {
+		return values;
+	}
+
+	public void setValues(Set<RowValue> values) {
+		this.values = values;
+	}
+	
+}

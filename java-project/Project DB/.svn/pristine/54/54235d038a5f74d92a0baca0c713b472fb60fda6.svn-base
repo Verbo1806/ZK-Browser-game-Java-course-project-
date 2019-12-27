@@ -1,0 +1,65 @@
+package bg.infosys.daeu.db.entity.pub;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
+
+import bg.infosys.daeu.db.entity.security.Authority;
+
+@Entity
+@Table(name = "checklist_config")
+public class ChecklistConfig {
+
+	@Id
+	@SequenceGenerator(name = "checklist_config_seq", sequenceName = "checklist_config_id_seq", allocationSize = 1)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "checklist_config_seq")
+	private int id;
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "checklist_element_id")
+	private ChecklistElement checklistElement;
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "role_id")
+	private Authority authority;
+	
+	@Column(name = _isValid)
+	private boolean isValid;
+	public static final String _isValid = "is_valid";
+	
+	public int getId() {
+		return id;
+	}
+	public void setId(int id) {
+		this.id = id;
+	}
+	public ChecklistElement getChecklistElement() {
+		return checklistElement;
+	}
+	public void setChecklistElement(ChecklistElement checklistElement) {
+		this.checklistElement = checklistElement;
+	}
+	public Authority getAuthority() {
+		return authority;
+	}
+	public void setAuthority(Authority authority) {
+		this.authority = authority;
+	}
+	public boolean isValid() {
+		return isValid;
+	}
+	public void setValid(boolean isValid) {
+		this.isValid = isValid;
+	}
+	public static String getIsvalid() {
+		return _isValid;
+	}
+	
+}

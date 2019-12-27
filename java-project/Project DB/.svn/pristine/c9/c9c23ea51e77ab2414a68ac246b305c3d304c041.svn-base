@@ -1,0 +1,44 @@
+package bg.infosys.daeu.db.entity.pub;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+@Entity
+@Table(name = "n_form_types")
+public class FormType {
+
+	@Id
+	@Column(name = _code)
+	private String code;
+	public static final String _code = "code";
+	
+	@Column(name = _name)
+	private String name;
+	public static final String _name = "name";
+	
+	@Column(name = _isValid)
+	private boolean isValid;
+	public static final String _isValid = "is_valid";
+	
+	public String getCode() {
+		return code;
+	}
+	public void setCode(String code) {
+		this.code = code;
+	}
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
+	public boolean isValid() {
+		return isValid;
+	}
+	public void setValid(boolean isValid) {
+		this.isValid = isValid;
+	}
+	
+}

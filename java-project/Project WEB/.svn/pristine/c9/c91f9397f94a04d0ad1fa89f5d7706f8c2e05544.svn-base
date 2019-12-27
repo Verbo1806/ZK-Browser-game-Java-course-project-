@@ -1,0 +1,70 @@
+<vlayout viewModel="@id('vm') @init('bg.infosys.daeu.web.vm.tech_specs.SearchTechSpecsVM')" vflex="1">
+
+	<grid>
+		<columns>
+			<column/>
+			<column/>
+			<column/>
+			<column/>
+			<column/>
+		</columns>
+		<rows>
+			<row>
+				<cell colspan="2">
+					<label value="${labels.subjectVersion }" style="display: block;"/>
+					<combobox model="@load(vm.subjects)"
+						mold="rounded" autodrop="true"
+						selectedItem="@bind(vm.searchObject.name)"
+						onChanging="@command('findVersions')">
+						<template name="model">
+							<comboitem value="@load(each)" label="@load(each.lastVersion.fullName)" />
+						</template>
+					</combobox> 
+				</cell>
+				<cell colspan="2"><label value="${labels.outNum }" style="display: block;"/><textbox value="@bind(vm.searchObject.outgoingNumber)" /></cell>
+				<cell>
+					<label value="${labels.status }" style="display: block;"/>
+					<combobox model="@load(vm.statuses)"
+						selectedItem="@bind(vm.searchObject.status)" readonly="true">
+	                    <template name="model">
+	                        <comboitem label="@load(each.name)" value="@bind(each)" />
+	                    </template>
+	                </combobox> 
+				</cell>
+			</row>
+			<row>
+				<cell>
+					<label value="${labels.period }" style="display: block;"/>
+					<datebox value="@bind(vm.searchObject.startPeriod)" format="${labels.df}" readonly="true" locale="BG" />
+				</cell>
+				<cell><label value="${labels.to }"/></cell>
+				<cell><datebox value="@bind(vm.searchObject.endPeriod)" format="${labels.df}" readonly="true" locale="BG" /></cell>
+				<cell><label value="${labels.showAll }" sclass="label_button bold cursor_pointer" onClick="@command('showAll')" /></cell>
+				<cell><button label="${labels.search }" sclass="button_standard no_border_radius bold" onClick="@command('search')" /></cell>
+			</row>
+		</rows>
+	</grid>
+	
+	<listbox model="@load(vm.techSpecs)" sclass="search_listbox menu_background_color">
+		<listhead>
+			<listheader hflex="min" />
+			<listheader label="${labels.outNum}" hflex="min" />
+			<listheader label="${labels.subjectVersion}" />
+			<listheader label="${labels.date}" hflex="min" />
+			<listheader hflex="min" />
+		</listhead>
+		
+		<template name="model">
+			<listitem>
+				<listcell> <label sclass="icon icon-circle" style="color: darkgreen;" /> </listcell>
+				<listcell> <label value="@load(each.techSpecsVersion.outgoingNum)"/> </listcell>
+				<listcell> <label value="@load(each.subjectVersion.fullName)"/> </listcell>
+				<listcell> <label value="@load(each.techSpecsVersion.dateCreated) @converter('bg.infosys.common.web.converters.DateConverter')"/> </listcell>
+				<listcell> <label sclass="icon icon-edit" onClick="@global-command('changeCenterContent', zulName='techSpecs', param=each)" /> </listcell>
+			</listitem>
+		</template>
+	</listbox>
+	
+	<paging activePage="@load(vm.techSpecs.page)" onPaging="@command('onPageChanged')" detailed="true"
+		pageSize="@load(vm.techSpecs.pageSize)" totalSize="@load(vm.techSpecs.totalSize)" />
+</vlayout>

@@ -1,0 +1,26 @@
+package bg.infosys.daeu.db.entity.budgets;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
+
+@Entity
+@Table(schema = "budgets", name = "n_form_column_types")
+public class FormColumnType {
+	@Id
+	@SequenceGenerator(name = "n_form_column_types_seq", sequenceName = "n_form_column_types_id_seq", allocationSize = 1)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "n_form_column_types_seq")
+	private Integer id;
+	
+	@Column(name = "code")
+	private String code;
+	public static final String _code = "code";
+	
+	@Column(name = "is_valid")
+	private String isValid;
+	public static final String _isValid = "is_valid";
+}

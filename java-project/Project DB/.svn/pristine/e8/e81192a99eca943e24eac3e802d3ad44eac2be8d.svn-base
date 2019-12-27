@@ -1,0 +1,32 @@
+package bg.infosys.daeu.db.dao.budgets;
+
+import java.util.List;
+
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
+
+import org.springframework.stereotype.Repository;
+
+import bg.infosys.common.db.dao.GenericDaoImpl;
+import bg.infosys.common.db.dao.aux.Restrictions;
+import bg.infosys.daeu.db.entity.budgets.FormConfig;
+import bg.infosys.daeu.db.entity.budgets.RowValue;
+import bg.infosys.daeu.db.entity.budgets.VersionRow;
+
+@Repository
+public class RowValueDAO extends GenericDaoImpl<RowValue, Integer> {
+
+	public List<RowValue> findValuesByElement(VersionRow element) {
+		CriteriaBuilder builder = criteriaBuilder();
+		CriteriaQuery<RowValue> criteria = builder.createQuery(RowValue.class);
+		Root<RowValue> root = criteria.from(RowValue.class);
+		Restrictions r = new Restrictions();
+		r.add(builder.equal(root.get(RowValue._versionRow), element));
+		r.add(builder.like(root.get(RowValue._formConfig).get(FormConfig._isValid), "Y"));
+		r.apply(builder, root, criteria, true);
+		criteria.orderBy(builder.asc(root.get(RowValue._formConfig).get(FormConfig._orderNum)));
+		return createQuery(criteria).getResultList();
+	}
+
+}

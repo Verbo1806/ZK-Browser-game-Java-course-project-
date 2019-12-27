@@ -1,0 +1,158 @@
+package bg.infosys.daeu.web.vm.projects;
+
+import java.util.List;
+
+import org.zkoss.bind.annotation.AfterCompose;
+import org.zkoss.bind.annotation.BindingParam;
+import org.zkoss.bind.annotation.Command;
+import org.zkoss.bind.annotation.ContextParam;
+import org.zkoss.bind.annotation.ContextType;
+import org.zkoss.bind.annotation.Init;
+import org.zkoss.bind.annotation.NotifyChange;
+import org.zkoss.zk.ui.Component;
+import org.zkoss.zk.ui.Executions;
+import org.zkoss.zk.ui.event.InputEvent;
+import org.zkoss.zk.ui.select.Selectors;
+import org.zkoss.zk.ui.select.annotation.VariableResolver;
+import org.zkoss.zk.ui.select.annotation.WireVariable;
+import org.zkoss.zkplus.spring.DelegatingVariableResolver;
+import org.zkoss.zul.event.PagingEvent;
+
+import bg.infosys.common.db.dao.aux.ListModelFilter;
+import bg.infosys.common.utils.Strings;
+import bg.infosys.common.web.model.SortablePagingListModel;
+import bg.infosys.daeu.db.entity.projects.Project;
+import bg.infosys.daeu.db.entity.pub.Status;
+import bg.infosys.daeu.db.entity.pub.Subject;
+import bg.infosys.daeu.web.aux.Config;
+import bg.infosys.daeu.web.dto.SearchProjectDTO;
+import bg.infosys.daeu.web.service.NomenclaturesService;
+import bg.infosys.daeu.web.service.ProjectsService;
+import bg.infosys.daeu.web.service.SubjectsService;
+
+@VariableResolver(DelegatingVariableResolver.class)
+public class SearchProjectVM {
+	@WireVariable private ProjectsService projectsService;
+	@WireVariable private SubjectsService subjectsService;
+	@WireVariable private NomenclaturesService nomenclaturesService;
+	
+	private Paging projectVersions;
+	private String searchType;
+	
+	private SearchProjectDTO searchObject;
+	private List<Subject> subjects;
+	private List<Status> statuses;
+
+	@Init
+	public void init() {
+		String type = (String) Executions.getCurrent().getArg().get(Config.PARAM);
+		searchObject = new SearchProjectDTO();
+		projectVersions = new Paging();
+		
+		statuses = nomenclaturesService.findByFormType(type);
+	}
+	
+	@AfterCompose
+	public void afterCompose(@ContextParam(ContextType.VIEW) Component view) {
+		Selectors.wireComponents(view, this, false);
+	}
+
+	public String getSearchType() {
+		return searchType;
+	}
+	
+	public Paging getProjectVersions() {
+		return projectVersions;
+	}
+
+	public SearchProjectDTO getSearchObject() {
+		return searchObject;
+	}
+
+	public List<Subject> getSubjects() {
+		return subjects;
+	}
+	
+	public List<Status> getStatuses() {
+		return statuses;
+	}
+
+	public boolean isTypeChecked(String type) {
+		if (searchObject.getType() != null) {
+			if (searchObject.getType().contains(type)) {
+				return true;
+			} else {
+				return false;
+			}
+		} else {
+			return false;
+		}
+	}
+
+	@Command
+	@NotifyChange({"projectVersions", "searchObject", "isTypeChecked", "subjects"})
+	public void showAll() {
+		searchObject = new SearchProjectDTO();
+		projectVersions = new Paging();
+	}
+	
+	@Command
+	@NotifyChange("projectVersions")
+	public void search() {
+		projectVersions = new Paging();
+	}
+	
+	@Command
+	@NotifyChange({"searchObject", "isTypeChecked"})
+	public void addType(@BindingParam("type") String type) {
+		if (Strings.isEmpty(searchObject.getType())) {
+			searchObject.setType(type);
+		} else {
+			if (searchObject.getType().contains(type)) {
+				searchObject.setType(searchObject.getType().replace(type, ""));
+			} else {
+				searchObject.setType(searchObject.getType() + type);
+			}
+		}
+	}
+	
+	@Command
+	@NotifyChange("subjects")
+	public void findVersions(@ContextParam(ContextType.TRIGGER_EVENT) InputEvent event) {
+		String searchPhrase = event.getValue();
+		if (searchPhrase.length() > 2) {
+			subjects = subjectsService.searchVersions(searchPhrase);
+		} else
+			subjects.clear();
+	}
+	
+	// PAGING
+	@Command
+	@NotifyChange("projectVersions")
+	public void onPageChanged(@ContextParam(ContextType.TRIGGER_EVENT) PagingEvent pagingEvent) {
+		projectVersions.setPage(pagingEvent.getActivePage());
+	}
+	
+	private class Paging extends SortablePagingListModel<Project> {
+		private static final long serialVersionUID = 1L;
+
+		public Paging() {
+			super(Config.PAGE_SIZE, false);
+		}
+
+		@Override
+		protected List<Project> getPageItems(ListModelFilter filter) {
+			return projectsService.findByProperties(searchObject, filter);
+		}
+
+		@Override
+		public void resetPaging() {
+			setActivePage(0);
+		}
+
+		@Override
+		public long getTotalSize() {
+			return projectsService.countByProperties(searchObject);
+		}
+	}
+}

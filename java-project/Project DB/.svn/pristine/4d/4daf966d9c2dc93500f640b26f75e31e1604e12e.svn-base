@@ -1,0 +1,90 @@
+package bg.infosys.daeu.db.entity.budgets;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
+
+@Entity
+@Table(schema = "budgets", name = "auxheaders")
+public class Auxheader {
+	@Id
+	@SequenceGenerator(name = "auxheaders_seq", sequenceName = "auxheaders_id_seq", allocationSize = 1)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "auxheaders_seq")
+	private Integer id;
+	
+	@Column(name = _label)
+	private String label;
+	public static final String _label = "label";
+	
+	@Column(name = _colspan)
+	private Integer colspan;
+	public static final String _colspan = "colspan";
+	
+	@Column(name = _year)
+	private String year;
+	public static final String _year = "year";
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "auxheader_type_code")
+	private AuxheaderType auxheaderType;
+	public static final String _auxheaderType = "auxheaderType";
+	
+	@Column(name = "is_valid")
+	private String isValid;
+	public static final String _isValid = "isValid";
+	
+	public Integer getId() {
+		return id;
+	}
+	
+	public void setId(Integer id) {
+		this.id = id;
+	}
+	
+	public String getLabel() {
+		return label;
+	}
+	
+	public void setLabel(String label) {
+		this.label = label;
+	}
+	
+	public Integer getColspan() {
+		return colspan;
+	}
+	
+	public void setColspan(Integer colspan) {
+		this.colspan = colspan;
+	}
+	
+	public String getYear() {
+		return year;
+	}
+	
+	public void setYear(String year) {
+		this.year = year;
+	}
+	
+	public AuxheaderType getAuxheaderType() {
+		return auxheaderType;
+	}
+	
+	public void setAuxheaderType(AuxheaderType auxheaderType) {
+		this.auxheaderType = auxheaderType;
+	}
+	
+	public String getIsValid() {
+		return isValid;
+	}
+	
+	public void setIsValid(String isValid) {
+		this.isValid = isValid;
+	}
+}

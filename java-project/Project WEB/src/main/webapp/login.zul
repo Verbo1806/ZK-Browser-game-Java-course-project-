@@ -1,0 +1,35 @@
+<?page title="${labels.systemName}" contentType="text/html;charset=UTF-8"?>
+<zk>
+<style src="/UI/style/zul-style.css"></style>
+<style src="/UI/style/icons.css"></style>
+<style src="/UI/style/z-components.css"></style>
+
+<borderlayout id="layout" viewModel="@id('vm') @init('bg.verbo.project.web.vm.LoginVM')">
+	<north size="30%" />
+	<west size="30%" />
+	<center sclass="login-center">
+		<grid width="40%">
+			<columns>
+				<column />
+			</columns>
+			<rows>
+				<row>
+					<cell>
+						<label value="${labels.username }" style="display: block;" />
+						<textbox value="@bind(vm.username)" placeholder="${labels.placeholder.enterUsername }" style="width: 100%;" />
+					</cell>
+				</row>
+				<row>
+					<cell>
+						<label value="${labels.password }" style="display: block;" />
+						<textbox value="@bind(vm.password)" type="password" placeholder="${labels.placeholder.enterPass }" style="width: 100%;" />
+					</cell>
+				</row>
+				<row>
+					<cell><button label="${labels.login }" onClick="@command('login')" /></cell>
+				</row>
+			</rows>
+		</grid>
+	</center>
+</borderlayout>
+</zk>

@@ -1,0 +1,91 @@
+package bg.infosys.daeu.db.entity.projects;
+
+import java.util.Date;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
+import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
+
+import bg.infosys.daeu.db.entity.pub.Status;
+import bg.infosys.daeu.db.entity.pub.SubjectVersion;
+
+@Entity
+@Table(schema = "projects", name = "projects")
+public class Project {
+	@Id
+	@SequenceGenerator(name = "projects_seq", sequenceName = "projects_id_seq", allocationSize = 1)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "projects_seq")
+	private Integer id;
+	
+	@OneToOne
+	@JoinColumn(name = "last_version_id")
+	private ProjectVersion projectVersion;
+	public static final String _projectVersion = "projectVersion";
+	
+	@Column(name = "date_created", columnDefinition = "TIMESTAMP")
+	private Date dateCreated;
+	public static final String _dateCreated = "dateCreated";
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "subject_version_id")
+	private SubjectVersion subjectVersion;
+	public static final String _subjectVersion = "subjectVersion";
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "status_id")
+	private Status status;
+	public static final String _status = "status";
+	
+	public Project() {
+		this.projectVersion = new ProjectVersion();
+		this.projectVersion.setProject(this);
+	}
+
+	public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
+	}
+
+	public ProjectVersion getProjectVersion() {
+		return projectVersion;
+	}
+
+	public void setProjectVersion(ProjectVersion projectVersion) {
+		this.projectVersion = projectVersion;
+	}
+
+	public Date getDateCreated() {
+		return dateCreated;
+	}
+
+	public void setDateCreated(Date dateCreated) {
+		this.dateCreated = dateCreated;
+	}
+
+	public SubjectVersion getSubjectVersion() {
+		return subjectVersion;
+	}
+
+	public void setSubjectVersion(SubjectVersion subjectVersion) {
+		this.subjectVersion = subjectVersion;
+	}
+
+	public Status getStatus() {
+		return status;
+	}
+
+	public void setStatus(Status status) {
+		this.status = status;
+	}
+}

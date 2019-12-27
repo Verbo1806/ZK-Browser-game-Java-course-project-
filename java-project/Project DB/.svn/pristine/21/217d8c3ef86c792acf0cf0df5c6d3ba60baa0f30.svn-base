@@ -1,0 +1,53 @@
+package bg.infosys.daeu.db.entity;
+
+import java.util.Date;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
+
+@Entity
+@Table(name = "messages")
+public class Message {
+	
+	@Id
+	@SequenceGenerator(name = "seq", sequenceName = "messages_id_seq", allocationSize=1)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq")
+	private Long id;
+	
+	@Column(name = _message)
+	private String message;
+	public static final String _message = "message";
+	
+	@Column(name = "message_date")
+	private Date date;
+	public static final String _date = "date";
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public String getMessage() {
+		return message;
+	}
+
+	public void setMessage(String message) {
+		this.message = message;
+	}
+
+	public Date getDate() {
+		return date;
+	}
+
+	public void setDate(Date date) {
+		this.date = date;
+	}
+}

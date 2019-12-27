@@ -1,0 +1,24 @@
+package bg.infosys.daeu.db.entity.projects;
+
+import java.util.List;
+
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
+
+@Entity
+@Table(schema = "projects", name = "project_main_data")
+public class ProjectMainData {
+	@Id
+	@SequenceGenerator(name = "project_main_data_seq", sequenceName = "project_main_data_id_seq", allocationSize = 1)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "project_main_data_seq")
+	private Integer id;
+	
+	@OneToMany(mappedBy = "projectMainData", fetch = FetchType.LAZY)
+	private List<ExecutionData> executionDatas;
+}

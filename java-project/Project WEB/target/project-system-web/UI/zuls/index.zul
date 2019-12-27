@@ -1,0 +1,23 @@
+<?page title="Course Project" contentType="text/html;charset=UTF-8"?>
+<zk>
+<!-- INCLUDE CUSTOM CSS -->
+<style src="/UI/style/zul-style.css"></style>
+
+<!-- INCLUDE CUSTOM SCRIPTS -->
+
+<borderlayout viewModel="@id('vm') @init('bg.verbo.project.web.vm.IndexVM')" height="100%" width="100%">
+	
+	<north height="5%">
+
+	</north>
+	
+	<west width="20%" splittable="false">
+		<include src="nav-menu.zul" />
+	</west>
+	
+	<center border="none">
+		<div id="centerContent" vflex="1" />
+	</center>
+	
+</borderlayout>
+</zk>

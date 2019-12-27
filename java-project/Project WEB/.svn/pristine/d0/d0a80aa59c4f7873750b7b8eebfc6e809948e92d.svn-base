@@ -1,0 +1,117 @@
+package bg.infosys.daeu.web.vm.checklist;
+
+import java.util.ArrayList;
+import java.util.LinkedHashSet;
+import java.util.List;
+import java.util.Set;
+
+import org.zkoss.zul.ListModelList;
+
+import bg.infosys.daeu.db.entity.pub.ChecklistConfig;
+import bg.infosys.daeu.db.entity.pub.ChecklistElement;
+import bg.infosys.daeu.db.entity.pub.ChecklistNDBO;
+import bg.infosys.daeu.db.entity.pub.ChecklistValue;
+import bg.infosys.daeu.db.entity.security.Authority;
+import bg.infosys.daeu.web.enums.DoubleChoice;
+import bg.infosys.daeu.web.enums.TripleChoice;
+
+public abstract class AbstractChecklist {
+	protected Set<Authority> expertColumns = new LinkedHashSet<Authority>();
+	protected List<ChecklistNDBO> rows = new ArrayList<ChecklistNDBO>();
+	protected List<ChecklistConfig> checklistConfig;
+	
+	protected void loadForm(List<ChecklistConfig> configs, List<ChecklistValue> checklistValues) {
+		for (Authority role : expertColumns) {
+			List<ChecklistElement> firstColumnElements = new ArrayList<ChecklistElement>();
+			List<ChecklistElement> elements = new ArrayList<ChecklistElement>();
+			for (ChecklistConfig checkConfig : configs) {
+				if (role.getId() == 0) {
+					if (!firstColumnElements.contains(checkConfig.getChecklistElement())) {
+						ChecklistElement element = checkConfig.getChecklistElement();
+						List<ChecklistValue> cells = new ArrayList<ChecklistValue>();
+						cells.add(new ChecklistValue());
+						rows.add(new ChecklistNDBO(element, cells));
+						firstColumnElements.add(element);
+					}
+				} else {
+					ChecklistElement element = checkConfig.getChecklistElement();
+					ChecklistNDBO ndbo = rows.stream().filter(
+							checklist -> checklist.getChecklistElement().equals(checkConfig.getChecklistElement()))
+							.findAny().orElse(null);
+					if (ndbo != null) {
+						if (role.getId() == checkConfig.getAuthority().getId()) {
+							ChecklistValue value;
+								value = checklistValues.stream().filter(v -> v.getConfig().equals(checkConfig)).findAny().orElse(null);
+							if (value == null) {
+								value = new ChecklistValue();
+								value.setConfig(checkConfig);
+							}
+							ndbo.getValues().add(value);
+							elements.add(element);
+						} else {
+							if (!elements.contains(element)) {
+								int index = configs.indexOf(checkConfig) + 1;
+								if (index == configs.size()) {
+									ChecklistValue value = new ChecklistValue();
+									value.setVisible(false);
+									ndbo.getValues().add(value);
+									elements.add(element);
+								} else {
+									int count = 0;
+									List<ChecklistConfig> list = configs.subList(index, configs.size());
+									if (list.stream().filter(
+											c -> c.getChecklistElement().equals(checkConfig.getChecklistElement()))
+											.findFirst().isPresent()) {
+										count++;
+									}
+									if (count == 0) {
+										ChecklistValue value = new ChecklistValue();
+										value.setVisible(false);
+										ndbo.getValues().add(value);
+										elements.add(element);
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+	
+	protected abstract void save();
+	
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	public ListModelList getChecksYN() {
+		return new ListModelList(DoubleChoice.values());
+	}
+	
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	public ListModelList getChecksYNNA() {
+		return new ListModelList(TripleChoice.values());
+	}
+	
+	public Set<Authority> getExpertColumns() {
+		return expertColumns;
+	}
+
+	public void setExpertColumns(Set<Authority> expertColumns) {
+		this.expertColumns = expertColumns;
+	}
+
+	public List<ChecklistNDBO> getRows() {
+		return rows;
+	}
+
+	public void setRows(List<ChecklistNDBO> rows) {
+		this.rows = rows;
+	}
+	
+	public List<ChecklistConfig> getChecklistConfig() {
+		return checklistConfig;
+	}
+	
+	public void setChecklistConfig(List<ChecklistConfig> checklistConfig) {
+		this.checklistConfig = checklistConfig;
+	}
+}

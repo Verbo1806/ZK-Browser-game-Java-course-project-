@@ -1,0 +1,68 @@
+package bg.infosys.daeu.db.entity.tech_specs;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
+
+import org.hibernate.validator.constraints.Length;
+
+@Entity
+@Table(schema = "tech_specs" ,name = "tech_specs_notes")
+public class TechSpecsNote {
+	@Id
+	@SequenceGenerator(name = "tech_specs_notes_seq", sequenceName = "tech_specs.tech_specs_notes_id_seq", allocationSize = 1)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "tech_specs_notes_seq")
+	private Integer id;
+	
+	@Column(name = _note)
+	private String note;
+	public static final String _note = "note";
+	
+	@ManyToOne
+	@JoinColumn(name = "tech_specs_version_id")
+	private TechSpecsVersion techSpecsVersion;
+	public static final String _techSpecsVersion = "techSpecsVersion";
+	
+	@Column(name = "is_valid")
+	@Length(max = 1)
+	private String isValid;
+	public static final String _isValid = "isValid";
+	
+	public Integer getId() {
+		return id;
+	}
+	
+	public void setId(Integer id) {
+		this.id = id;
+	}
+	
+	public String getNote() {
+		return note;
+	}
+	
+	public void setNote(String note) {
+		this.note = note;
+	}
+	
+	public TechSpecsVersion getTechSpecsVersion() {
+		return techSpecsVersion;
+	}
+	
+	public void setTechSpecsVersion(TechSpecsVersion techSpecsVersion) {
+		this.techSpecsVersion = techSpecsVersion;
+	}
+	
+	public String getIsValid() {
+		return isValid;
+	}
+	
+	public void setIsValid(String isValid) {
+		this.isValid = isValid;
+	}
+}

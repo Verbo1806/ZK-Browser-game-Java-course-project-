@@ -1,0 +1,68 @@
+package bg.infosys.daeu.db.entity.budgets;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
+
+import bg.infosys.daeu.db.entity.pub.ComponentType;
+
+@Entity
+@Table(schema = "budgets", name = "n_form_column_types")
+public class FormColumnType {
+	@Id
+	@SequenceGenerator(name = "n_form_column_types_seq", sequenceName = "budgets.n_form_column_types_id_seq", allocationSize = 1)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "n_form_column_types_seq")
+	private Integer id;
+	
+	@Column(name = _code)
+	private String code;
+	public static final String _code = "code";
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "component_type_code")
+	private ComponentType componentType;
+	public static final String _componentType = "componentType";
+	
+	@Column(name = "is_valid")
+	private String isValid;
+	public static final String _isValid = "isValid";
+	
+	public Integer getId() {
+		return id;
+	}
+	
+	public void setId(Integer id) {
+		this.id = id;
+	}
+	
+	public String getCode() {
+		return code;
+	}
+	
+	public void setCode(String code) {
+		this.code = code;
+	}
+	
+	public ComponentType getComponentType() {
+		return componentType;
+	}
+	
+	public void setComponentType(ComponentType componentType) {
+		this.componentType = componentType;
+	}
+	
+	public String getIsValid() {
+		return isValid;
+	}
+	
+	public void setIsValid(String isValid) {
+		this.isValid = isValid;
+	}
+}

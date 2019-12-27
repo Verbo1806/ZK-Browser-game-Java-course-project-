@@ -1,0 +1,102 @@
+package bg.infosys.daeu.db.entity.security;
+
+import java.util.Set;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
+import javax.persistence.Version;
+
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
+
+@Entity
+@Table(name = "authorities", schema = "security")
+public class Authority {
+
+	@Id
+	@SequenceGenerator(name = "authorities_authority_seq", sequenceName = "authorities_authority_id_seq", allocationSize = 1)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "authorities_authority_seq")
+	private int id;
+	
+	@Version
+	@Column(name = "orm_version")
+	private Integer version;
+	public static final String _version = "version";
+	
+	@Column(name = _name)
+	private String name;
+	public static final String _name = "authority_name";
+	
+	@Column(name = _type)
+	private String type;
+	public static final String _type = "authority_type";
+	
+	@Column(name = _description)
+	private String description;
+	public static final String _description = "description";
+	
+	@Column(name = _isActive)
+	private boolean isActive;
+	public static final String _isActive = "is_active";
+	
+	@ManyToMany(fetch = FetchType.EAGER)
+	@Fetch(value = FetchMode.JOIN)
+	@JoinTable(name = "authorities_authorities", schema="security",
+			joinColumns = @JoinColumn(name="parent"),
+			inverseJoinColumns = @JoinColumn(name = "child"))
+	private Set<Authority> children;
+	public static final String _children = "children";
+	
+	public int getId() {
+		return id;
+	}
+	public void setId(int id) {
+		this.id = id;
+	}
+	public Integer getVersion() {
+		return version;
+	}
+	public void setVersion(Integer version) {
+		this.version = version;
+	}
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
+	public String getType() {
+		return type;
+	}
+	public void setType(String type) {
+		this.type = type;
+	}
+	public String getDescription() {
+		return description;
+	}
+	public void setDescription(String description) {
+		this.description = description;
+	}
+	public boolean isActive() {
+		return isActive;
+	}
+	public void setActive(boolean isActive) {
+		this.isActive = isActive;
+	}
+	public Set<Authority> getChildren() {
+		return children;
+	}
+	public void setChildren(Set<Authority> children) {
+		this.children = children;
+	}
+	
+}

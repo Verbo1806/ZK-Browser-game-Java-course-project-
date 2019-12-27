@@ -1,0 +1,92 @@
+package bg.infosys.daeu.db.entity.pub;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
+
+@Entity
+@Table(name = "n_cpv_codes")
+public class CPVCode {
+
+	@Id
+	@SequenceGenerator(name = "n_cpv_codes_seq", sequenceName = "n_spv.codes_id_seq", allocationSize = 1)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "n_cpv_codes_seq")
+	private int id;
+
+	@Column(name = "order_num")
+	private Double orderNum;
+	public static final String _orderNum = "orderNum";
+
+	@Column(name = _code)
+	private String code;
+	public static final String _code = "code";
+
+	@Column(name = _name)
+	private String name;
+	public static final String _name = "name";
+
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "parent")
+	private CPVCode parent;
+	public static final String _parent = "parent";
+
+	@Column(name = "is_valid")
+	private boolean isValid;
+	public static final String _isValid = "isValid";
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public Double getOrderNum() {
+		return orderNum;
+	}
+
+	public void setOrderNum(Double orderNum) {
+		this.orderNum = orderNum;
+	}
+
+	public String getCode() {
+		return code;
+	}
+
+	public void setCode(String code) {
+		this.code = code;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public CPVCode getParent() {
+		return parent;
+	}
+
+	public void setParent(CPVCode parent) {
+		this.parent = parent;
+	}
+
+	public boolean isValid() {
+		return isValid;
+	}
+
+	public void setValid(boolean isValid) {
+		this.isValid = isValid;
+	}
+
+}

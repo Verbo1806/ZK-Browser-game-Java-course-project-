@@ -1,0 +1,47 @@
+package bg.infosys.daeu.db.entity.projects;
+
+import java.util.Date;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
+
+@Entity
+@Table(schema = "projects", name = "attached_docs")
+public class AttachedDoc {
+	@Id
+	@SequenceGenerator(name = "attached_docs_seq", sequenceName = "attached_docs_id_seq", allocationSize = 1)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "attached_docs_seq")
+	private Integer id;
+	
+	@Column(name = "order_num")
+	private Integer orderNum;
+	public static final String _orderNum = "order_num";
+	
+	@Column(name = "description")
+	private String description;
+	public static final String _description = "description";
+	
+	@Column(name = "file_name")
+	private String fileName;
+	public static final String _fileName = "file_name";
+	
+	@Column(name = "inserted_timestamp")
+	private Date insertedTimestamp;
+	public static final String _insertedTimestamp = "inserted_timestamp";
+	
+	@Column(name = "is_valid")
+	private String isValid;
+	public static final String _isValid = "is_valid";
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "project_version_id")
+	private ProjectVersion projectVersion;
+}

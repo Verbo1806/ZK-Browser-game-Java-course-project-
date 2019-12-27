@@ -1,0 +1,115 @@
+package bg.infosys.daeu.db.entity.budgets;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
+
+import bg.infosys.daeu.db.entity.pub.FormType;
+
+@Entity
+@Table(schema = "budgets", name = "form_config")
+public class FormConfig {
+	@Id
+	@SequenceGenerator(name = "form_config_seq", sequenceName = "form_config_id_seq", allocationSize = 1)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "form_config_seq")
+	private Integer id;
+	
+	@Column(name = "order_num")
+	private Integer orderNum;
+	public static final String _orderNum = "order_num";
+
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "column_type_id")
+	private FormColumnType formColumnType;
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "form_type_code")
+	private FormType formType;
+	
+	@Column(name = "column_name")
+	private String columnName;
+	public static final String _columnName = "column_name";
+	
+	@ManyToOne
+	@JoinColumn(name = "auxheader_id")
+	private Auxheader auxheader;
+	
+	@Column(name = "is_valid")
+	private String isValid;
+	public static final String _isValid = "is_valid";
+	
+	@Column(name = "section")
+	private String section;
+	public static final String _section = "section";
+	
+	public Integer getId() {
+		return id;
+	}
+	
+	public void setId(Integer id) {
+		this.id = id;
+	}
+	
+	public Integer getOrderNum() {
+		return orderNum;
+	}
+	
+	public void setOrderNum(Integer orderNum) {
+		this.orderNum = orderNum;
+	}
+	
+	public FormColumnType getFormColumnType() {
+		return formColumnType;
+	}
+	
+	public void setFormColumnType(FormColumnType formColumnType) {
+		this.formColumnType = formColumnType;
+	}
+	
+	public FormType getFormType() {
+		return formType;
+	}
+	
+	public void setFormType(FormType formType) {
+		this.formType = formType;
+	}
+	
+	public String getColumnName() {
+		return columnName;
+	}
+	
+	public void setColumnName(String columnName) {
+		this.columnName = columnName;
+	}
+	
+	public Auxheader getAuxheader() {
+		return auxheader;
+	}
+	
+	public void setAuxheader(Auxheader auxheader) {
+		this.auxheader = auxheader;
+	}
+	
+	public String getIsValid() {
+		return isValid;
+	}
+	
+	public void setIsValid(String isValid) {
+		this.isValid = isValid;
+	}
+	
+	public String getSection() {
+		return section;
+	}
+	
+	public void setSection(String section) {
+		this.section = section;
+	}
+}

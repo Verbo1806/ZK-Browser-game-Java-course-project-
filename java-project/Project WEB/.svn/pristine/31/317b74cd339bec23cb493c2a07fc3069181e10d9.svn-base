@@ -1,0 +1,119 @@
+package bg.infosys.daeu.web.dto;
+
+import java.io.InputStream;
+
+import bg.infosys.daeu.db.entity.projects.ExecutionData;
+
+public class DroppedFileDto {
+	private String fileName;
+	private String fileContent;
+	
+	private String size;
+	private InputStream data;
+	private Integer execDataId;
+	
+	private ExecutionData execData;
+	
+	private Boolean isValid;
+	private Boolean isSaved;
+	private int docId;
+	
+	public DroppedFileDto() {}
+	
+	public DroppedFileDto(String fileName, ExecutionData execData, String isValid, int id) {
+		this.fileName = fileName;
+		this.execData = execData;
+		this.isSaved = true;
+		this.docId = id;
+		this.isValid = "Y".equals(isValid) ? true : false;
+		if (execData != null)
+			this.execDataId = execData.getId();
+	}
+	
+	public DroppedFileDto(String fileName, String fileContent, Integer execDataId) {
+		this.fileName = fileName;
+		this.fileContent = fileContent;
+		this.execDataId = execDataId;
+	}
+	
+	public DroppedFileDto(String fileName, String size, InputStream stream, ExecutionData execData) {
+		this.fileName = fileName;
+		this.size = size;
+		this.data = stream;
+		this.execData = execData;
+		this.isValid = true;
+		this.isSaved = false;
+	}
+
+	public String getFileName() {
+		return fileName;
+	}
+
+	public void setFileName(String fileName) {
+		this.fileName = fileName;
+	}
+
+	public String getFileContent() {
+		return fileContent;
+	}
+
+	public void setFileContent(String fileContent) {
+		this.fileContent = fileContent;
+	}
+
+	public String getSize() {
+		return size;
+	}
+
+	public void setSize(String size) {
+		this.size = size;
+	}
+
+	public InputStream getData() {
+		return data;
+	}
+
+	public void setData(InputStream data) {
+		this.data = data;
+	}
+
+	public ExecutionData getExecData() {
+		return execData;
+	}
+
+	public void setExecData(ExecutionData execData) {
+		this.execData = execData;
+	}
+
+	public Integer getExecDataId() {
+		return execDataId;
+	}
+
+	public void setExecDataId(Integer execDataId) {
+		this.execDataId = execDataId;
+	}
+
+	public Boolean isValid() {
+		return isValid;
+	}
+
+	public void setValid(Boolean isValid) {
+		this.isValid = isValid;
+	}
+
+	public Boolean getIsSaved() {
+		return isSaved;
+	}
+
+	public void setIsSaved(Boolean isSaved) {
+		this.isSaved = isSaved;
+	}
+
+	public int getDocId() {
+		return docId;
+	}
+
+	public void setDocId(int docId) {
+		this.docId = docId;
+	}
+}

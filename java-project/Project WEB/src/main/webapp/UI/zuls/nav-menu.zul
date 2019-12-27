@@ -1,0 +1,24 @@
+<vlayout>
+	<grid sclass="menu-grid">
+		<columns>
+			<column />
+		</columns>
+		<rows>
+			<row onClick="@global-command('changeContent', zulName='team')">
+				<cell><label value="${labels.myTeam}" /></cell>
+			</row>
+		
+			<row onClick="@global-command('changeContent', zulName='ranking')">
+				<cell><label value="${labels.ranking}" /></cell>
+			</row>
+			
+			<row onClick="@global-command('changeContent', zulName='players')">
+				<cell><label value="${labels.players}" /></cell>
+			</row>
+			
+			<row onClick="@global-command('changeContent', zulName='arenas')">
+				<cell><label value="${labels.arenas}" /></cell>
+			</row>
+		</rows>
+	</grid>
+</vlayout>

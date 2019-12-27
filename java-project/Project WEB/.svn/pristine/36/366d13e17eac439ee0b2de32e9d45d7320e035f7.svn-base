@@ -1,0 +1,24 @@
+<?page title="${labels.systemName}" contentType="text/html;charset=UTF-8"?>
+<?import bg.infosys.common.web.utils.ZulUtil?>
+<zk>
+<!-- INCLUDE CUSTOM SCRIPTS -->
+<script type="text/javascript" src="/UI/js/dragAndDrop.js"></script>
+
+<!-- INCLUDE CUSTOM CSS -->
+<style src="/UI/style/zul-style.css"></style>
+<style src="/UI/style/icons.css"></style>
+<style src="/UI/style/z-components.css"></style>
+	
+<borderlayout viewModel="@id('vm') @init('bg.infosys.daeu.web.vm.IndexVM')">
+	
+	<north sclass="settings_container" border="none" height="40pt">
+		<include src="settings-menu.zul" />
+	</north>
+	
+	<west sclass="menu_container menu_background_color" width="250pt" border="none">
+		<include src="nav-menu.zul" />
+	</west>
+	
+	<center sclass="main_container" border="none" id="centerContent" />
+</borderlayout>
+</zk>

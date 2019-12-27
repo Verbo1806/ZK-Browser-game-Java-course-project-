@@ -1,0 +1,13 @@
+bg\verbo\project\db\dao\ArenaDAO.class
+bg\verbo\project\db\entity\Arena.class
+bg\verbo\project\db\entity\BonusType.class
+bg\verbo\project\db\entity\EBKCode.class
+bg\verbo\project\db\dao\GenericDaoImpl.class
+bg\verbo\project\db\entity\Country.class
+bg\verbo\project\db\entity\Skill.class
+bg\verbo\project\db\entity\PlayerType.class
+bg\verbo\project\db\entity\Team.class
+bg\verbo\project\db\dao\EBKCodeDAO.class
+bg\verbo\project\db\entity\User.class
+bg\verbo\project\db\entity\Ability.class
+bg\verbo\project\db\entity\Player.class

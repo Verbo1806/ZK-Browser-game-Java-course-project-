@@ -1,0 +1,157 @@
+# Global
+messages=Съобщения
+data=Данни
+save=Запази
+add=Добави
+dbLoad=Зареждане от ДБ
+clear=Изчистване
+delete=Изтриване
+placeholder=Какво се е случило?
+reloadLabels=Презареждане на i18n
+systemName=ДАЕУ Регистър
+cancel=Отказ
+back=Назад
+next=Продължи
+send=Изпрати
+error=Грешка
+control=Контрола
+
+profile=Профил
+messages=Съобщения
+
+export=Изтегли
+chooseFile=Избери файл
+dragAndDrop=Дръпни и пусни файл или
+attachDocument=Прикачване на документи
+
+yes=Да
+no=Не
+notApplicable=Не е приложимо
+enterSum=Въведете сума
+
+#Months
+January=Януари
+February=Февруари
+March=Март
+April=Април
+May=Май
+June=Юни
+July=Юли
+August=Август
+September=Септември
+October=Октомври
+November=Ноември
+December=Декември
+
+# Menu
+budgetaryControl=Бюджетен контрол
+projects=Проекти и дейности
+usefulInfo=Полезна информация
+techSpecs=Технически спецификации
+officeManagement=Деловодство
+checkApp=Проверка на приложение
+references=Справки
+searching=Търсене
+nomenclatures=Номенклатури
+subjectVersion=Субект по ЗЕУ
+
+# Submenu
+submitApp=Подаване на приложение
+submitProposal=Подаване на предложение
+projectRegister=Регистър на проектите/дейностите
+
+# Search
+docType=Тип документ
+type=Тип
+project_sh=Проект
+activity=Дейност
+techAssignment=Технически задания
+name=Име
+outNum=Изх. номер
+inNum=Вх. номер
+status=Статус
+period=Период
+date=Дата
+authority=Административен орган
+from=от
+to=до
+
+showAll=Покажи всички
+search=Търси
+
+subject=Субект
+correspondence=За кореспонденция
+signWithESign=Подпиши с електронен подпис
+
+appliedDocuments=Приложени документи
+
+#User
+username=Потребителско име
+password=Парола
+changePassword=Смяна на парола
+forgottenPassword=Забравена парола?
+login=Вход
+loginESign=Вход с КЕП
+email=Email
+phoneNumber=Телефон
+
+newPassword=Нова парола
+oldPassword=Стара парола
+repeatNewPassword=Повторете нова парола
+
+#Placeholders
+placeholder.projectName=Наименование на проект/дейност/техн. задание
+placeholder.outNum=Изх. номер деловодство
+placeholder.chooseStatus=Избери статус
+
+placeholder.enterUsername=Въведете потребителско име
+placeholder.enterPassword=Въведете парола
+placeholder.enterPhoneNumber=Въведете телефон
+placeholder.enterEmail=Въведете email
+
+placeholder.enterOldPassword=Въведете актуална парола
+placeholder.enterNewPassword=Въведете нова парола
+placeholder.repeatPassword=Повторете парола
+
+#Descriptions
+descriptions.changePassword=За да смените паролата е необходимо да въведете първо старата парола. Новата парола трябва да бъде минимум 6 символа
+
+#Nomenclatures
+approvedBudgets55=Утвърдени бюджети по чл.55 от ЗДБ
+CPVCodes=CPV кодове
+EBKCodes=ЕБК кодове
+budgetProceduresDates=Дати на бюджетна процедура
+
+code=Код
+description=Описание
+date=Дата
+
+#File names
+applicationOne=Приложение №1
+applicationTwo=Приложение №2
+projectName=Проекто предложение/дейност
+projectType=Проектно предложение
+activityType=Дейност
+techAssignment=Техническо задание
+
+#Projects form
+project.header=Предложение за проект/дейност
+project.exportHeader=Можете да експортирате вашето предложение
+project.successfulForm=Предложението е попълнено успешно, моля въведете изходящ номер, за да можете да изпратите за одобрение
+project.financingType=Вид финансиране
+project.indicativeBudget=Индикативен бюджет
+project.headerStep2=Основни данни за проект/дейност
+project.headerStep3=План за изпълнение на проверяваните дейности по проекта
+
+project.inBudgetLbl=Бюджетът на проектното предложение/дейността включен ли е в съгласувана от ДАЕУ тригодишна бюджетна прогноза за разходите в областта на електронното управление и за използваните информационни и комуникационни технологии
+
+#Budgets form
+budget.outgoingNumber=Изходящ номер
+budget.chooseDate=Изберете дата
+budget.finalize=Финализирай
+budget.returnVerification=Връщане за проверка
+
+# FTP
+ftp.error = Не може да се осъществи връзка с FTP сървъра!
+
+

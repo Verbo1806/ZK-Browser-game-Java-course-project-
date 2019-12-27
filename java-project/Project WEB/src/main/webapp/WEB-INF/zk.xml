@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE xml>
+<zk>
+	<system-config>
+		<label-location>/WEB-INF/labels/zk-label_bg_BG.properties</label-location>
+	</system-config>
+</zk>

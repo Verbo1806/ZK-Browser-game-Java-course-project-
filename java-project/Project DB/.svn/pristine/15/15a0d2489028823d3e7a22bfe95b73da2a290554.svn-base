@@ -1,0 +1,76 @@
+package bg.infosys.daeu.db.entity.pub;
+
+import java.util.Set;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
+
+@Entity
+@Table(name = "subjects")
+public class Subject {
+	
+	@Id
+	@Column(name = _id)
+	private int id;
+	public static final String _id = "id";
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "organization_type_id")
+	private OrganizationType orgType;
+	public static final String _orgType = "orgType";
+	
+	@Column(name = "ident_num")
+	private String identNum;
+	public static final String _identNum = "identNum";
+	
+	@OneToOne(mappedBy = "subject")
+	private SubjectVersion lastVersion;
+	public static final String _lastVersion = "lastVersion";
+	
+	@Column(name = "is_valid")
+	private String isValid;
+	public static final String _isValid = "isValid";
+	
+	@OneToMany(fetch = FetchType.EAGER, mappedBy = "subject")
+	private Set<SubjectVersion> versions;
+	public static final String _versions = "versions";
+	
+	public int getId() {
+		return id;
+	}
+	public void setId(int id) {
+		this.id = id;
+	}
+	public OrganizationType getOrgType() {
+		return orgType;
+	}
+	public void setOrgType(OrganizationType orgType) {
+		this.orgType = orgType;
+	}
+	public String getIdentNum() {
+		return identNum;
+	}
+	public void setIdentNum(String identNum) {
+		this.identNum = identNum;
+	}
+	public SubjectVersion getLastVersion() {
+		return lastVersion;
+	}
+	public void setLastVersion(SubjectVersion lastVersion) {
+		this.lastVersion = lastVersion;
+	}
+	public String isValid() {
+		return isValid;
+	}
+	public void setValid(String isValid) {
+		this.isValid = isValid;
+	}
+
+}

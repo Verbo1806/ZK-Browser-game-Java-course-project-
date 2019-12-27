@@ -1,0 +1,47 @@
+package bg.infosys.daeu.db.entity.pub;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
+
+@Entity
+@Table(name = "n_ebk_codes")
+public class EBKCode {
+
+	@Id
+	@SequenceGenerator(name = "ebk_codes_seq", sequenceName = "n_ebk_codes_id_seq", allocationSize = 1)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "ebk_codes_seq")
+	private int id;
+	
+	@Column(name = _code)
+	private String code;
+	public static final String _code = "code";
+	
+	@Column(name = _isValid)
+	private boolean isValid;
+	public static final String _isValid = "is_valid";
+	
+	public int getId() {
+		return id;
+	}
+	public void setId(int id) {
+		this.id = id;
+	}
+	public String getCode() {
+		return code;
+	}
+	public void setCode(String code) {
+		this.code = code;
+	}
+	public boolean isValid() {
+		return isValid;
+	}
+	public void setValid(boolean isValid) {
+		this.isValid = isValid;
+	}
+	
+}

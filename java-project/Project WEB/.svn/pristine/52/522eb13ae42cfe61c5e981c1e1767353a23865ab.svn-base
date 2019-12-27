@@ -1,0 +1,122 @@
+package bg.infosys.daeu.web.service;
+
+import java.io.InputStream;
+import java.util.Date;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Set;
+
+import javax.transaction.Transactional;
+
+import org.hibernate.Hibernate;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import bg.infosys.common.db.dao.aux.ListModelFilter;
+import bg.infosys.daeu.db.dao.pub.OrganizationTypeDAO;
+import bg.infosys.daeu.db.dao.tech_specs.TechSpecsDAO;
+import bg.infosys.daeu.db.dao.tech_specs.TechSpecsFormConfigDAO;
+import bg.infosys.daeu.db.entity.pub.FormType;
+import bg.infosys.daeu.db.entity.pub.OrganizationType;
+import bg.infosys.daeu.db.entity.tech_specs.TechSpecs;
+import bg.infosys.daeu.db.entity.tech_specs.TechSpecsAttachedDoc;
+import bg.infosys.daeu.db.entity.tech_specs.TechSpecsFormConfig;
+import bg.infosys.daeu.db.entity.tech_specs.TechSpecsType;
+import bg.infosys.daeu.db.entity.tech_specs.TechSpecsVersionValue;
+import bg.infosys.daeu.web.dto.SearchTechSpecsDTO;
+import bg.infosys.daeu.web.util.FTPUtils;
+
+@Service
+public class TechSpecsService {
+	@Autowired
+	private TechSpecsFormConfigDAO techSpecsFormConfigDAO;
+	
+	@Autowired
+	private OrganizationTypeDAO organizationTypeDAO;
+	
+	@Autowired
+	private TechSpecsDAO techSpecsDAO;
+	
+	@Transactional
+	public List<TechSpecsFormConfig> findAllByFormType(TechSpecsType selectedType, FormType type) {
+		List<TechSpecsFormConfig> formConfigs = techSpecsFormConfigDAO.findAllByFormType(selectedType,type);
+		for (TechSpecsFormConfig formConfig : formConfigs) {
+			Hibernate.initialize(formConfig.getRowType());
+			
+			List<TechSpecsType> nomenclatures = formConfig.getRowType().getNumenclatures();
+			
+			if (nomenclatures != null) {
+				Hibernate.initialize(nomenclatures);
+			}
+			
+		}
+		return formConfigs;
+	}
+	
+	@Transactional
+	public List<OrganizationType> findAllOrganizationTypes() {
+		return organizationTypeDAO.findAll();
+	}
+	
+	@Transactional
+	public List<TechSpecs> findByProperties(SearchTechSpecsDTO searchObject, ListModelFilter filter) {
+		List<TechSpecs> result = techSpecsDAO.findByProperties(searchObject.getName(),
+							searchObject.getOutgoingNumber(), searchObject.getStatus(), 
+							searchObject.getStartPeriod(), searchObject.getEndPeriod(), filter);
+		
+		
+		for (TechSpecs techSpecs : result) {
+			Set<TechSpecsVersionValue> values = techSpecs.getTechSpecsVersion().getValues();
+			
+			Hibernate.initialize(values);
+			for (TechSpecsVersionValue value : values) {
+				Hibernate.initialize(value.getTechSpecsFormConfig().getRowType().getNumenclatures());
+			}
+		}
+		
+		return result;
+	}
+	
+	public long countByProperties(SearchTechSpecsDTO searchObject) {
+		return techSpecsDAO.countByProperties( searchObject.getName(),
+				searchObject.getOutgoingNumber(), searchObject.getStatus(),
+				searchObject.getStartPeriod(), searchObject.getEndPeriod());
+	}
+	
+	@Transactional
+	public void saveTechSpecs(TechSpecs techSpecs) {
+		techSpecsDAO.save(techSpecs);
+	}
+	
+	@Transactional
+	public TechSpecs findByid(Integer id) {
+		TechSpecs result = techSpecsDAO.findById(id);
+		
+		if (result.getTechSpecsVersion() != null) {
+			Hibernate.initialize(result.getTechSpecsVersion().getValues());
+			
+			Iterator<TechSpecsVersionValue> iterator = result.getTechSpecsVersion().getValues().iterator();
+			
+			while (iterator.hasNext()) {
+				Hibernate.initialize(iterator.next().getTechSpecsFormConfig().getRowType().getNumenclatures());
+			}
+			
+		}
+		
+		return result;
+	}
+	
+	public TechSpecsAttachedDoc saveFile(InputStream is, String directory, String fileName) {
+		FTPUtils ftp = new FTPUtils();
+		
+		if(ftp.uploadFileOnFTP(is, directory + fileName)) {
+			TechSpecsAttachedDoc file = new TechSpecsAttachedDoc();
+			file.setFilePath(directory);
+			file.setFileName(fileName);
+			file.setInsertedTimestamp(new Date());
+			return file;
+		} else {
+			return null;
+		}
+	}
+}

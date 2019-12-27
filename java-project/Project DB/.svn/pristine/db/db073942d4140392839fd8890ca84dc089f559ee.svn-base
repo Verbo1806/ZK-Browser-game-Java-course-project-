@@ -1,0 +1,29 @@
+package bg.infosys.daeu.db.entity.budgets;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
+
+@Entity
+@Table(schema = "budgets", name = "version_rows")
+public class VersionRow {
+	@Id
+	@SequenceGenerator(name = "version_rows_seq", sequenceName = "version_rows_id_seq", allocationSize = 1)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "version_rows_seq")
+	private Integer id;
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "version_id")
+	private BudgetFormVersion budgetFormVersion;
+	
+	@Column(name = "section")
+	private String section;
+	public static final String _section = "section";
+}

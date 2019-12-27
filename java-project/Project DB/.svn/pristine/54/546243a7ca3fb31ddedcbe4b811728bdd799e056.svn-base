@@ -1,0 +1,43 @@
+package bg.infosys.daeu.db.entity.budgets;
+
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
+
+import bg.infosys.daeu.db.entity.pub.CPVCode;
+
+@Entity
+@Table(schema = "budgets", name = "selected_cpv_code")
+public class SelectedCPVCode {
+	@Id
+	@SequenceGenerator(name = "selected_cpv_code_seq", sequenceName = "budgets.selected_cpv_code_id_seq", allocationSize = 1)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "selected_cpv_code_seq")
+	private Integer id;
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "cpv_code_id")
+	private CPVCode cpvCode;
+	public static final String _cpvCode = "cpvCode";
+
+	public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
+	}
+
+	public CPVCode getCpvCode() {
+		return cpvCode;
+	}
+
+	public void setCpvCode(CPVCode cpvCode) {
+		this.cpvCode = cpvCode;
+	}
+}

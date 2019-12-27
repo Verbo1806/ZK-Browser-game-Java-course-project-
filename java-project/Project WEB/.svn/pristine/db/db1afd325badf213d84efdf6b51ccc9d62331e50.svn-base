@@ -1,0 +1,58 @@
+package bg.infosys.daeu.web.dto;
+
+import java.util.Date;
+
+import bg.infosys.daeu.db.entity.pub.Status;
+import bg.infosys.daeu.db.entity.pub.Subject;
+
+public class SearchTechSpecsDTO {
+	private String name;
+	private String outgoingNumber;
+	private Status status;
+	private Date startPeriod;
+	private Date endPeriod;
+	
+	public String getName() {
+		return name;
+	}
+	
+	public void setName(String name) {
+		this.name = name;
+	}
+	
+	public void setName(Subject subject) {
+		this.name = subject.getLastVersion().getFullName();
+	}
+	
+	public String getOutgoingNumber() {
+		return outgoingNumber;
+	}
+	
+	public void setOutgoingNumber(String outgoingNumber) {
+		this.outgoingNumber = outgoingNumber;
+	}
+	
+	public Status getStatus() {
+		return status;
+	}
+	
+	public void setStatus(Status status) {
+		this.status = status;
+	}
+	
+	public Date getStartPeriod() {
+		return startPeriod;
+	}
+	
+	public void setStartPeriod(Date startPeriod) {
+		this.startPeriod = startPeriod;
+	}
+	
+	public Date getEndPeriod() {
+		return endPeriod;
+	}
+	
+	public void setEndPeriod(Date endPeriod) {
+		this.endPeriod = endPeriod;
+	}
+}

@@ -1,0 +1,20 @@
+<vlayout sclass="centered_vlayout" viewModel="@id('vm') @init('bg.infosys.daeu.web.vm.submit.SubmitVM')" vflex="1">
+	<div sclass="custom_component_row" if="${vm.searchType eq 'app' }">
+		<include src="custom/custom-component.zul" name="1" icon="icon icon-edit"
+			color="#00a500" onClick='Executions.getCurrent().sendRedirect("")' />
+		<include src="custom/custom-component.zul" name="2" icon="icon icon-delete" 
+			color="#72e372" onClick='Executions.getCurrent().sendRedirect("")' />
+	</div>
+	<div sclass="custom_component_row" if="${vm.searchType eq 'app' }">
+		<include src="custom/custom-component.zul" name="3" icon="icon icon-search"
+			color="#ce5df6" onClick='Executions.getCurrent().sendRedirect("")' style="custom-component" />
+		<include src="custom/custom-component.zul" name="4" icon="icon icon-reset" 
+			color="#5d67f6" onClick='Executions.getCurrent().sendRedirect("")' />
+	</div>
+	<div sclass="custom_component_row" if="${vm.searchType eq 'proposal' }">
+		<include src="custom/custom-component.zul" name="3" icon="icon icon-search"
+			color="#ce5df6" onClick='Executions.getCurrent().sendRedirect("")' style="custom-component" />
+		<include src="custom/custom-component.zul" name="4" icon="icon icon-reset" 
+			color="#5d67f6" onClick='Executions.getCurrent().sendRedirect("")' />
+	</div>
+</vlayout>

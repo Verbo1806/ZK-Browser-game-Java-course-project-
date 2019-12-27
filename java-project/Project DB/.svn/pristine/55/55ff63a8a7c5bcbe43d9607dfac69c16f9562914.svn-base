@@ -1,0 +1,35 @@
+package bg.infosys.daeu.db.dao.pub;
+
+import static bg.infosys.daeu.db.entity.pub.Status._formType;
+import static bg.infosys.daeu.db.entity.pub.FormType._code;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
+
+import org.springframework.stereotype.Repository;
+
+import bg.infosys.common.db.dao.GenericDaoImpl;
+import bg.infosys.daeu.db.entity.pub.Status;
+
+@Repository
+public class StatusDAO extends GenericDaoImpl<Status, Integer> {
+
+	public List<Status> findByFormType(Status status, boolean b) {
+		CriteriaBuilder builder = criteriaBuilder();
+		CriteriaQuery<Status> criteria = builder.createQuery(Status.class);
+		Root<Status> root = criteria.from(Status.class);
+		
+		List<Predicate> predicates = new ArrayList<>();
+		predicates.add(builder.equal(root.get(_formType).get(_code), status.getFormType().getCode()));
+		
+		criteria.where(builder.and(predicates.toArray(new Predicate[predicates.size()])));
+		
+		return createQuery(criteria).getResultList();
+	}
+
+}

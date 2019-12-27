@@ -1,0 +1,83 @@
+package bg.infosys.daeu.web.vm.messages;
+
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
+import org.zkoss.bind.annotation.BindingParam;
+import org.zkoss.bind.annotation.Command;
+import org.zkoss.bind.annotation.NotifyChange;
+import org.zkoss.zk.ui.select.annotation.VariableResolver;
+import org.zkoss.zk.ui.select.annotation.WireVariable;
+import org.zkoss.zkplus.spring.DelegatingVariableResolver;
+
+import bg.infosys.daeu.web.dto.MessageDto;
+import bg.infosys.daeu.web.service.MessageService;
+
+@VariableResolver(DelegatingVariableResolver.class)
+public class MessageVM {
+	
+	@WireVariable
+	private MessageService messageService;
+	
+	private String message;
+	private List<MessageDto> messages;
+
+	public void init() {
+		message = "init";
+	}
+	
+	public List<MessageDto> getMessages() {
+		return messages;
+	}
+	
+	public String getMessage() {
+		return message;
+	}
+	
+	public void setMessage(String message) {
+		this.message = message;
+	}
+	
+	@Command
+	@NotifyChange("messages")
+	public void save() {
+		MessageDto dto = new MessageDto();
+		dto.setMessage(message);
+		dto.setDate(new Date());
+		messageService.saveOrUpdate(dto);
+
+		if (messages == null) messages = new ArrayList<>();
+		messages.add(dto);
+	}
+	
+	@Command
+	public void search(@BindingParam("v") String v) {
+		System.out.println(v);
+	}
+	
+	@Command
+	@NotifyChange("messages")
+	public void update(@BindingParam("element") MessageDto message) {
+		messageService.saveOrUpdate(message);
+	}
+	
+	@Command
+	@NotifyChange("messages")
+	public void loadData() {
+		messages = messageService.list();
+	}
+	
+	@Command
+	@NotifyChange("message")
+	public void clearValues() {
+		message= "";
+	}
+	
+	@Command
+	@NotifyChange("messages")
+	public void delete(@BindingParam("element") MessageDto message) {
+		messageService.delete(message);
+		messages.remove(message);
+	}
+}

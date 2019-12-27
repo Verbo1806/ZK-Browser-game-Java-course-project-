@@ -1,0 +1,57 @@
+package bg.infosys.daeu.db.entity.tech_specs;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
+
+import org.hibernate.validator.constraints.Length;
+
+import bg.infosys.daeu.db.entity.pub.ComponentType;
+
+@Entity
+@Table(schema = "tech_specs" ,name = "n_tech_row_types")
+public class TechRowType {
+	@Column(name = _code, nullable = false)
+	@Length(max = 32)
+	@NotNull
+	private String code;
+	public static final String _code = "code";
+	
+	@ManyToOne
+	@JoinColumn(name = "component_type_code")
+	private ComponentType componentType;
+	public static final String _componentType = "componentType";
+	
+	@Id
+	@Column(name = _id)
+	private Integer id;
+	public static final String _id = "id";
+	
+	public String getCode() {
+		return code;
+	}
+	
+	public void setCode(String code) {
+		this.code = code;
+	}
+	
+	public ComponentType getComponentType() {
+		return componentType;
+	}
+	
+	public void setComponentType(ComponentType componentType) {
+		this.componentType = componentType;
+	}
+
+	public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
+	}
+}

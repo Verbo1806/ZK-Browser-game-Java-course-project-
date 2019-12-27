@@ -1,0 +1,200 @@
+package bg.infosys.daeu.web.vm;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import org.zkoss.bind.BindUtils;
+import org.zkoss.bind.annotation.AfterCompose;
+import org.zkoss.bind.annotation.BindingParam;
+import org.zkoss.bind.annotation.Command;
+import org.zkoss.bind.annotation.ContextParam;
+import org.zkoss.bind.annotation.ContextType;
+import org.zkoss.bind.annotation.Init;
+import org.zkoss.bind.annotation.NotifyChange;
+import org.zkoss.zk.ui.Component;
+import org.zkoss.zk.ui.select.Selectors;
+import org.zkoss.zk.ui.select.annotation.VariableResolver;
+import org.zkoss.zk.ui.select.annotation.Wire;
+import org.zkoss.zk.ui.select.annotation.WireVariable;
+import org.zkoss.zkplus.spring.DelegatingVariableResolver;
+import org.zkoss.zul.Listbox;
+
+import bg.infosys.daeu.db.entity.budgets.Auxheader;
+import bg.infosys.daeu.db.entity.budgets.FormConfig;
+import bg.infosys.daeu.db.entity.budgets.RowValue;
+import bg.infosys.daeu.db.entity.budgets.SelectedCPVCode;
+import bg.infosys.daeu.db.entity.budgets.VersionRow;
+import bg.infosys.daeu.db.entity.pub.CPVCode;
+import bg.infosys.daeu.db.entity.pub.EBKCode;
+import bg.infosys.daeu.db.entity.pub.FormType;
+import bg.infosys.daeu.web.service.BudgetControlService;
+
+@VariableResolver(DelegatingVariableResolver.class)
+public class BudgetControlVM {
+
+	@WireVariable
+	private BudgetControlService budgetControlService;
+	@Wire("#elementsListbox")
+	private Listbox elementsListbox;
+	private List<Auxheader> auxheaders = new ArrayList<>();
+	private List<FormConfig> columns;
+	private List<VersionRow> rows;
+	private List<CPVCode> cpvCodes;
+	private List<EBKCode> ebkCodes;
+	private VersionRow selectedElement;
+	
+	@Init
+	public void init() {
+		generateForm();
+	}
+	
+	@AfterCompose
+	public void afterComposeMenu(@ContextParam(ContextType.VIEW) Component view){
+		Selectors.wireComponents(view, this, false);
+	}
+	
+	@Command
+	public void generateForm(){
+		auxheaders = new ArrayList<>();
+		
+//				createForm();
+		loadForm();
+		BindUtils.postNotifyChange(null, null, BudgetControlVM.this, "*");
+	}
+	
+	private void loadForm(){
+		FormType formType = budgetControlService.getFormTypeByCode("F1");
+		columns = new ArrayList<FormConfig>(budgetControlService.findColumnsByConfig(formType,"MATRIX"));
+		rows = new ArrayList<VersionRow>(budgetControlService.findElementsByVersionAndFormType(formType,"MATRIX"));
+		cpvCodes = new ArrayList<CPVCode>(budgetControlService.findAllCPVCodes());
+		ebkCodes = new ArrayList<EBKCode>(budgetControlService.findAllEBKCodes());
+		for(VersionRow element : rows){
+			if(element.getId() != 0){
+				element.getValues().addAll(budgetControlService.findValuesByElement(element));
+			}
+		}
+		for(FormConfig config : columns){
+			if(!auxheaders.contains(config.getAuxheader())){
+				auxheaders.add(config.getAuxheader());
+			}
+		}
+//		for (Auxheader auxheader : auxheaders) {
+//			System.out.println("colspan " + auxheader.getColspan());
+//			System.out.println(auxheader.getId());
+//		}
+	}
+	
+	@NotifyChange("rows")
+	@Command
+	public void refreshElement(@BindingParam("element") VersionRow element, @BindingParam("cpv") SelectedCPVCode selectedCPVCode, @BindingParam("ebk") EBKCode ebkCode){
+//		System.out.println(elementsListbox.getHeads().size());
+//		System.out.println(elementsListbox.getChildren().get(1).getChildren().get(0).get);
+//		System.out.println(elementsListbox.getListhead().getWidth());
+		selectedElement = element;
+		for(RowValue value : element.getValues()){
+			if(selectedCPVCode != null && (value.getFormConfig().getFormColumnType().getCode().equals("CPVNAME") || value.getFormConfig().getFormColumnType().getCode().equals("ELEMENTORDER"))){
+				value.setSelectedCpvCode(selectedCPVCode);
+			}
+			if (ebkCode != null && value.getFormConfig().getFormColumnType().getCode().equals("EBKCODE")) {
+				value.setEbkCode(ebkCode);
+			}
+		}
+		BindUtils.postNotifyChange(null, null, BudgetControlVM.this, "selectedElement");
+	}
+	
+	@Command
+	public void calculate(@BindingParam("selectedValue") RowValue selectedValue){
+		selectedElement = selectedValue.getVersionRow();
+		Auxheader auxHeader = selectedValue.getFormConfig().getAuxheader();
+		for(RowValue value : selectedElement.getValues()){
+			if(value.getFormConfig().getAuxheader().getId() == auxHeader.getId()){
+				System.out.println(value.getValue());
+				if(value.getFormConfig().getFormColumnType().getCode().equals("TOTAL")){
+					value.setValue(selectedElement.getValues().stream().filter(o -> o.getFormConfig().getAuxheader().getId() == auxHeader.getId() && 
+							!o.getFormConfig().getFormColumnType().getCode().equals("TOTAL")).mapToInt(o -> o.getValue()).sum());
+				}
+			}
+		}
+		BindUtils.postNotifyChange(null, null, BudgetControlVM.this, "selectedElement");
+	}
+	
+	@NotifyChange("rows")
+	@Command
+	public void add(){
+		VersionRow element = new VersionRow();
+		for(FormConfig column : columns){
+			RowValue value = new RowValue();
+			value.setVersionRow(element);
+			value.setFormConfig(column);
+			value.setSelectedCpvCode(new SelectedCPVCode());
+			element.getValues().add(value);
+		}
+		selectedElement = element;
+		rows.add(element);
+	}
+
+	@Command
+	public void saveForm(){
+		for(VersionRow element : rows){
+			budgetControlService.saveRow(element);
+			budgetControlService.saveValues(element.getValues());
+		}
+	}
+
+	public BudgetControlService getBudgetControlService() {
+		return budgetControlService;
+	}
+
+	public void setBudgetControlService(BudgetControlService budgetControlService) {
+		this.budgetControlService = budgetControlService;
+	}
+
+	public List<Auxheader> getAuxheaders() {
+		return auxheaders;
+	}
+
+	public void setAuxheaders(List<Auxheader> auxheaders) {
+		this.auxheaders = auxheaders;
+	}
+
+	public List<FormConfig> getColumns() {
+		return columns;
+	}
+
+	public void setColumns(List<FormConfig> columns) {
+		this.columns = columns;
+	}
+
+	public List<VersionRow> getRows() {
+		return rows;
+	}
+
+	public void setRows(List<VersionRow> rows) {
+		this.rows = rows;
+	}
+
+	public List<CPVCode> getCpvCodes() {
+		return cpvCodes;
+	}
+
+	public void setCpvCodes(List<CPVCode> cpvCodes) {
+		this.cpvCodes = cpvCodes;
+	}
+
+	public VersionRow getSelectedElement() {
+		return selectedElement;
+	}
+
+	public void setSelectedElement(VersionRow selectedElement) {
+		this.selectedElement = selectedElement;
+	}
+
+	public List<EBKCode> getEbkCodes() {
+		return ebkCodes;
+	}
+
+	public void setEbkCodes(List<EBKCode> ebkCodes) {
+		this.ebkCodes = ebkCodes;
+	}
+	
+}

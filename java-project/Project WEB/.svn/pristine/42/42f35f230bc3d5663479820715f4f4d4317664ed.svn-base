@@ -1,0 +1,22 @@
+package bg.infosys.daeu.web.service;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import bg.infosys.daeu.db.dao.pub.SubjectDAO;
+import bg.infosys.daeu.db.entity.pub.Subject;
+
+@Service
+public class SubjectsService {
+	@Autowired private SubjectDAO subjectDAO;
+	
+	public List<Subject> findAll() {
+		return subjectDAO.findAll();
+	}
+
+	public List<Subject> searchVersions(String searchPhrase) {
+		return subjectDAO.searchVersions(searchPhrase);
+	}
+}

@@ -1,0 +1,38 @@
+package bg.infosys.daeu.db.entity.tech_specs;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
+
+@Entity
+@Table(schema = "tech_specs" ,name = "n_info_system_types")
+public class InfoSystemType {
+	@Id
+	@SequenceGenerator(name = "info_system_types_seq", sequenceName = "tech_specs.n_info_system_types_id_seq", allocationSize = 1)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "info_system_types_seq")
+	private Integer id;
+	
+	@Column(name = _name)
+	private String name;
+	public static final String _name = "name";
+	
+	public Integer getId() {
+		return id;
+	}
+	
+	public void setId(Integer id) {
+		this.id = id;
+	}
+	
+	public String getName() {
+		return name;
+	}
+	
+	public void setName(String name) {
+		this.name = name;
+	}
+}

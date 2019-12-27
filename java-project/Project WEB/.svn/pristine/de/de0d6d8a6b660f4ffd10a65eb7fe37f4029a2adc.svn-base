@@ -1,0 +1,77 @@
+package bg.infosys.daeu.web.vm.projects;
+
+import java.util.List;
+
+import org.zkoss.bind.annotation.AfterCompose;
+import org.zkoss.bind.annotation.BindingParam;
+import org.zkoss.bind.annotation.Command;
+import org.zkoss.bind.annotation.ContextParam;
+import org.zkoss.bind.annotation.ContextType;
+import org.zkoss.bind.annotation.Init;
+import org.zkoss.bind.annotation.NotifyChange;
+import org.zkoss.zk.ui.Component;
+import org.zkoss.zk.ui.select.Selectors;
+import org.zkoss.zk.ui.select.annotation.VariableResolver;
+import org.zkoss.zk.ui.select.annotation.WireVariable;
+import org.zkoss.zkplus.spring.DelegatingVariableResolver;
+
+import bg.infosys.daeu.db.entity.projects.ProjectFormConfig;
+import bg.infosys.daeu.db.entity.pub.FormType;
+import bg.infosys.daeu.web.service.ProjectsService;
+
+@VariableResolver(DelegatingVariableResolver.class)
+public class ProjectsVM {
+	@WireVariable private ProjectsService projectsService;
+	
+	private List<ProjectFormConfig> forms;
+	private short page;
+
+	@Init
+	public void init() {
+		page = 1;
+		
+		FormType type = new FormType();
+		type.setCode("F5");
+		type.setName("Проектно предложение");
+		forms = projectsService.findAllByFormType(type);
+	}
+	
+	@AfterCompose
+	public void afterCompose(@ContextParam(ContextType.VIEW) Component view) {
+		Selectors.wireComponents(view, this, false);
+	}
+
+	public List<ProjectFormConfig> getForms() {
+		return forms;
+	}
+	
+	@Command
+	@NotifyChange({"page", "forms"})
+	public void changePage(@BindingParam("command") String command) {
+		switch(command) {
+		case "next":
+			if (page < 5)
+				page++;
+			break;
+			
+		case "previous":
+			if (page > 1)
+				page--;
+			break;
+		}
+		
+		if (page <= 3) {
+			forms = projectsService.findAllByStepNum(page);
+		}
+	}
+	
+	@Command
+	public void dropFile() {
+		System.out.println("File dropped!");
+	}
+
+	public short getPage() {
+		return page;
+	}
+	
+}

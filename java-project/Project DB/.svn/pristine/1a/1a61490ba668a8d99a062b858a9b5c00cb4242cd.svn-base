@@ -1,0 +1,26 @@
+package bg.infosys.daeu.db.entity.projects;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
+
+@Entity
+@Table(schema = "projects", name = "indicator_values")
+public class IndicatorValue {
+	@Id
+	@SequenceGenerator(name = "indicator_values_seq", sequenceName = "indicator_values_id_seq", allocationSize = 1)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "indicator_values_seq")
+	private Integer id;
+	
+	@Column(name = "current_value")
+	private Integer currentValue;
+	public static final String _currentValue = "current_value";
+	
+	@Column(name = "target_value")
+	private Integer targetValue;
+	public static final String _targetValue = "target_value";
+}

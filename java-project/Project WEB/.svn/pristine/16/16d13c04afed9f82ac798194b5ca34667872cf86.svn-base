@@ -1,0 +1,52 @@
+	
+	<tabbox>
+        <tabs>
+            <tab label="${labels.approvedBudgets55 }" />
+            <tab label="${labels.CPVCodes }" />
+            <tab label="${labels.EBKCodes }" />
+            <tab label="${labels.budgetProceduresDates }" />
+        </tabs>
+        <tabpanels>
+            <tabpanel>
+                <label sclass="z-icon-sign-out"/>
+            </tabpanel>
+            <tabpanel>
+                <button iconSclass="z-icon-sign-out z-icon-rotate-90"/>
+            </tabpanel>
+            <tabpanel>
+               <listbox sclass="display_listbox">
+					<listhead>
+						<listheader hflex="min" label="${labels.code }" />
+						<listheader label="${labels.description }" />
+					</listhead>
+				
+					<listitem>
+						<listcell> <label value="10-00"/> </listcell>
+						<listcell> <label value="Описание 1"/> </listcell>
+					</listitem>
+					<listitem>
+						<listcell> <label value="da"/> </listcell>
+						<listcell> <label value="da"/> </listcell>
+					</listitem>
+				</listbox>
+				<vlayout style="text-align: center;"> <label sclass="icon icon-add" tooltiptext="${labels.add }" /> </vlayout>
+            </tabpanel>
+             <tabpanel>
+               <listbox sclass="display_listbox">
+					<listhead>
+						<listheader label="${labels.description }" />
+						<listheader hflex="min" label="${labels.date }" />
+					</listhead>
+				
+					<listitem>
+						<listcell> <label value="da"/> </listcell>
+						<listcell> <label value="da"/> </listcell>
+					</listitem>
+					<listitem>
+						<listcell> <label value="da"/> </listcell>
+						<listcell> <label value="da"/> </listcell>
+					</listitem>
+				</listbox>
+            </tabpanel>
+        </tabpanels>
+    </tabbox>

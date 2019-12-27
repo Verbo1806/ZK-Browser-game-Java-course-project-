@@ -1,0 +1,8 @@
+<div sclass="settings_menu_parent">
+	<div sclass="settings_messages">
+		<label sclass="icon icon-message" tooltiptext="${labels.messages}" />
+	</div>
+	<div sclass="settings_profile">
+		<label value="ХС" tooltiptext="${labels.profile}" onClick="@command('changeCenterContent', zulName='profile')" />
+	</div>
+</div>

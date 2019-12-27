@@ -1,0 +1,145 @@
+package bg.infosys.daeu.web.vm.projects;
+
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.Base64;
+import java.util.List;
+
+import org.apache.commons.io.FileUtils;
+import org.zkoss.bind.BindUtils;
+import org.zkoss.bind.annotation.AfterCompose;
+import org.zkoss.bind.annotation.BindingParam;
+import org.zkoss.bind.annotation.Command;
+import org.zkoss.bind.annotation.ContextParam;
+import org.zkoss.bind.annotation.ContextType;
+import org.zkoss.bind.annotation.Init;
+import org.zkoss.bind.annotation.NotifyChange;
+import org.zkoss.util.media.Media;
+import org.zkoss.zk.ui.Component;
+import org.zkoss.zk.ui.event.Event;
+import org.zkoss.zk.ui.event.UploadEvent;
+import org.zkoss.zk.ui.select.Selectors;
+import org.zkoss.zk.ui.select.annotation.Listen;
+import org.zkoss.zk.ui.select.annotation.VariableResolver;
+import org.zkoss.zk.ui.select.annotation.WireVariable;
+import org.zkoss.zkplus.spring.DelegatingVariableResolver;
+
+import com.google.gson.Gson;
+
+import bg.infosys.common.helpers.Trio;
+import bg.infosys.daeu.db.entity.projects.Project;
+import bg.infosys.daeu.db.entity.projects.ProjectFormConfig;
+import bg.infosys.daeu.db.entity.pub.FormType;
+import bg.infosys.daeu.web.aux.Config;
+import bg.infosys.daeu.web.dto.DroppedFileDto;
+import bg.infosys.daeu.web.service.ProjectsService;
+
+@VariableResolver(DelegatingVariableResolver.class)
+public class ProjectsVM {
+	@WireVariable private ProjectsService projectsService;
+	
+	private List<ProjectFormConfig> forms;
+	private short page;
+	private List<Trio<String, String, InputStream>> attachedDocs;
+	
+	private Project project;
+
+	@Init
+	public void init() {
+		page = 1;
+		
+		FormType type = new FormType();
+		type.setCode("F5");
+		type.setName("Проектно предложение");
+		forms = projectsService.findAllByFormType(type);
+		
+		attachedDocs = new ArrayList<Trio<String, String, InputStream>>();
+		
+		project = new Project();
+	}
+	
+	@AfterCompose
+	public void afterCompose(@ContextParam(ContextType.VIEW) Component view) {
+		Selectors.wireComponents(view, this, false);
+		Selectors.wireEventListeners(view, this);
+	}
+
+	public List<ProjectFormConfig> getForms() {
+		return forms;
+	}
+	
+	public List<Trio<String, String, InputStream>> getAttachedDocs() {
+		return attachedDocs;
+	}
+	
+	public short getPage() {
+		return page;
+	}
+
+	public Project getProject() {
+		return project;
+	}
+
+	@Command
+	@NotifyChange({"page", "forms"})
+	public void changePage(@BindingParam("command") String command) {
+		switch(command) {
+		case "next":
+			if (page < 5)
+				page++;
+			break;
+			
+		case "previous":
+			if (page > 1)
+				page--;
+			break;
+		}
+		
+		if (page <= 3) {
+			forms = projectsService.findAllByStepNum(page);
+		}
+	}
+	
+	@Listen("onCommand=#commands")
+	public void dropFile(Event event) {
+		String data = (String) event.getData();
+		DroppedFileDto file = new Gson().fromJson(data, DroppedFileDto.class);
+		InputStream stream = new ByteArrayInputStream(Base64.getDecoder().decode(file.getFileContent()));
+		saveFile(file.getFileName(), stream);
+		BindUtils.postNotifyChange(null, null, attachedDocs, "*");
+	}
+
+	@Command
+	@NotifyChange("attachedDocs")
+	public void uploadFile(@BindingParam("event") UploadEvent event) {
+		Media media = event.getMedia();
+		saveFile(media.getName(), media.getStreamData());
+	}
+	
+	private void saveFile(String name, InputStream stream) {
+		int size = 0;
+		try {
+			size = stream.available();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		attachedDocs.add(new Trio<String, String, InputStream>(name, FileUtils.byteCountToDisplaySize(size), stream));
+	}
+	
+	@Command
+	@NotifyChange("attachedDocs")
+	public void deleteFile(@BindingParam("file") Trio<String, String, InputStream> file) {
+		attachedDocs.remove(file);
+	}
+	
+	@Command
+	public void sendProject() {
+		// TODO: Validation and ProjectDto data
+		for(Trio<String, String, InputStream> doc : attachedDocs) {
+			projectsService.saveFile(doc.third, Config.PROJECTS_ATT_DOCS_PATH, doc.first);
+		}
+	}
+	
+}

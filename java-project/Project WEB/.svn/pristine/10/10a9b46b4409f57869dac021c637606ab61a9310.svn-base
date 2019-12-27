@@ -1,0 +1,22 @@
+package bg.infosys.daeu.web.aux;
+
+public class Config {
+
+	// Zul Params
+	public static final String PARAM = "param";
+	
+	// FTP Credentials
+	public static final String FTP_HOST = "10.0.7.30";
+	public static final String FTP_USER = "damtndata";
+	public static final String FTP_PASS = "451ed697c48";
+	public static final int FTP_PORT = 21;
+	
+	public static final int FTP_CONNECTION_TIMEOUT = 5000;
+	
+	//Paths
+	public static final String MAIN_PATH = "/daeu/";
+	public static final String PROJECTS_ATT_DOCS_PATH = MAIN_PATH + "projects/attachedDocs/";
+	public static final String TECH_SPECS_ATT_DOCS_PATH = MAIN_PATH + "tech_specs/attachedDocs/";
+
+	public static final int PAGE_SIZE = 8;
+}

@@ -1,0 +1,85 @@
+package bg.infosys.daeu.web.dto;
+
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
+import bg.infosys.daeu.db.entity.Message;
+
+public class MessageDto {
+	private Long id;
+	private String message;
+	private Date date;
+	
+	public MessageDto() {
+	}
+	
+	public MessageDto(String message) {
+		this.message = message;
+		this.date = new Date();
+	}
+	
+	public Long getId() {
+		return id;
+	}
+	
+	public void setId(Long id) {
+		this.id = id;
+	}
+	
+	public String getMessage() {
+		return message;
+	}
+	
+	public void setMessage(String message) {
+		this.message = message;
+	}
+	
+	public Date getDate() {
+		return date;
+	}
+	
+	public void setDate(Date date) {
+		this.date = date;
+	}
+	
+	public Message toEntity() {
+		return produceEntity(this);
+	}
+	
+	// ## FACTORY
+	
+	public static MessageDto produceDto(Message message) {
+		if (message == null) return null;
+		
+		MessageDto dto = new MessageDto();
+		dto.setId(message.getId());
+		dto.setMessage(message.getMessage());
+		dto.setDate(message.getDate());
+		
+		return dto;
+	}
+	
+	public static List<MessageDto> produceDtoList(List<Message> messages) {
+		if (messages == null) return null;
+		
+		List<MessageDto> dtoList = new ArrayList<>(messages.size());
+		for(Message m : messages) {
+			dtoList.add(produceDto(m));
+		}
+		
+		return dtoList;
+	}
+	
+	public static Message produceEntity(MessageDto dto) {
+		if (dto == null) return null;
+		
+		Message m = new Message();
+		m.setId(dto.getId());
+		m.setMessage(dto.message);
+		m.setDate(dto.getDate());
+		
+		return m;
+	}
+	
+}

@@ -1,0 +1,10 @@
+<div width="200pt" height="250pt" sclass="custom_component cursor_pointer" viewModel="@id('vm') @init('bg.infosys.daeu.web.custom.CustomComponent')">
+	<div width="55%" height="8pt" style="background-color: ${vm.color};" sclass="custom_component_color" />
+	<div sclass="custom_component_content">
+		<div sclass="custom_component_icon">
+			<label sclass="@load(vm.iconUrl)" style="font-size: 60pt; color: black;" />
+			<!-- <image src="@load(vm.iconUrl)"/> -->
+		</div>
+		<div><label value="@load(vm.name)" sclass="custom_component_label bold" /></div>
+	</div>
+</div>

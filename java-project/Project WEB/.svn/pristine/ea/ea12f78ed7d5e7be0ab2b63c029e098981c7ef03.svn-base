@@ -1,0 +1,80 @@
+<vlayout vflex="1">
+	<vlayout vflex="1">
+		<grid sclass="nav_menu">
+			<columns>
+				<column />
+			</columns>
+			<rows>
+				<!-- Logo -->
+				<row onClick='Executions.getCurrent().sendRedirect("")' sclass="menu_logo noselect cursor_pointer">
+					<cell><image src="UI/icons/daeu-logo.png" /></cell>
+				</row>
+			
+				<!-- Budgetary control tab -->
+				<row sclass="menu_row">
+					<cell><label value="${labels.budgetaryControl}" sclass="menu_parent_label bold noselect cursor_pointer" /></cell>
+				</row>
+				
+				<row onClick="@command('changeCenterContent', zulName='submit', param='app')">
+					<cell><label value="${labels.submitApp}" sclass="menu_child_label noselect" /></cell>
+				</row>
+				
+				<row onClick="@command('changeCenterContent', zulName='search', param='budgetaryControl')">
+					<cell><label value="${labels.searching}" sclass="menu_child_label noselect" /></cell>
+				</row>
+				
+				<!-- Projects tab -->
+				<row sclass="menu_row">
+					<cell><label value="${labels.projects}" sclass="menu_parent_label bold noselect cursor_pointer" /></cell>
+				</row>
+				
+				<row onClick="@command('changeCenterContent', zulName='submit', param='proposal')">
+					<cell><label value="${labels.submitProposal}" sclass="menu_child_label noselect" /></cell>
+				</row>
+				
+				<row onClick="@command('changeCenterContent', zulName='search', param='projects')">
+					<cell><label value="${labels.searching}" sclass="menu_child_label noselect" /></cell>
+				</row>
+				
+				<!-- Useful info tab -->
+				<row onClick="@command('changeCenterContent', zulName='usefulInfo')">
+					<cell><label value="${labels.usefulInfo}" sclass="menu_parent_label bold noselect cursor_pointer" /></cell>
+				</row>
+				
+				<!-- Office management tab -->
+				<row sclass="menu_row">
+					<cell><label value="${labels.officeManagement}" sclass="menu_parent_label bold noselect cursor_pointer" /></cell>
+				</row>
+				
+				<row onClick="@command('changeCenterContent', zulName='???_budgetaryControl')">
+					<cell><label value="${labels.budgetaryControl}" sclass="menu_child_label noselect" /></cell>
+				</row>
+				
+				<row onClick="@command('changeCenterContent', zulName='projectRegister')">
+					<cell><label value="${labels.projectRegister}" sclass="menu_child_label noselect" /></cell>
+				</row>
+				
+				<!-- Check application tab -->
+				<row onClick="@command('changeCenterContent', zulName='checkApp')">
+					<cell><label value="${labels.checkApp}" sclass="menu_parent_label bold noselect cursor_pointer" /></cell>
+				</row>
+				
+<!-- 				References tab
+				<row onClick="@command('changeCenterContent', zulName='references')">
+					<cell><label value="${labels.references}" sclass="menu_parent_label bold noselect cursor_pointer" /></cell>
+				</row>
+				
+				Search tab
+				<row onClick="@command('changeCenterContent', zulName='search')">
+					<cell><label value="${labels.searching}" sclass="menu_parent_label bold noselect cursor_pointer" /></cell>
+				</row> -->
+				
+				<!-- Nomenclatures tab -->
+				<row onClick="@command('changeCenterContent', zulName='nomenclatures')">
+					<cell><label value="${labels.nomenclatures}" sclass="menu_parent_label bold noselect cursor_pointer" /></cell>
+				</row>
+				
+			</rows>
+		</grid>
+	</vlayout>
+</vlayout>

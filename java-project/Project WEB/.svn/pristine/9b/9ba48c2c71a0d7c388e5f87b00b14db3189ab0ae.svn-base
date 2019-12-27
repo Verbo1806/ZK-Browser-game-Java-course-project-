@@ -1,0 +1,43 @@
+<window id="changePassDlg" width="40%" viewModel="@id('vm') @init('bg.infosys.daeu.web.vm.profile.ProfileVM')">
+ 
+	 <grid sclass="modal_grid">
+		<columns>
+			<column />
+			<column />
+			<column hflex="min" />
+		</columns>
+		<rows>
+			<row>
+				<cell colspan="3" align="center">
+					<label sclass="icon icon-lock" style="font-size: 40pt;" tooltiptext="${labels.description.changePassword }" />
+				</cell>
+			</row>
+			<row>
+				<cell colspan="2">
+					<label value="${labels.oldPassword }" style="display: block;" />
+					<textbox width="100%" placeholder="${labels.placeholder.enterOldPassword }"></textbox>
+				</cell>
+				<cell sclass="error_cell"><label sclass="icon icon-error" /></cell>
+			</row>
+			<row>
+				<cell colspan="2">
+					<label value="${labels.newPassword }" style="display: block;" />
+					<textbox width="100%" placeholder="${labels.placeholder.enterNewPassword }"></textbox>
+				</cell>
+				<cell sclass="error_cell"><label sclass="icon icon-error" /></cell>
+			</row>
+			<row>
+				<cell colspan="2">
+					<label value="${labels.repeatNewPassword }" style="display: block;" />
+					<textbox width="100%" placeholder="${labels.placeholder.repeatPassword }"></textbox>
+				</cell>
+				<cell sclass="error_cell"><label sclass="icon icon-error" /></cell>
+			</row>
+			<row>
+				<cell align="center"><label value="${labels.cancel }" sclass="label_button" onClick="@command('cancel')" /></cell>
+				<cell align="right"><button label="${labels.save }" sclass="button_standard" /></cell>
+				<cell></cell>
+			</row>
+		</rows>
+	</grid>
+</window>

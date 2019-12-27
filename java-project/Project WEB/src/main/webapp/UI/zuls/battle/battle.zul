@@ -1,0 +1,23 @@
+<vlayout viewModel="@id('vm') @init('bg.verbo.project.web.vm.battle.BattleVM')">
+
+	<hbox hflex="1">
+		<hbox hflex="5">
+			<label value="@load(vm.attacker.name)" />
+		</hbox>
+		<hbox hflex="5">
+			<label value="@load(vm.defender.name)" />
+		</hbox>
+	</hbox>
+
+	<listbox model="@load(vm.battleLog)" height="300pt" hflex="1">
+		<template name="model">
+			<listitem>
+				<listcell>
+					<label value="@load(each)"/>
+				</listcell>
+			</listitem>
+		</template>
+	</listbox>
+	
+	<button label="Start" onClick="@command('start')" disabled="@load(vm.isStarted)" />
+</vlayout>

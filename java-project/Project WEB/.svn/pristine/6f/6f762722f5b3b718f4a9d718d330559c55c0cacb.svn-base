@@ -1,0 +1,197 @@
+/* ########## PANELS ########## */
+.z-panel, .z-panel-body, .z-panelchildren, .z-window {
+    padding: 0;
+}
+
+.z-north, .z-south, .z-east, .z-west, .z-center {
+	padding: 5px;
+	/* border: none; */
+}
+
+.z-north-body, .z-south-body, .z-east-body, .z-west-body, .z-center-body {
+	padding: 0;
+}
+
+.z-north-collapsed, .z-south-collapsed, .z-east-collapsed, .z-west-collapsed, .z-center-collapsed {
+    padding: 0;
+}
+
+/* ########## TABLES ########## */
+.z-listheader-content {
+	padding: 5px 16px;
+}
+
+.z-listcell-content {
+	padding: 0px 16px;
+}
+
+/* ########## FIELDS ########## */
+.z-textbox, .z-intbox, .z-combobox, .z-combobox-input, .z-combobox-button {
+	height: 25px;
+}
+
+input[type="checkbox"]:checked:before {
+	font-size: 10pt;
+	position: absolute;
+}
+
+/* ########## BUTTONS ########## */
+.z-button {
+	padding: 0 16px;
+}
+.z-combobox-button {
+	padding-top: 4px;
+}
+
+.icon {
+	font-family: ZK85Icons,FontAwesome;
+	font-size: 20pt;
+	color: #0093f9;
+	cursor: pointer;
+}
+
+.header-icon {
+	font-family: ZK85Icons,FontAwesome;
+	color: white;
+}
+
+.leftMenuHead th div {
+	padding: 0 !important;
+	margin: 0 !important;
+}
+
+.icon:hover {
+	color: #4fb7ff;
+}
+
+.icon-add:before {
+	content: '\f055';
+}
+
+.icon-search:before {
+	content: '\f002';
+}
+
+.icon-edit {
+	font-size: 15pt;
+}
+.icon-edit:before {
+	/*content: '\f044';*/
+	content: '\f085';
+}
+
+.icon-reset {
+	font-size: 16pt;
+}
+
+.icon-reset:before {
+	content: '\f0e2';
+}
+
+.icon-delete:before {
+	content: '\f057';
+}
+
+.icon-delete:hover {
+	color: red;
+}
+
+.icon-active:before {
+	content: '\f00c';
+	color: green;
+	font-weight: bold;
+}
+
+.icon-inactive:before {
+	content: '\f00d';
+	color: red;
+	font-weight: bold;
+}
+
+.icon-car:before {
+	content: '\f1b9';
+	font-size: 10pt;
+}
+
+.icon-alpha:before {
+	content: '\f15d';
+	font-size: 10pt;
+}
+
+.icon-position:before {
+	content: '\f041';
+	font-size: 10pt;
+}
+
+.icon-right-arrow:before {
+	content: '\f0a9';
+	font-size: 10pt;
+}
+
+.icon-signal:before {
+	content: '\f012';
+	font-size: 10pt;
+}
+
+.icon-speedometer:before {
+	content: '\f0e4';
+	font-size: 10pt;
+}
+
+.icon-power:before {
+	content: '\f0e7';
+	font-size: 10pt;
+}
+
+.icon-flag:before {
+	content: '\f11e';
+	font-size: 10pt;
+}
+
+.icon-chart:before {
+	content: '\f080';
+	font-size: 10pt;
+}
+
+.icon-menu:before {
+	content: '\f0c9';
+	font-size: 10pt;
+}
+
+.icon-dropdown:before {
+	content: '\f13a';
+	font-size: 10pt;
+}
+
+.icon-file:before {
+	content: '\f15c';
+	font-size: 10pt;
+}
+
+.icon-shape {
+	height: 10pt;
+	width: 10pt;
+}
+
+.checkbox-list div {
+	padding: 0;
+}
+
+.checkbox input {
+	height: 10pt;
+	width: 10pt;
+}
+
+/* ########## MENUS ########## */
+.z-menubar, .z-menubar-horizontal {
+	border: none;
+}
+
+/* ########## SEPARATORS ########## */
+.z-separator {
+	width: 10pt;
+}
+
+tr {
+	vertical-align: middle;
+}

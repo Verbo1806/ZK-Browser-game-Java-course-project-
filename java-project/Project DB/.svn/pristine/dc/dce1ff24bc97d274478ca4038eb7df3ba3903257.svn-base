@@ -1,0 +1,227 @@
+package bg.infosys.daeu.db.entity.projects;
+
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
+
+import bg.infosys.daeu.db.entity.pub.Checklist;
+import bg.infosys.daeu.db.entity.pub.Funding;
+import bg.infosys.daeu.db.entity.pub.Letter;
+
+@Entity
+@Table(schema = "projects", name = "project_versions")
+public class ProjectVersion {
+	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Integer id;
+	
+	@OneToOne
+	@JoinColumn(name = "project_id")
+	private Project project;
+	public static final String _project = "project";
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "funding_id")
+	private Funding funding;
+	public static final String _funding = "funding";
+	
+	@Column(name = "funding_description")
+	private String fundingDescription;
+	public static final String _fundingDescription = "fundingDescription";
+	
+	@Column(name = "in_budget")
+	private String inBudget;
+	public static final String _inBudget = "inBudget";
+	
+	@Column(name = _type)
+	private String type;
+	public static final String _type = "type";
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "letter_id")
+	private Letter letter;
+	public static final String _letter = "letter";
+	
+	@Column(name = "date_created", columnDefinition = "TIMESTAMP")
+	private Date dateCreated;
+	public static final String _dateCreated = "dateCreated";
+	
+	@Column(name = "last_update", columnDefinition = "TIMESTAMP")
+	private Date lastUpdate;
+	public static final String _lastUpdate = "lastUpdate";
+	
+	@Column(name = "outgoing_num")
+	private String outgoingNum;
+	public static final String _outgoingNum = "outgoingNum";
+	
+	@Column(name = "outgoing_date")
+	private Date outgoingDate;
+	public static final String _outgoingDate = "outgoingDate";
+	
+	@Column(name = "incoming_num")
+	private String incomingNum;
+	public static final String _incomingNum = "incomingNum";
+	
+	@Column(name = "incoming_date")
+	private Date incomingDate;
+	public static final String _incomingDate = "incomingDate";
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "checklist_id")
+	private Checklist checklist;
+	public static final String _checklist = "checklist";
+	
+	@OneToMany(mappedBy = "projectVersion", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	private List<AttachedDoc> attachedDoc;
+	
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "project_main_data_id")
+	private ProjectMainData projectMainData;
+	public static final String _projectMainData = "projectMainData";
+	
+	public ProjectVersion() {
+		this.projectMainData = new ProjectMainData();
+		this.projectMainData.setProjectVersion(this);
+		this.attachedDoc = new ArrayList<AttachedDoc>();
+	}
+
+	public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
+	}
+
+	public Project getProject() {
+		return project;
+	}
+
+	public void setProject(Project project) {
+		this.project = project;
+	}
+
+	public Funding getFunding() {
+		return funding;
+	}
+
+	public void setFunding(Funding funding) {
+		this.funding = funding;
+	}
+
+	public String getFundingDescription() {
+		return fundingDescription;
+	}
+
+	public void setFundingDescription(String fundingDescription) {
+		this.fundingDescription = fundingDescription;
+	}
+
+	public String getInBudget() {
+		return inBudget;
+	}
+
+	public void setInBudget(String inBudget) {
+		this.inBudget = inBudget;
+	}
+
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
+	}
+
+	public Letter getLetter() {
+		return letter;
+	}
+
+	public void setLetter(Letter letter) {
+		this.letter = letter;
+	}
+
+	public Date getDateCreated() {
+		return dateCreated;
+	}
+
+	public void setDateCreated(Date dateCreated) {
+		this.dateCreated = dateCreated;
+	}
+
+	public Date getLastUpdate() {
+		return lastUpdate;
+	}
+
+	public void setLastUpdate(Date lastUpdate) {
+		this.lastUpdate = lastUpdate;
+	}
+
+	public String getOutgoingNum() {
+		return outgoingNum;
+	}
+
+	public void setOutgoingNum(String outgoingNum) {
+		this.outgoingNum = outgoingNum;
+	}
+
+	public Date getOutgoingDate() {
+		return outgoingDate;
+	}
+
+	public void setOutgoingDate(Date outgoingDate) {
+		this.outgoingDate = outgoingDate;
+	}
+
+	public String getIncomingNum() {
+		return incomingNum;
+	}
+
+	public void setIncomingNum(String incomingNum) {
+		this.incomingNum = incomingNum;
+	}
+
+	public Date getIncomingDate() {
+		return incomingDate;
+	}
+
+	public void setIncomingDate(Date incomingDate) {
+		this.incomingDate = incomingDate;
+	}
+
+	public Checklist getChecklist() {
+		return checklist;
+	}
+
+	public void setChecklist(Checklist checklist) {
+		this.checklist = checklist;
+	}
+
+	public List<AttachedDoc> getAttachedDoc() {
+		return attachedDoc;
+	}
+
+	public void setAttachedDoc(List<AttachedDoc> attachedDoc) {
+		this.attachedDoc = attachedDoc;
+	}
+
+	public ProjectMainData getProjectMainData() {
+		return projectMainData;
+	}
+
+	public void setProjectMainData(ProjectMainData projectMainData) {
+		this.projectMainData = projectMainData;
+	}
+}

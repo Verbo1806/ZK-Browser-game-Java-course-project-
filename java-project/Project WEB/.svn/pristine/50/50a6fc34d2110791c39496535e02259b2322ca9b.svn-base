@@ -1,0 +1,168 @@
+<vlayout viewModel="@id('vm') @init('bg.infosys.daeu.web.vm.projects.ProjectsVM')" 
+	sclass="centered_vlayout main_container" style="justify-content: start; overflow: auto;" vflex="1">
+	<label value="Предложение за проект/дейност" style="font-size: 24pt;" />
+	<label value="@load(vm.page)" />
+	
+	<hlayout style="background-color: lightgray; padding: 20pt;" visible="@load(vm.page eq 5)" width="800pt;">
+		<hbox hflex="7">
+			<label value="Можете да експортирате вашето предложение" style="font-size: 18pt;" />
+		</hbox>
+		<hbox hflex="3" pack="end">
+			<button label="Експорт" sclass="button_distinct no_border_radius bold" onClick="" />
+		</hbox>
+	</hlayout>
+
+	<vlayout sclass="menu_background_color" style="padding: 30pt;" width="800pt;">
+	
+		<!-- Step 1 -->
+		<vlayout visible="@load(vm.page eq 1)">
+			<hbox hflex="1">
+				<vbox hflex="6">
+					<label value="Субект" sclass="header_text" />
+					<label value="АО Министерство на образованието и науката " />
+					<label value="BG15154589" />
+					<label value="Представлявано от Димитър Павлов" />
+				</vbox>
+				<vbox hflex="4">
+					<label value="За кореспонденция" sclass="header_text" />
+					<label value="info@mon.bg" />
+					<label value="Лиляна Симеонова" />
+					<label value="0897 65 54 52" />
+				</vbox>
+			</hbox>
+			
+			<separator />
+			<label value="Вид финансиране" />
+			<textbox />
+			<separator />
+			<label value="Индикативен бюджет" sclass="header_text" />
+			<separator />
+			<listbox sclass="display_listbox">
+				<listhead>
+					<listheader hflex="7" />
+					<listheader hflex="3" />
+				</listhead>
+				<listitem>
+					<listcell> <label value="Разходи за дейности по електронно управление" /> </listcell>
+					<listcell> 
+						<doublebox style="border-style: none;" placeholder="Въведете сума" value="7528"/>
+					</listcell>
+				</listitem>
+				<listitem>
+					<listcell> <label value="Разходи за ИКТ дейности "/> </listcell>
+					<listcell> 
+						<doublebox style="border-style: none;" placeholder="Въведете сума"/>
+					</listcell>
+				</listitem>
+				<listitem>
+					<listcell> <label value="Общ бюджет на проектното предложение" /> </listcell>
+					<listcell> 
+						<doublebox style="border-style: none;" placeholder="Въведете сума" value="7528"/>
+					</listcell>
+				</listitem>
+			</listbox>
+		</vlayout>
+	
+		<!-- Steps 2 & 3 -->
+		<div visible="@load(vm.page eq 2 || vm.page eq 3)">
+			<label value="@load(vm.page eq 2 ? 'Основни данни за проект/дейност' : 'План за изпълнение на проверяваните дейности по проекта')" sclass="header_text" />
+			<listbox model="@load(vm.forms)" sclass="form_listbox">
+				<listhead>
+					<listheader />
+				</listhead>
+				
+				<template name="model">
+					<listitem>
+						<listcell>
+							<label value="@load(each.rowLabel)" style="display: block;"/>
+							<label if="${each.rowType.componentType.code eq 'LBL'}" value="@load(each.orderNum)" />
+							<textbox if="${each.rowType.componentType.code eq 'TXT'}" value="@bind(each.orderNum)" style="width: 100%;" rows="5" placeholder="@load(each.placeholder)" />
+							<combobox if="${each.rowType.componentType.code eq 'COMBO'}">
+			                    <template name="model">
+			                        <comboitem label="@load(each)" image="@load(vm.getIconImage(each))" />
+			                    </template>
+			                </combobox>
+						</listcell>
+					</listitem>
+				</template>
+			</listbox>
+		</div>
+		
+		<!-- Step 4 -->
+		<vlayout visible="@load(vm.page eq 4)">
+			<vlayout>
+				<label value="Прикачване на документи" sclass="header_text" />
+				<vlayout style="border: 1pt dashed; text-align: center; padding: 10pt;">
+					<image src="UI/icons/cloud.png"  />
+					<label value="Дръпни и пусни файл или" />
+					<button label="Избери файл" sclass="button_standard" onClick="" onUpload="@command('upload', event=event)" upload="true, accept=.docx"/>
+				</vlayout>
+			</vlayout>
+			<vlayout style="margin-top: 20pt;">
+				<label value="Приложени документи" sclass="header_text" />
+				<listbox sclass="search_listbox" style="padding: 0pt;">
+					<listhead>
+						<listheader />
+						<listheader hflex="min" />
+						<listheader hflex="min" />
+					</listhead>
+				
+					<listitem>
+						<listcell> <label value="Документи1_39485_920"/> </listcell>
+						<listcell> <label value="3 MB"/> </listcell>
+						<listcell> <label sclass="icon icon-delete"/> </listcell>
+					</listitem>
+					<listitem>
+						<listcell> <label value="Приложение_1_8400_430"/> </listcell>
+						<listcell> <label value="1 MB"/> </listcell>
+						<listcell> <label sclass="icon icon-delete"/> </listcell>
+					</listitem>
+					<listitem>
+						<listcell> <label value="Проектно предложение 3"/> </listcell>
+						<listcell> <label value="731 b"/> </listcell>
+						<listcell> <label sclass="icon icon-delete"/> </listcell>
+					</listitem>
+				</listbox>
+			</vlayout>
+		</vlayout>
+	
+		<!-- Step 5 -->
+		
+		<grid visible="@load(vm.page eq 5)" style="border: none;">
+			<columns>
+				<column hflex="1" />
+				<column hflex="9" />
+			</columns>
+			<rows>
+				<row>
+					<cell>
+						<label sclass="icon icon-document" style="font-size: 50pt; color: black;" />
+					</cell>
+					<cell>
+						<label value="Предложението е попълнено успешно, моля въведете изходящ номер, за да можете да изпратите за одобрение" style="font-size: 18pt;" />
+						<div width="100%" style="padding-top: 10pt;">
+							<hbox hflex="5" style="display: inline-block;">
+								<textbox />
+							</hbox>
+							<hbox hflex="5" style="display: inline-block;">
+								<label value="Подпиши с електронен подпис" sclass="label_button cursor_pointer" visible="@load(vm.page eq 5)" hflex="5" />
+							</hbox>
+						</div>
+					</cell>
+				</row>
+			</rows>
+		</grid>
+			
+		<!-- Navigation -->
+		<hlayout style="margin-top: 20pt;">
+			<hbox hflex="3">
+				<button label="Назад" sclass="button_distinct no_border_radius bold" onClick="@command('changePage', command='previous')" />
+			</hbox>
+			<hbox pack="end" hflex="7">
+				<button label="Запази" sclass="button_distinct no_border_radius bold" onClick="" visible="@load(vm.page ne 5)" />
+				<button label="Продължи" sclass="button_standard no_border_radius bold" onClick="@command('changePage', command='next')" visible="@load(vm.page ne 5)" />
+				<button label="Изпрати" sclass="button_standard no_border_radius bold" onClick="" visible="@load(vm.page eq 5)" />
+			</hbox>
+		</hlayout>
+	</vlayout>
+</vlayout>

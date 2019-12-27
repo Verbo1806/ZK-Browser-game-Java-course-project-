@@ -1,0 +1,62 @@
+package bg.infosys.daeu.db.entity.budgets;
+
+import java.util.List;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+
+@Entity
+@Table(schema = "budgets", name = "n_auxheader_types")
+public class AuxheaderType {
+	@Id
+	@Column(name = "code", nullable = false)
+	private String code;
+	public static final String _code = "code";
+	
+	@Column(name = "name")
+	private String name;
+	public static final String _name = "name";
+	
+	@Column(name = "is_valid")
+	private String isValid;
+	public static final String _isValid = "is_valid";
+	
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "auxheaderType")
+	private List<Auxheader> auxheaders;
+	
+	public String getCode() {
+		return code;
+	}
+	
+	public void setCode(String code) {
+		this.code = code;
+	}
+	
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public String getIsValid() {
+		return isValid;
+	}
+	
+	public void setIsValid(String isValid) {
+		this.isValid = isValid;
+	}
+
+	public List<Auxheader> getAuxheaders() {
+		return auxheaders;
+	}
+
+	public void setAuxheaders(List<Auxheader> auxheaders) {
+		this.auxheaders = auxheaders;
+	}
+}

@@ -1,0 +1,78 @@
+package bg.infosys.daeu.web.dto;
+
+import java.util.Date;
+
+import bg.infosys.daeu.db.entity.pub.Status;
+import bg.infosys.daeu.db.entity.pub.Subject;
+
+public class SearchProjectDTO {
+	private String type;
+	private String name;
+	private String outgoingNumber;
+	private Status status;
+	private Date startPeriod;
+	private Date endPeriod;
+	
+	public SearchProjectDTO() {}
+
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+	
+	public void setName(Subject subject) {
+		this.name = subject.getLastVersion().getFullName();
+	}
+
+	public String getOutgoingNumber() {
+		return outgoingNumber;
+	}
+
+	public void setOutgoingNumber(String outgoingNumber) {
+		this.outgoingNumber = outgoingNumber;
+	}
+
+	public Status getStatus() {
+		return status;
+	}
+
+	public void setStatus(Status status) {
+		this.status = status;
+	}
+
+	public Date getStartPeriod() {
+		return startPeriod;
+	}
+
+	public void setStartPeriod(Date startPeriod) {
+		this.startPeriod = startPeriod;
+	}
+
+	public Date getEndPeriod() {
+		return endPeriod;
+	}
+
+	public void setEndPeriod(Date endPeriod) {
+		this.endPeriod = endPeriod;
+	}
+
+	// If all types are clicked ('P' and 'A') --> clear "type" property.
+	public String getFormattedType() {
+		if (this.type != null) {
+			return this.type.length() == 1 ? this.type : null;
+		} else {
+			return null;
+		}
+	}
+}

@@ -1,0 +1,37 @@
+package bg.infosys.daeu.db.entity.budgets;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
+
+@Entity
+@Table(schema = "budgets", name = "row_values")
+public class RowValue {
+	@Id
+	@SequenceGenerator(name = "row_values_seq", sequenceName = "row_values_id_seq", allocationSize = 1)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "row_values_seq")
+	private Integer id;
+	
+	@Column(name = "value")
+	private Integer value;
+	public static final String _value = "value";
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "form_config_id")
+	private FormConfig formConfig;
+	
+	@Column(name = "automatic_value")
+	private Integer automaticValue;
+	public static final String _automaticValue = "automatic_value";
+	
+	@Column(name = "approved_value")
+	private Integer approvedValue;
+	public static final String _approvedValue = "approved_value";
+}

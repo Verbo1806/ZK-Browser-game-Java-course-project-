@@ -1,0 +1,52 @@
+<vlayout viewModel="@id('vm') @init('bg.infosys.daeu.web.vm.checklist.ChecklistVM')"
+	vflex="1" hflex="1" style="overflow: scroll;">
+	<button sclass="button_distinct no_border_radius bold" label = "${labels.back}"/>
+	<grid model="@load(vm.rows)" sclass="checklist_grid" height="100%"
+		width="100%">
+		<columns children="@load(vm.expertColumns) @template('columns')">
+			<template name="columns">
+				<column align="center" label="@load(each.description)" />
+			</template>
+		</columns>
+		<template name="model" var="item">
+			<row children="@load(item.values) @template(0 eq forEachStatus.index ? 'fixed' : 'variable')">
+				<template name="fixed">
+					<cell sclass="@load(item.checklistElement.parent eq null ? 'checklist_cell_separator' : 'checklist_cell')"
+						colspan="@load(item.checklistElement.parent eq null ? vm.expertColumns.size() : '1')">
+						<label	value="@bind(item.checklistElement.description)" />
+					</cell>
+				</template>
+				<template name="variable" var="cell">
+					<cell if="${item.checklistElement.parent ne null}">
+						<radiogroup if="${item.checklistElement.componentType.code.equals('YNNA') and cell.visible}"
+							selectedItem="@bind(cell.value)">
+							<radio forEach="${vm.checksYNNA}"
+								value="${each.value}" label="${each.label}" />
+						</radiogroup>
+						<radiogroup if="${item.checklistElement.componentType.code.equals('YN') and cell.visible}"
+							selectedItem="@bind(cell.value)">
+							<radio forEach="${vm.checksYN }"
+								value="${each.value}" label="${each.label}" />
+						</radiogroup>
+					</cell>
+				</template>
+			</row>
+		</template>
+	</grid>
+	<vlayout>
+		<grid>
+			<rows>
+				<row>
+					<cell align="center">
+						<button sclass="button_distinct no_border_radius bold" label = "${labels.budget.returnVerification}" onClick="@command('print')"/>
+					</cell>
+				</row>
+				<row>
+					<cell align="center">
+						<button sclass="button_standard no_border_radius bold" label = "${labels.budget.finalize}"/>
+					</cell>
+				</row>
+			</rows>
+		</grid>
+	</vlayout>
+</vlayout>

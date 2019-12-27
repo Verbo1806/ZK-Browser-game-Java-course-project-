@@ -1,0 +1,7 @@
+package bg.infosys.daeu.db.dao.budgets;
+
+import bg.infosys.common.db.dao.GenericDaoImpl;
+
+public class RowValueDAO extends GenericDaoImpl<RowValueDAO, Integer> {
+
+}

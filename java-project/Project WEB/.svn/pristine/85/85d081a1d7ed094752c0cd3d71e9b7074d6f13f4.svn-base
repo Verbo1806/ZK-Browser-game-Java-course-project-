@@ -1,0 +1,31 @@
+<window id="addEditEBKCodeDlg" width="30%" viewModel="@id('vm') @init('bg.infosys.daeu.web.vm.nomenclatures.AddEditEBKCodeVM')">
+ 
+	 <grid sclass="modal_grid menu_background_color">
+		<columns>
+			<column />
+			<column />
+			<column hflex="min" />
+		</columns>
+		<rows>		
+			<row>
+				<cell colspan="2">
+					<label value="Код: " style="display: block;" />
+					<textbox width="100%" placeholder="Код" value="@bind(vm.ebkCode.code)"></textbox>
+				</cell>
+				<cell sclass="error_cell"><label sclass="icon icon-error" /></cell>
+			</row>
+			<row>
+				<cell colspan="2">
+					<label value="Описание: " style="display: block;" />
+					<textbox width="100%" placeholder="Описание" value="@bind(vm.ebkCode.description)"></textbox>
+				</cell>
+				<cell sclass="error_cell"><label sclass="icon icon-error" /></cell>
+			</row>
+			<row>
+				<cell align="center"><label value="${labels.cancel }" sclass="label_button bold cursor_pointer" onClick="@command('cancel')" /></cell>
+				<cell align="right"><button label="${labels.save }" sclass="button_standard no_border_radius bold" onClick="@command('save')"/></cell>
+				<cell></cell>
+			</row>
+		</rows>
+	</grid>
+</window>

@@ -1,0 +1,264 @@
+package bg.infosys.daeu.web.vm.tech_specs;
+
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Base64;
+import java.util.List;
+import java.util.stream.Collectors;
+
+import org.apache.commons.io.FileUtils;
+import org.zkoss.bind.BindUtils;
+import org.zkoss.bind.annotation.AfterCompose;
+import org.zkoss.bind.annotation.BindingParam;
+import org.zkoss.bind.annotation.Command;
+import org.zkoss.bind.annotation.ContextParam;
+import org.zkoss.bind.annotation.ContextType;
+import org.zkoss.bind.annotation.Init;
+import org.zkoss.bind.annotation.NotifyChange;
+import org.zkoss.util.media.Media;
+import org.zkoss.zk.ui.Component;
+import org.zkoss.zk.ui.event.Event;
+import org.zkoss.zk.ui.event.UploadEvent;
+import org.zkoss.zk.ui.select.Selectors;
+import org.zkoss.zk.ui.select.annotation.Listen;
+import org.zkoss.zk.ui.select.annotation.VariableResolver;
+import org.zkoss.zk.ui.select.annotation.WireVariable;
+import org.zkoss.zkplus.spring.DelegatingVariableResolver;
+
+import com.google.gson.Gson;
+
+import bg.infosys.common.helpers.Trio;
+import bg.infosys.daeu.db.entity.pub.FormType;
+import bg.infosys.daeu.db.entity.pub.OrganizationType;
+import bg.infosys.daeu.db.entity.tech_specs.InfoSystemType;
+import bg.infosys.daeu.db.entity.tech_specs.TechSpecs;
+import bg.infosys.daeu.db.entity.tech_specs.TechSpecsFormConfig;
+import bg.infosys.daeu.db.entity.tech_specs.TechSpecsVersionValue;
+import bg.infosys.daeu.web.aux.Config;
+import bg.infosys.daeu.web.dto.DroppedFileDto;
+import bg.infosys.daeu.web.enums.DoubleChoise;
+import bg.infosys.daeu.web.service.TechSpecsService;
+
+@VariableResolver(DelegatingVariableResolver.class)
+public class TechSpecsVM {
+	@WireVariable
+	private TechSpecsService techSpecsService;
+	
+	private List<TechSpecsFormConfig> allForms;
+	private List<InfoSystemType> infoSystemTypes;
+	private List<OrganizationType> organizationTypes;
+	private List<Trio<String, String, InputStream>> attachedDocs;
+	private List<TechSpecsVersionValue> mainFormsValues;
+	private List<TechSpecsVersionValue> dynamicFormsValues;
+	private List<DoubleChoise> checksYN;
+	
+	private TechSpecs techSpecs;
+	
+	private InfoSystemType selectedType;
+	private int page;
+	
+	@Init
+	public void inti() {
+		page = 1;
+		
+		FormType type = new FormType();
+		type.setCode("F6");
+		type.setName("Техническа спецификация");
+		
+		allForms = techSpecsService.findAllByFormType(type);
+		infoSystemTypes = techSpecsService.findAllInfoSystemTypes();
+		organizationTypes = techSpecsService.findAllOrganizationTypes();
+		mainFormsValues = new ArrayList<TechSpecsVersionValue>();
+		dynamicFormsValues = new ArrayList<TechSpecsVersionValue>();
+		checksYN = new ArrayList<DoubleChoise>(Arrays.asList(DoubleChoise.values()));
+		
+		List<TechSpecsFormConfig> mainForms = allForms.stream()
+							.filter(form -> form.getInfoSystemType() == null)
+							.collect(Collectors.toList());
+		
+		for (TechSpecsFormConfig techSpecsFormConfig : mainForms) {
+			TechSpecsVersionValue value = new TechSpecsVersionValue();
+			value.setTechSpecsFormConfig(techSpecsFormConfig);
+			
+			mainFormsValues.add(value);
+		}
+		
+		allForms.removeAll(mainForms);
+		
+		attachedDocs = new ArrayList<Trio<String, String, InputStream>>();
+		
+		techSpecs = new TechSpecs();
+	}
+	
+	@AfterCompose
+	public void afterCompose(@ContextParam(ContextType.VIEW) Component view) {
+		Selectors.wireComponents(view, this, false);
+	}
+	
+	@Command
+	@NotifyChange("selectedType")
+	public void selectInfoSystemType(@BindingParam("infoSystemType") InfoSystemType infoSystemType, 
+										@BindingParam("techSpecsVersionValue") TechSpecsVersionValue techSpecsVersionValue) {
+		selectedType = infoSystemType;
+		techSpecsVersionValue.setValue(infoSystemType.getName());
+	}
+
+	@Listen("onCommand=#commands")
+	public void dropFile(Event event) {
+		String data = (String) event.getData();
+		DroppedFileDto file = new Gson().fromJson(data, DroppedFileDto.class);
+		InputStream stream = new ByteArrayInputStream(Base64.getDecoder().decode(file.getFileContent()));
+		saveFile(file.getFileName(), stream);
+		BindUtils.postNotifyChange(null, null, attachedDocs, "*");
+	}
+
+	@Command
+	@NotifyChange("attachedDocs")
+	public void uploadFile(@BindingParam("event") UploadEvent event) {
+		Media media = event.getMedia();
+		saveFile(media.getName(), media.getStreamData());
+	}
+	
+	private void saveFile(String name, InputStream stream) {
+		int size = 0;
+		
+		try {
+			size = stream.available();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		attachedDocs.add(new Trio<String, String, InputStream>(name, FileUtils.byteCountToDisplaySize(size), stream));
+	}
+	
+	@Command
+	@NotifyChange("attachedDocs")
+	public void deleteFile(@BindingParam("file") Trio<String, String, InputStream> file) {
+		attachedDocs.remove(file);
+	}
+	
+	@Command
+	public void sendTechData() {
+		for(Trio<String, String, InputStream> doc : attachedDocs) {
+			techSpecsService.saveFile(doc.third, Config.TECH_SPECS_ATT_DOCS_PATH, doc.first);
+		}
+		
+		List<TechSpecsVersionValue> values = new ArrayList<TechSpecsVersionValue>();
+		values.addAll(mainFormsValues);
+		values.addAll(dynamicFormsValues);
+		
+		for (TechSpecsVersionValue techSpecsVersionValue : values) {
+			techSpecsVersionValue.setTechSpecsVersion(techSpecs.getTechSpecsVersion());
+		}
+		
+		techSpecs.getTechSpecsVersion().setValues(values);
+		
+		techSpecsService.saveTechSpecs(techSpecs);
+	}
+	
+	@Command
+	@NotifyChange({"page", "dynamicFormsValues"})
+	public void changePage(@BindingParam("command") String command) {
+		switch(command) {
+		case "next":
+			if (page == 1) {
+				List<TechSpecsFormConfig> dynamicForms = allForms.stream()
+						   .filter(form -> form.getInfoSystemType().equals(selectedType))
+						   .collect(Collectors.toList());
+				
+				dynamicFormsValues.clear();
+				
+				for (TechSpecsFormConfig techSpecsFormConfig : dynamicForms) {
+					TechSpecsVersionValue value = new TechSpecsVersionValue();
+					value.setTechSpecsFormConfig(techSpecsFormConfig);
+					
+					dynamicFormsValues.add(value);
+				}
+				
+				page++;
+				break;
+			}
+			page++;
+			break;
+			
+		case "previous":
+			page--;
+			break;
+		}
+	}
+	
+	public List<Trio<String, String, InputStream>> getAttachedDocs() {
+		return attachedDocs;
+	}
+
+	public void setAttachedDocs(List<Trio<String, String, InputStream>> attachedDocs) {
+		this.attachedDocs = attachedDocs;
+	}
+
+	public List<TechSpecsVersionValue> getMainFormsValues() {
+		return mainFormsValues;
+	}
+
+	public void setMainFormsValues(List<TechSpecsVersionValue> mainFormsValues) {
+		this.mainFormsValues = mainFormsValues;
+	}
+
+	public List<TechSpecsVersionValue> getDynamicFormsValues() {
+		return dynamicFormsValues;
+	}
+
+	public void setDynamicFormsValues(List<TechSpecsVersionValue> dynamicFormsValues) {
+		this.dynamicFormsValues = dynamicFormsValues;
+	}
+
+	public List<InfoSystemType> getInfoSystemTypes() {
+		return infoSystemTypes;
+	}
+
+	public void setInfoSystemTypes(List<InfoSystemType> infoSystemTypes) {
+		this.infoSystemTypes = infoSystemTypes;
+	}
+
+	public InfoSystemType getSelectedType() {
+		return selectedType;
+	}
+
+	public void setSelectedType(InfoSystemType selectedType) {
+		this.selectedType = selectedType;
+	}
+
+	public int getPage() {
+		return page;
+	}
+
+	public void setPage(int page) {
+		this.page = page;
+	}
+
+	public List<DoubleChoise> getChecksYN() {
+		return checksYN;
+	}
+
+	public void setChecksYN(List<DoubleChoise> checksYN) {
+		this.checksYN = checksYN;
+	}
+
+	public List<OrganizationType> getOrganizationTypes() {
+		return organizationTypes;
+	}
+
+	public void setOrganizationTypes(List<OrganizationType> organizationTypes) {
+		this.organizationTypes = organizationTypes;
+	}
+
+	public TechSpecs getTechSpecs() {
+		return techSpecs;
+	}
+
+	public void setTechSpecs(TechSpecs techSpecs) {
+		this.techSpecs = techSpecs;
+	}
+}

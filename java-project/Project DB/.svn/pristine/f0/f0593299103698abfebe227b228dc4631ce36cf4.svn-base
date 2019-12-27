@@ -1,0 +1,73 @@
+package bg.infosys.daeu.db.entity.pub;
+
+import java.util.Date;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
+
+@Entity
+@Table(name = "letters")
+public class Letter {
+
+	@Id
+	@SequenceGenerator(name = "letters_seq", sequenceName = "letters_id_seq", allocationSize = 1)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "letters_seq")
+	private int id;
+	
+	@Column(name = _text)
+	private String text;
+	public static final String _text = "text";
+	
+	@Column(name = _remark)
+	private String remark;
+	public static final String _remark = "remark";
+	
+	@Column(name = "insert_timestamp")
+	private Date insertTimestamp;
+	public static final String _insertTimestamp = "insertTimestamp";
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "letter_template_id")
+	private LetterTemplate template;
+	public static final String _template = "template";
+	
+	public int getId() {
+		return id;
+	}
+	public void setId(int id) {
+		this.id = id;
+	}
+	public String getText() {
+		return text;
+	}
+	public void setText(String text) {
+		this.text = text;
+	}
+	public String getRemark() {
+		return remark;
+	}
+	public void setRemark(String remark) {
+		this.remark = remark;
+	}
+	public Date getInsertTimestamp() {
+		return insertTimestamp;
+	}
+	public void setInsertTimestamp(Date insertTimestamp) {
+		this.insertTimestamp = insertTimestamp;
+	}
+	public LetterTemplate getTemplate() {
+		return template;
+	}
+	public void setTemplate(LetterTemplate template) {
+		this.template = template;
+	}
+	
+}

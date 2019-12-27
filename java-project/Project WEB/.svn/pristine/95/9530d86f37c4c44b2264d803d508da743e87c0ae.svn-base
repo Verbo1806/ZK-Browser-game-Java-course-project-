@@ -1,0 +1,26 @@
+package bg.infosys.daeu.web.enums;
+
+public enum FormTypeValues {
+	
+	F1("F1", "Приложение 1"),
+	F2("F2", "Приложение 2"),
+	F3("F3", "Приложение 2ж"),
+	F4("F4", "Приложение 4"),
+	F5("F5", "Проектно предложение"),
+	F6("F6", "Техническа спецификация");
+	
+	private final String code;
+	private final String name;
+	
+	FormTypeValues(String code, String name) {
+        this.code = code;
+        this.name = name;
+    }
+	
+	public String getCode() {
+		return code;
+	}
+	public String getName() {
+		return name;
+	}
+}

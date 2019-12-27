@@ -1,0 +1,14 @@
+<tabbox>
+	<tabs>
+		<tab label="Утвърждаване на приложение" />
+		<tab label="Утвърждаване на проект/дейност" />
+	</tabs>
+	<tabpanels>
+		<tabpanel>
+		<label value="da"/>
+	</tabpanel>
+		<tabpanel>
+		    <label value="ivan"/>
+		</tabpanel>
+	</tabpanels>
+ </tabbox>

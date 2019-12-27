@@ -1,0 +1,8 @@
+<hlayout>
+	<hbox hflex="19">
+		<label sclass="icon icon-paw" />
+	</hbox>
+	<hbox hflex="1">
+		<label sclass="icon icon-profile" tooltiptext="${labels.profile}" onClick="@command('logout')" />
+	</hbox>
+</hlayout>

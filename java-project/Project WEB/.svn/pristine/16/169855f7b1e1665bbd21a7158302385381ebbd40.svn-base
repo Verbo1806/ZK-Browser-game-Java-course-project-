@@ -1,0 +1,10 @@
+<div>
+	<div style="text-align: right;">
+		<div sclass="settings_messages">
+			<label sclass="icon icon-message" tooltiptext="${labels.messages}" />
+		</div>
+		<div sclass="settings_profile">
+			<label value="АВ" tooltiptext="${labels.profile}" />
+		</div>
+	</div>
+</div>

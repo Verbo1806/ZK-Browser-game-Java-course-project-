@@ -1,0 +1,88 @@
+<?page title="${labels.systemName}" contentType="text/html;charset=UTF-8"?>
+<zk>
+<style src="/UI/style/zul-style.css"></style>
+
+<vlayout sclass="centered_vlayout main_container" style="justify-content: start; text-align: center;" vflex="1">
+	<image src="UI/icons/daeu-logo-big.png" style="padding: 10% 0pt;" sclass="noselect" />
+	
+	<div sclass="table_div" style="width: 40%">
+		<grid sclass="display_grid" hflex="1">
+			<columns>
+				<column hflex="min" />
+				<column />
+				<column hflex="min" />
+				<column align="right" />
+			</columns>
+			<rows>
+				<row>
+					<cell><label sclass="icon icon-user" /></cell>
+					<cell colspan="3">
+						<label value="${labels.username }" style="display: block;" />
+						<textbox placeholder="${labels.placeholder.enterUsername }" style="width: 100%;" />
+					</cell>
+				</row>
+				<row>
+					<cell><label sclass="icon icon-lock" /></cell>
+					<cell colspan="3">
+						<label value="${labels.password }" style="display: block;" />
+						<textbox type="password" placeholder="${labels.placeholder.enterPassword }" style="width: 100%;" />
+					</cell>
+				</row>
+				<row>
+					<cell colspan="3"></cell>
+					<cell align="right"><label value="${labels.forgottenPassword }" sclass="label_link" /></cell>
+				</row>
+				<row>
+					<cell></cell>
+					<cell><button label="${labels.loginESign }" sclass="button_distinct" /></cell>
+					<cell></cell>
+					<cell><button label="${labels.login }" sclass="button_standard" /></cell>
+				</row>
+			</rows>
+		</grid>
+	</div>
+</vlayout>
+</zk>
+
+<!-- <window id="loginwin" title="" border="normal" width="450px"
+	mode="overlapped" position="center,center">
+	<html style="color:red" if="${not empty param.login_error}">
+		<![CDATA[
+	        Неуспешен опит за влизане, опитайте отново.<br/>
+	        Причина: ${SPRING_SECURITY_LAST_EXCEPTION.message}
+      	 ]]>
+    </html>
+    
+	<h:form name='f' action='/base/login' method="POST" xmlns:h="native">
+		<grid>
+			<columns>
+				<column width="35%"></column>
+				<column width="65%"></column>
+			</columns>
+			<rows>
+				<row>
+					<cell align="left">
+						<label value="Потребител:" />
+					</cell>
+					<cell align="left">
+						<textbox id="username" name="username" maxlength="255" />
+					</cell>
+				</row>
+				<row>
+					<cell align="left">
+						<label value="Парола:" />
+					</cell>
+					<cell align="left">
+						<textbox id="password" type="password" maxlength="255" name="password" />
+					</cell>
+				</row>
+				 <row><checkbox id="r" name="j_spring_security_remember_me"/>Don't ask for my password for two weeks</row>
+				<row>
+					<cell colspan="2" align="right">
+						<button label="Вход" type="submit"/>
+					</cell>
+				</row>
+			</rows>
+		</grid>
+	</h:form>
+</window> -->

@@ -1,0 +1,104 @@
+package bg.infosys.daeu.web.service;
+
+import java.io.InputStream;
+import java.util.Date;
+import java.util.List;
+
+import javax.transaction.Transactional;
+
+import org.hibernate.Hibernate;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import bg.infosys.common.db.dao.aux.ListModelFilter;
+import bg.infosys.daeu.db.dao.projects.ProjectDAO;
+import bg.infosys.daeu.db.dao.projects.ProjectFormConfigDAO;
+import bg.infosys.daeu.db.dao.projects.ProjectVersionDAO;
+import bg.infosys.daeu.db.entity.projects.AttachedDoc;
+import bg.infosys.daeu.db.entity.projects.ExecutionData;
+import bg.infosys.daeu.db.entity.projects.ExecutionValue;
+import bg.infosys.daeu.db.entity.projects.Project;
+import bg.infosys.daeu.db.entity.projects.ProjectBudget;
+import bg.infosys.daeu.db.entity.projects.ProjectFormConfig;
+import bg.infosys.daeu.db.entity.projects.ProjectMainDataValue;
+import bg.infosys.daeu.db.entity.pub.FormType;
+import bg.infosys.daeu.web.dto.SearchProjectDTO;
+import bg.infosys.daeu.web.util.FTPUtils;
+
+@Service
+public class ProjectsService {
+	@Autowired private ProjectDAO projectDAO;
+	@Autowired private ProjectVersionDAO projectVersionDAO;
+	@Autowired private ProjectFormConfigDAO projectFormConfigDAO;
+	
+	@Transactional
+	public void save(Project project) {
+		projectDAO.saveOrUpdate(project);
+	}
+	
+	@Transactional
+	public List<Project> findByProperties(SearchProjectDTO so, ListModelFilter filter) {
+		List<Project> projects = projectVersionDAO.findByProperties(so.getFormattedType(), so.getName(),
+				so.getOutgoingNumber(), so.getStatus(), so.getStartPeriod(), so.getEndPeriod(), filter);
+		
+		for (Project project : projects) {
+			Hibernate.initialize(project.getProjectVersion().getProjectBudget());
+			for (ProjectBudget budget : project.getProjectVersion().getProjectBudget()) {
+				Hibernate.initialize(budget.getProjectBudgetType());
+			}
+			Hibernate.initialize(project.getProjectVersion().getAttachedDoc());
+			Hibernate.initialize(project.getProjectVersion().getProjectMainData().getExecutionDatas());
+			for (ExecutionData data : project.getProjectVersion().getProjectMainData().getExecutionDatas()) {
+				Hibernate.initialize(data.getExecutionValues());
+				
+				for (ExecutionValue value : data.getExecutionValues()) {
+					Hibernate.initialize(value.getProjectFormConfig().getRowType());
+				}
+			}
+			Hibernate.initialize(project.getProjectVersion().getProjectMainData().getMainDataValues());
+			for (ProjectMainDataValue value : project.getProjectVersion().getProjectMainData().getMainDataValues()) {
+				Hibernate.initialize(value.getProjectFormConfig().getRowType());
+			}
+			Hibernate.initialize(project.getSubjectVersion());
+		}
+		return projects;
+	}
+	
+	@Transactional
+	public List<ProjectFormConfig> findAllByFormType(FormType type) {
+		List<ProjectFormConfig> formConfigs = projectFormConfigDAO.findAllByFormType(type);
+		for (ProjectFormConfig formConfig : formConfigs)
+			Hibernate.initialize(formConfig.getRowType());
+		
+		return formConfigs;
+	}
+	
+	@Transactional
+	public List<ProjectFormConfig> findAllByStepNum(Short stepNum) {
+		List<ProjectFormConfig> formConfigs = projectFormConfigDAO.findAllByStepNum(stepNum);
+		for (ProjectFormConfig formConfig : formConfigs)
+			Hibernate.initialize(formConfig.getRowType());
+		
+		return formConfigs;
+	}
+	
+	public AttachedDoc saveFile(InputStream is, String directory, String fileName) {
+		FTPUtils ftp = new FTPUtils();
+		
+		if(ftp.uploadFileOnFTP(is, directory + fileName)) {
+			AttachedDoc file = new AttachedDoc();
+			file.setPath(directory);
+			file.setFileName(fileName);
+			file.setInsertedTimestamp(new Date());
+			return file;
+		} else {
+			return null;
+		}
+	}
+
+	public long countByProperties(SearchProjectDTO so) {
+		return projectVersionDAO.countByProperties(so.getType(), so.getName(),
+				so.getOutgoingNumber(), so.getStatus(), so.getStartPeriod(), so.getEndPeriod());
+	}
+
+}

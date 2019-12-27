@@ -1,0 +1,31 @@
+<?page title="DAEU System Web" contentType="text/html;charset=UTF-8"?>
+<zk>
+<!-- INCLUDE LIBS -->
+
+<!-- INCLUDE LIB'S CSS -->
+
+<!-- INCLUDE CUSTOM CSS -->
+<style src="/UI/style/zul-style.css"></style>
+
+<!-- INCLUDE CUSTOM SCRIPTS -->
+	
+<borderlayout apply="org.zkoss.bind.BindComposer" height="100%" width="100%"
+	viewModel="@id('vm') @init('bg.infosys.daeu.web.vm.IndexVM')">
+	
+	<north>
+		<include src="main-menu.zul"/>
+	</north>
+	
+	<!-- <west width="20%" splittable="true" visible="@load(vm.mapVisible)">
+		<div id="leftContent" height="100%" width="100%" />
+	</west> -->
+	
+	<center>
+		<panel height="100%" width="100%">
+			<panelchildren>
+				<div id="centerContent" height="100%" width="100%" />
+			</panelchildren>
+		</panel>
+	</center>
+</borderlayout>
+</zk>

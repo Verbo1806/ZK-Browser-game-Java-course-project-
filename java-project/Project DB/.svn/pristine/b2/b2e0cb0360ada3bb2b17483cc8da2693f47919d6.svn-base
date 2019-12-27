@@ -1,0 +1,8 @@
+package bg.infosys.daeu.db.dao.budgets;
+
+import bg.infosys.common.db.dao.GenericDaoImpl;
+import bg.infosys.daeu.db.entity.budgets.SelectedCPVCode;
+
+public class SelectedCPVCodeDAO extends GenericDaoImpl<SelectedCPVCode, Integer> {
+
+}

@@ -1,0 +1,75 @@
+package bg.infosys.daeu.web.service;
+
+import java.io.InputStream;
+import java.util.Date;
+import java.util.List;
+
+import javax.transaction.Transactional;
+
+import org.hibernate.Hibernate;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import bg.infosys.daeu.db.dao.pub.OrganizationTypeDAO;
+import bg.infosys.daeu.db.dao.tech_specs.TechSpecsDAO;
+import bg.infosys.daeu.db.dao.tech_specs.TechSpecsFormConfigDAO;
+import bg.infosys.daeu.db.entity.pub.FormType;
+import bg.infosys.daeu.db.entity.pub.OrganizationType;
+import bg.infosys.daeu.db.entity.tech_specs.TechSpecs;
+import bg.infosys.daeu.db.entity.tech_specs.TechSpecsAttachedDoc;
+import bg.infosys.daeu.db.entity.tech_specs.TechSpecsFormConfig;
+import bg.infosys.daeu.db.entity.tech_specs.TechSpecsType;
+import bg.infosys.daeu.web.util.FTPUtils;
+
+@Service
+public class TechSpecsService {
+	@Autowired
+	private TechSpecsFormConfigDAO techSpecsFormConfigDAO;
+	
+	
+	@Autowired
+	private OrganizationTypeDAO organizationTypeDAO;
+	
+	@Autowired
+	private TechSpecsDAO techSpecsDAO;
+	
+	@Transactional
+	public List<TechSpecsFormConfig> findAllByFormType(TechSpecsType selectedType, FormType type) {
+		List<TechSpecsFormConfig> formConfigs = techSpecsFormConfigDAO.findAllByFormType(selectedType,type);
+		for (TechSpecsFormConfig formConfig : formConfigs) {
+			Hibernate.initialize(formConfig.getRowType());
+			
+			List<TechSpecsType> nomenclatures = formConfig.getRowType().getNumenclatures();
+			
+			if (nomenclatures != null) {
+				Hibernate.initialize(nomenclatures);
+			}
+			
+		}
+		return formConfigs;
+	}
+	
+	@Transactional
+	public List<OrganizationType> findAllOrganizationTypes() {
+		return organizationTypeDAO.findAll();
+	}
+	
+	@Transactional
+	public void saveTechSpecs(TechSpecs techSpecs) {
+		techSpecsDAO.save(techSpecs);
+	}
+	
+	public TechSpecsAttachedDoc saveFile(InputStream is, String directory, String fileName) {
+		FTPUtils ftp = new FTPUtils();
+		
+		if(ftp.uploadFileOnFTP(is, directory + fileName)) {
+			TechSpecsAttachedDoc file = new TechSpecsAttachedDoc();
+			file.setFilePath(directory);
+			file.setFileName(fileName);
+			file.setInsertedTimestamp(new Date());
+			return file;
+		} else {
+			return null;
+		}
+	}
+}

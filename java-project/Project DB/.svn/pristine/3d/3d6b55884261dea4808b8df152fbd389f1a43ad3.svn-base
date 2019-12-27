@@ -1,0 +1,63 @@
+package bg.infosys.daeu.db.entity.projects;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+
+@Entity
+@Table(schema = "projects", name = "execution_data")
+public class ExecutionData {
+	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Integer id;
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "project_main_data_id")
+	private ProjectMainData projectMainData;
+	public static final String _projectMainData = "projectMainData";
+	
+	@OneToMany(mappedBy = "executionData", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	private List<ExecutionValue> executionValues;
+	
+	public ExecutionData() {
+		this.executionValues = new ArrayList<ExecutionValue>();
+	}
+
+	public ExecutionData(ProjectMainData projectMainData) {
+		this.projectMainData = projectMainData;
+		this.executionValues = new ArrayList<ExecutionValue>();
+	}
+
+	public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
+	}
+
+	public ProjectMainData getProjectMainData() {
+		return projectMainData;
+	}
+
+	public void setProjectMainData(ProjectMainData projectMainData) {
+		this.projectMainData = projectMainData;
+	}
+
+	public List<ExecutionValue> getExecutionValues() {
+		return executionValues;
+	}
+
+	public void setExecutionValues(List<ExecutionValue> executionValues) {
+		this.executionValues = executionValues;
+	}
+}

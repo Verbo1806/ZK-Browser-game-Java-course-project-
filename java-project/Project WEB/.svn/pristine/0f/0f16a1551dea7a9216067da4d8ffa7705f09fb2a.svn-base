@@ -1,0 +1,39 @@
+function allowDrop(ev) {
+  ev.preventDefault();
+}
+
+function drop(ev) {
+	ev.preventDefault();
+	var loadedFile = ev.dataTransfer.files[0];
+  
+	if (loadedFile) {
+		var reader = new FileReader();
+		
+		reader.onload = function (readerEvent) {
+			var data = '{'
+			       +'"fileName" : "' + loadedFile.name + '",'
+			       +'"fileContent" : "' +  reader.result.split(',')[1] + '"'
+			       +'}';
+			
+			SendEvent.sendEventToViewModel(
+					 "onCommand",
+					 data,
+		              "commands"
+		          );
+		}
+      
+		reader.readAsDataURL(loadedFile);
+  }
+}
+
+var SendEvent = (function () {
+	return {
+		sendEventToViewModel: function (listenerName, sendJson, widget) {
+			zAu.send(new zk.Event(zk.Widget.$('$' + widget),
+				listenerName,
+				sendJson, {
+					toServer: true
+				}));
+		}
+	};
+})();

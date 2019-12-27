@@ -1,0 +1,72 @@
+package bg.infosys.daeu.db.entity.pub;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
+
+@Entity
+@Table(name = "subject_versions")
+public class SubjectVersion {
+
+	@Id
+	@SequenceGenerator(name = "subject_versions_seq", sequenceName = "subject_versions_seq", allocationSize = 1)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "subject_versions_seq")
+	private int id;
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "subject_id")
+	private Subject subject;
+	public static final String _subject = "subject";
+	
+	@Column(name = "full_name")
+	private String fullName;
+	public static final String _fullName = "fullName";
+	
+	@Column(name = _email)
+	private String email;
+	public static final String _email = "email";
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "parent_id")
+	private SubjectVersion parent;
+	public static final String _parent = "parent";
+	
+	public int getId() {
+		return id;
+	}
+	public void setId(int id) {
+		this.id = id;
+	}
+	public Subject getSubject() {
+		return subject;
+	}
+	public void setSubject(Subject subject) {
+		this.subject = subject;
+	}
+	public String getFullName() {
+		return fullName;
+	}
+	public void setFullName(String fullName) {
+		this.fullName = fullName;
+	}
+	public String getEmail() {
+		return email;
+	}
+	public void setEmail(String email) {
+		this.email = email;
+	}
+	public SubjectVersion getParent() {
+		return parent;
+	}
+	public void setParent(SubjectVersion parent) {
+		this.parent = parent;
+	}
+	
+}

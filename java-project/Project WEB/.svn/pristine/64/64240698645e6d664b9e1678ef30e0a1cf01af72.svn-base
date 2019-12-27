@@ -1,0 +1,82 @@
+package bg.infosys.daeu.web.vm.checklist;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.LinkedHashSet;
+import java.util.List;
+import java.util.Set;
+
+import org.zkoss.bind.annotation.Init;
+import org.zkoss.zk.ui.select.annotation.VariableResolver;
+import org.zkoss.zk.ui.select.annotation.WireVariable;
+import org.zkoss.zkplus.spring.DelegatingVariableResolver;
+
+import bg.infosys.daeu.db.entity.pub.ChecklistConfig;
+import bg.infosys.daeu.db.entity.pub.FormType;
+import bg.infosys.daeu.db.entity.security.Authority;
+import bg.infosys.daeu.web.enums.DoubleChoise;
+import bg.infosys.daeu.web.enums.TripleChoise;
+import bg.infosys.daeu.web.service.NomenclaturesService;
+
+@VariableResolver(DelegatingVariableResolver.class)
+public class ChecklistVM {
+
+	@WireVariable
+	private NomenclaturesService nomenclaturesService;
+	
+	private List<ChecklistConfig> checklistConfig;
+	private List<TripleChoise> checksYNNA;
+	private List<DoubleChoise> checksYN;
+	private Set<Authority> expertColumns = new LinkedHashSet<Authority>();
+	
+	@Init
+	public void init() {
+		FormType formType = nomenclaturesService.getFormTypeByCode("F1");
+		checklistConfig = new ArrayList<ChecklistConfig>(nomenclaturesService.findChecklistElementsByFormType(formType));
+		
+		setChecksYNNA(new ArrayList<TripleChoise>(Arrays.asList(TripleChoise.values())));
+		setChecksYN(new ArrayList<DoubleChoise>(Arrays.asList(DoubleChoise.values())));
+		expertColumns.add(new Authority());
+		for(ChecklistConfig checkConfig : checklistConfig) {
+			expertColumns.add(checkConfig.getAuthority());
+			System.out.println(checkConfig.getAuthority().getDescription());
+		}
+	}
+
+
+	public List<ChecklistConfig> getChecklistConfig() {
+		return checklistConfig;
+	}
+	public void setChecklistConfig(List<ChecklistConfig> checklistConfig) {
+		this.checklistConfig = checklistConfig;
+	}
+
+
+	public List<TripleChoise> getChecksYNNA() {
+		return checksYNNA;
+	}
+
+	public void setChecksYNNA(List<TripleChoise> checksYNNA) {
+		this.checksYNNA = checksYNNA;
+	}
+
+
+	public List<DoubleChoise> getChecksYN() {
+		return checksYN;
+	}
+
+
+	public void setChecksYN(List<DoubleChoise> checksYN) {
+		this.checksYN = checksYN;
+	}
+
+
+	public Set<Authority> getExpertColumns() {
+		return expertColumns;
+	}
+
+	public void setExpertColumns(Set<Authority> expertColumns) {
+		this.expertColumns = expertColumns;
+	}
+
+}

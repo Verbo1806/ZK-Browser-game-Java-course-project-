@@ -1,0 +1,4 @@
+bg/infosys/daeu/web/dto/MessageDto.class
+bg/infosys/daeu/web/service/MessageService.class
+bg/infosys/daeu/web/vm/messages/MessageVM.class
+bg/infosys/daeu/web/vm/IndexVM.class

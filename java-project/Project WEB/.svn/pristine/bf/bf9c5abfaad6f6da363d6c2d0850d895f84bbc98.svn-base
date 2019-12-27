@@ -1,0 +1,7 @@
+package bg.infosys.daeu.web.aux;
+
+public class Config {
+
+	// Zul Params
+	public static final String PARAM = "param";
+}

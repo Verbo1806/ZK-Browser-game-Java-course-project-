@@ -1,0 +1,60 @@
+package bg.infosys.daeu.db.entity.pub;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
+
+@Entity
+@Table(name = "n_letter_types")
+public class LetterType {
+	
+	@Id
+	@SequenceGenerator(name = "letter_types_seq", sequenceName = "n_letter_types_id_seq", allocationSize = 1)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "letter_types_seq")
+	private int id;
+	
+	@Column(name = _description)
+	private String description;
+	public static final String _description = "description";
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "form_type_code")
+	private FormType formType;
+	
+	@Column(name = _isValid)
+	private boolean isValid;
+	public static final String _isValid = "is_valid";
+	
+	public int getId() {
+		return id;
+	}
+	public void setId(int id) {
+		this.id = id;
+	}
+	public String getDescription() {
+		return description;
+	}
+	public void setDescription(String description) {
+		this.description = description;
+	}
+	public FormType getFormType() {
+		return formType;
+	}
+	public void setFormType(FormType formType) {
+		this.formType = formType;
+	}
+	public boolean isValid() {
+		return isValid;
+	}
+	public void setValid(boolean isValid) {
+		this.isValid = isValid;
+	}
+	
+}

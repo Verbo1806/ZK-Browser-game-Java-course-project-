@@ -1,0 +1,104 @@
+package bg.infosys.daeu.db.entity.projects;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
+
+import bg.infosys.daeu.db.entity.pub.FormType;
+
+@Entity
+@Table(schema = "projects", name = "project_form_config")
+public class ProjectFormConfig {
+	@Id
+	@SequenceGenerator(name = "project_form_config_seq", sequenceName = "project_form_config_id_seq", allocationSize = 1)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "project_form_config_seq")
+	private Integer id;
+	
+	@Column(name = "order_num")
+	private Integer orderNum;
+	public static final String _orderNum = "orderNum";
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "row_type_code")
+	private RowType rowType;
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "form_type_code")
+	private FormType formType;
+	public static final String _formType = "formType";
+	
+	@Column(name = "row_label")
+	private String rowLabel;
+	public static final String _rowLabel = "row_label";
+	
+	@Column(name = "placeholder")
+	private String placeholder;
+	public static final String _placeholder = "placeholder";
+	
+	@Column(name = "is_valid")
+	private String isValid;
+	public static final String _isValid = "is_valid";
+	
+	public Integer getId() {
+		return id;
+	}
+	
+	public void setId(Integer id) {
+		this.id = id;
+	}
+	
+	public Integer getOrderNum() {
+		return orderNum;
+	}
+	
+	public void setOrderNum(Integer orderNum) {
+		this.orderNum = orderNum;
+	}
+	
+	public RowType getRowType() {
+		return rowType;
+	}
+	
+	public void setRowType(RowType rowType) {
+		this.rowType = rowType;
+	}
+	
+	public FormType getFormType() {
+		return formType;
+	}
+	
+	public void setFormType(FormType formType) {
+		this.formType = formType;
+	}
+	
+	public String getRowLabel() {
+		return rowLabel;
+	}
+	
+	public void setRowLabel(String rowLabel) {
+		this.rowLabel = rowLabel;
+	}
+	
+	public String getPlaceholder() {
+		return placeholder;
+	}
+	
+	public void setPlaceholder(String placeholder) {
+		this.placeholder = placeholder;
+	}
+	
+	public String getIsValid() {
+		return isValid;
+	}
+	
+	public void setIsValid(String isValid) {
+		this.isValid = isValid;
+	}
+}

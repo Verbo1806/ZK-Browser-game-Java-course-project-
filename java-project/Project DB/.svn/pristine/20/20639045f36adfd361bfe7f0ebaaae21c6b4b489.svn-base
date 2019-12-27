@@ -1,0 +1,8 @@
+package bg.infosys.daeu.db.dao.projects;
+
+import bg.infosys.common.db.dao.GenericDaoImpl;
+import bg.infosys.daeu.db.entity.projects.ProjectBudgetType;
+
+public class ProjectBudgetTypeDAO extends GenericDaoImpl<ProjectBudgetType, Integer> {
+
+}

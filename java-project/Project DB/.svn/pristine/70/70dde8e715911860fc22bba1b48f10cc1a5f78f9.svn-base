@@ -1,0 +1,146 @@
+package bg.infosys.daeu.db.entity.budgets;
+
+import java.util.Date;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
+import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
+
+import bg.infosys.daeu.db.entity.pub.Checklist;
+import bg.infosys.daeu.db.entity.pub.Letter;
+
+@Entity
+@Table(schema = "budgets", name = "budget_form_versions")
+public class BudgetFormVersion {
+	@Id
+	@SequenceGenerator(name = "budget_form_versions_seq", sequenceName = "budget_form_versions_id_seq", allocationSize = 1)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "budget_form_versions_seq")
+	private Integer id;
+	
+	@OneToOne
+	@JoinColumn(name = "budget_form_id")
+	private BudgetForm budgetForm;
+	public static final String _budgetForm = "budgetForm";
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "letter_id")
+	private Letter letter;
+	public static final String _letter = "letter";
+	
+	@Column(name = "date_created", columnDefinition = "TIMESTAMP")
+	private Date dateCreated;
+	public static final String _dateCreated = "dateCreated";
+	
+	@Column(name = "last_update", columnDefinition = "TIMESTAMP")
+	private Date lastUpdate;
+	public static final String _lastUpdate = "lastUpdate";
+	
+	@Column(name = "outgoing_num")
+	private String outgoingNum;
+	public static final String _outgoingNum = "outgoingNum";
+	
+	@Column(name = "outgoing_date")
+	private Date outgoingDate;
+	public static final String _outgoingDate = "outgoingDate";
+	
+	@Column(name = "incoming_num")
+	private String incomingNum;
+	public static final String _incomingNum = "incomingNum";
+	
+	@Column(name = "incoming_date")
+	private Date incomingDate;
+	public static final String _incomingDate = "incomingDate";
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "checklist_id")
+	private Checklist checklist;
+	public static final String _checklist = "checklist";
+
+	public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
+	}
+
+	public BudgetForm getBudgetForm() {
+		return budgetForm;
+	}
+
+	public void setBudgetForm(BudgetForm budgetForm) {
+		this.budgetForm = budgetForm;
+	}
+
+	public Letter getLetter() {
+		return letter;
+	}
+
+	public void setLetter(Letter letter) {
+		this.letter = letter;
+	}
+
+	public Date getDateCreated() {
+		return dateCreated;
+	}
+
+	public void setDateCreated(Date dateCreated) {
+		this.dateCreated = dateCreated;
+	}
+
+	public Date getLastUpdate() {
+		return lastUpdate;
+	}
+
+	public void setLastUpdate(Date lastUpdate) {
+		this.lastUpdate = lastUpdate;
+	}
+
+	public String getOutgoingNum() {
+		return outgoingNum;
+	}
+
+	public void setOutgoingNum(String outgoingNum) {
+		this.outgoingNum = outgoingNum;
+	}
+
+	public Date getOutgoingDate() {
+		return outgoingDate;
+	}
+
+	public void setOutgoingDate(Date outgoingDate) {
+		this.outgoingDate = outgoingDate;
+	}
+
+	public String getIncomingNum() {
+		return incomingNum;
+	}
+
+	public void setIncomingNum(String incomingNum) {
+		this.incomingNum = incomingNum;
+	}
+
+	public Date getIncomingDate() {
+		return incomingDate;
+	}
+
+	public void setIncomingDate(Date incomingDate) {
+		this.incomingDate = incomingDate;
+	}
+
+	public Checklist getChecklist() {
+		return checklist;
+	}
+
+	public void setChecklist(Checklist checklist) {
+		this.checklist = checklist;
+	}
+}

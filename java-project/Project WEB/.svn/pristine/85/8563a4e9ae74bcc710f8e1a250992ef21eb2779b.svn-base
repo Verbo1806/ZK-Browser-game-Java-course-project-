@@ -1,0 +1,106 @@
+package bg.infosys.daeu.web.service;
+
+import java.util.List;
+import java.util.Set;
+
+import javax.transaction.Transactional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import bg.infosys.daeu.db.dao.budgets.BudgetFormDAO;
+import bg.infosys.daeu.db.dao.budgets.FormConfigDAO;
+import bg.infosys.daeu.db.dao.budgets.RowValueDAO;
+import bg.infosys.daeu.db.dao.budgets.RowValueTypeDAO;
+import bg.infosys.daeu.db.dao.budgets.VersionRowDAO;
+import bg.infosys.daeu.db.dao.pub.CPVCodeDAO;
+import bg.infosys.daeu.db.dao.pub.EBKCodeDAO;
+import bg.infosys.daeu.db.entity.budgets.BudgetForm;
+import bg.infosys.daeu.db.entity.budgets.FormConfig;
+import bg.infosys.daeu.db.entity.budgets.RowValue;
+import bg.infosys.daeu.db.entity.budgets.RowValueType;
+import bg.infosys.daeu.db.entity.budgets.VersionRow;
+import bg.infosys.daeu.db.entity.pub.CPVCode;
+import bg.infosys.daeu.db.entity.pub.EBKCode;
+import bg.infosys.daeu.db.entity.pub.FormType;
+
+@Service()
+public class BudgetControlService {
+
+	@Autowired
+	private FormConfigDAO formConfigDAO;
+	@Autowired
+	private VersionRowDAO versionRowDAO;
+	@Autowired
+	private CPVCodeDAO cpvCodeDAO;
+	@Autowired
+	private RowValueDAO rowValueDAO;
+	@Autowired
+	private EBKCodeDAO ebkCodeDAO;
+	@Autowired
+	private RowValueTypeDAO rowValueTypeDAO;
+	@Autowired
+	private BudgetFormDAO budgetFormDAO;
+	
+	@Transactional
+	public List<FormConfig> findColumnsByConfig(FormType formType, String section) {
+		return formConfigDAO.findColumnsByConfig(formType,section);
+	}
+
+
+	@Transactional
+	public List<VersionRow> findElementsByVersionAndFormType(FormType formType, String section) {
+		return versionRowDAO.findElementsByVersionAndFormType(formType, section);
+	}
+
+	@Transactional
+	public List<CPVCode> findAllCPVCodes() {
+		return cpvCodeDAO.findAll();
+	}
+
+	@Transactional
+	public List<RowValue> findValuesByElement(VersionRow element) {
+		return rowValueDAO.findValuesByElement(element);
+	}
+
+	@Transactional
+	public void saveRow(VersionRow element) {
+		versionRowDAO.saveOrUpdate(element);
+		
+	}
+	
+	@Transactional
+	public void saveValues(Set<RowValue> values) {
+		for(RowValue value : values) {
+			rowValueDAO.saveOrUpdate(value);
+		}
+	}
+	
+	@Transactional
+	public List<RowValueType> findAllRowValueTypes() {
+		return rowValueTypeDAO.findAll();
+	}
+	
+	@Transactional
+	public RowValueType getSumRowValue() {
+		return rowValueTypeDAO.getSumRowValue();
+	}
+
+	public List<EBKCode> findAllEBKCodes() {
+		return ebkCodeDAO.findAll();
+	}
+
+	public RowValueTypeDAO getRowValueTypeDAO() {
+		return rowValueTypeDAO;
+	}
+
+	public void setRowValueTypeDAO(RowValueTypeDAO rowValueTypeDAO) {
+		this.rowValueTypeDAO = rowValueTypeDAO;
+	}
+
+	@Transactional
+	public void saveBudgetForm(BudgetForm budgetForm) {
+		budgetFormDAO.save(budgetForm);
+		
+	}
+}

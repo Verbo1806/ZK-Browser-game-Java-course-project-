@@ -1,0 +1,79 @@
+# Global
+messages=Съобщения
+data=Данни
+save=Запази
+dbLoad=Зареждане от ДБ
+clear=Изчистване
+delete=Изтриване
+placeholder=Какво се е случило?
+reloadLabels=Презареждане на i18n
+systemName=ДАЕУ Вътрешна система
+cancel=Отказ
+
+profile=Профил
+messages=Съобщения
+
+# Menu
+budgetaryControl=Бюджетен контрол
+projects=Проекти и дейности
+usefulInfo=Полезна информация
+officeManagement=Деловодство
+checkApp=Проверка на приложение
+references=Справки
+searching=Търсене
+nomenclatures=Номенклатури
+
+# Submenu
+submitApp=Подаване на приложение
+submitProposal=Подаване на предложение
+projectRegister=Регистър на проектите/дейностите
+
+# Search
+docType=Тип документ
+type=Тип
+project=Проект
+activity=Дейност
+techAssignment=Технически задания
+name=Име
+outNum=Изх. номер
+inNum=Вх. номер
+status=Статус
+period=Период
+date=Дата
+authority=Административен орган
+from=от
+to=до
+
+showAll=Покажи всички
+search=Търси
+
+#User
+username=Потребителско име
+password=Парола
+changePassword=Смяна на парола
+forgottenPassword=Забравена парола?
+login=Вход
+loginESign=Вход с КЕП
+email=Email
+phoneNumber=Телефон
+
+newPassword=Нова парола
+oldPassword=Стара парола
+repeatNewPassword=Повторете нова парола
+
+#Placeholders
+placeholder.projectName=Наименование на проект/дейност/техн. задание
+placeholder.outNum=Изх. номер деловодство
+placeholder.chooseStatus=Избери статус
+
+placeholder.enterUsername=Въведете потребителско име
+placeholder.enterPassword=Въведете парола
+placeholder.enterPhoneNumber=Въведете телефон
+placeholder.enterEmail=Въведете email
+
+placeholder.enterOldPassword=Въведете актуална парола
+placeholder.enterNewPassword=Въведете нова парола
+placeholder.repeatPassword=Повторете парола
+
+#Descriptions
+description.changePassword=За да смените паролата е необходимо да въведете първо старата парола. Новата парола трябва да бъде минимум 6 символа

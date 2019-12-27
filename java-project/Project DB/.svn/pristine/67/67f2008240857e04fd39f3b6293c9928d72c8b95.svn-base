@@ -1,0 +1,135 @@
+package bg.infosys.daeu.db.entity.tech_specs;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
+
+import org.hibernate.validator.constraints.Length;
+
+import bg.infosys.daeu.db.entity.projects.RowType;
+import bg.infosys.daeu.db.entity.pub.FormType;
+
+@Entity
+@Table(schema = "tech_specs" ,name = "tech_specs_form_config")
+public class TechSpecsFormConfig {
+	@Id
+	@SequenceGenerator(name = "tech_specs_form_config_seq", sequenceName = "tech_specs.tech_specs_form_config_id_seq", allocationSize = 1)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "tech_specs_form_config_seq")
+	private Integer id;
+	
+	@Column(name = "order_num")
+	private Double orderNum;
+	public static final String _orderNum = "orderNum";
+	
+	@ManyToOne
+	@JoinColumn(name = "tech_specs_row_type_code")
+	private RowType rowType;
+	public static final String _rowType = "rowType";
+	
+	@ManyToOne
+	@JoinColumn(name = "tech_specs_form_type_code")
+	private FormType formType;
+	public static final String _formType = "formType";
+	
+	@Column(name = "row_label")
+	@Length(max = 512)
+	private String rowLabel;
+	public static final String _rowLabel = "rowLabel";
+	
+	@Column(name = _placeholder)
+	@Length(max = 512)
+	private String placeholder;
+	public static final String _placeholder = "placeholder";
+	
+	@Column(name = "is_valid")
+	@Length(max = 1)
+	private String isValid;
+	public static final String _isValid = "isValid";
+	
+	@Column(name = "section_num")
+	private Short sectionNum;
+	public static final String _sectionNum = "sectionNum";
+	
+	@ManyToOne
+	@JoinColumn(name = "info_system_type_id")
+	private InfoSystemType infoSystemType;
+	public static final String _infoSystemType = "infoSystemType";
+	
+	public Integer getId() {
+		return id;
+	}
+	
+	public void setId(Integer id) {
+		this.id = id;
+	}
+	
+	public Double getOrderNum() {
+		return orderNum;
+	}
+	
+	public void setOrderNum(Double orderNum) {
+		this.orderNum = orderNum;
+	}
+	
+	public RowType getRowType() {
+		return rowType;
+	}
+	
+	public void setRowType(RowType rowType) {
+		this.rowType = rowType;
+	}
+	
+	public FormType getFormType() {
+		return formType;
+	}
+	
+	public void setFormType(FormType formType) {
+		this.formType = formType;
+	}
+	
+	public String getRowLabel() {
+		return rowLabel;
+	}
+	
+	public void setRowLabel(String rowLabel) {
+		this.rowLabel = rowLabel;
+	}
+	
+	public String getPlaceholder() {
+		return placeholder;
+	}
+	
+	public void setPlaceholder(String placeholder) {
+		this.placeholder = placeholder;
+	}
+	
+	public String getIsValid() {
+		return isValid;
+	}
+	
+	public void setIsValid(String isValid) {
+		this.isValid = isValid;
+	}
+	
+	public Short getSectionNum() {
+		return sectionNum;
+	}
+	
+	public void setSectionNum(Short sectionNum) {
+		this.sectionNum = sectionNum;
+	}
+
+	public InfoSystemType getInfoSystemType() {
+		return infoSystemType;
+	}
+
+	public void setInfoSystemType(InfoSystemType infoSystemType) {
+		this.infoSystemType = infoSystemType;
+	}
+}

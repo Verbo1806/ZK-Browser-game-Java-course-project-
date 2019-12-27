@@ -1,0 +1,70 @@
+package bg.infosys.daeu.web.service;
+
+import java.io.InputStream;
+import java.util.Date;
+import java.util.List;
+
+import javax.transaction.Transactional;
+
+import org.hibernate.Hibernate;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import bg.infosys.daeu.db.dao.projects.ProjectDAO;
+import bg.infosys.daeu.db.dao.projects.ProjectFormConfigDAO;
+import bg.infosys.daeu.db.dao.projects.ProjectVersionDAO;
+import bg.infosys.daeu.db.entity.projects.AttachedDoc;
+import bg.infosys.daeu.db.entity.projects.Project;
+import bg.infosys.daeu.db.entity.projects.ProjectFormConfig;
+import bg.infosys.daeu.db.entity.projects.ProjectVersion;
+import bg.infosys.daeu.db.entity.pub.FormType;
+import bg.infosys.daeu.web.util.FTPUtils;
+
+@Service
+public class ProjectsService {
+	@Autowired private ProjectDAO projectDAO;
+	@Autowired private ProjectVersionDAO projectVersionDAO;
+	@Autowired private ProjectFormConfigDAO projectFormConfigDAO;
+	
+	@Transactional
+	public void save(Project project) {
+		projectDAO.save(project);
+	}
+	
+	public List<ProjectVersion> findAll() {
+		return projectVersionDAO.findAll();
+	}
+	
+	@Transactional
+	public List<ProjectFormConfig> findAllByFormType(FormType type) {
+		List<ProjectFormConfig> formConfigs = projectFormConfigDAO.findAllByFormType(type);
+		for (ProjectFormConfig formConfig : formConfigs)
+			Hibernate.initialize(formConfig.getRowType());
+		
+		return formConfigs;
+	}
+	
+	@Transactional
+	public List<ProjectFormConfig> findAllByStepNum(Short stepNum) {
+		List<ProjectFormConfig> formConfigs = projectFormConfigDAO.findAllByStepNum(stepNum);
+		for (ProjectFormConfig formConfig : formConfigs)
+			Hibernate.initialize(formConfig.getRowType());
+		
+		return formConfigs;
+	}
+	
+	public AttachedDoc saveFile(InputStream is, String directory, String fileName) {
+		FTPUtils ftp = new FTPUtils();
+		
+		if(ftp.uploadFileOnFTP(is, directory + fileName)) {
+			AttachedDoc file = new AttachedDoc();
+			file.setPath(directory);
+			file.setFileName(fileName);
+			file.setInsertedTimestamp(new Date());
+			return file;
+		} else {
+			return null;
+		}
+	}
+
+}

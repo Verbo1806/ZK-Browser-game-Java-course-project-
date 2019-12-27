@@ -1,0 +1,17 @@
+package bg.infosys.daeu.db.entity.budgets;
+
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
+
+@Entity
+@Table(schema = "budgets", name = "budget_notes")
+public class BudgetNote {
+	@Id
+	@SequenceGenerator(name = "budget_notes_seq", sequenceName = "budget_notes_id_seq", allocationSize = 1)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "budget_notes_seq")
+	private Integer id;
+}

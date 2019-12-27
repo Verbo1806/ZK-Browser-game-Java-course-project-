@@ -1,0 +1,100 @@
+<vlayout apply="org.zkoss.bind.BindComposer" viewModel="@id('vm') @init('bg.infosys.daeu.web.vm.budget.BudgetControlVM')"
+	 width="100%" height="100%" style="overflow: scroll;">
+	 <button sclass="button_distinct no_border_radius bold" label = "Назад"/>
+	 <hlayout>
+	 	<vlayout>
+	 		<label value = "Изходящ номер"/>
+	 		<textbox placeholder="Въведете номер" >
+	 		</textbox>
+	 	</vlayout>
+	 	<space spacing="5pt"></space>
+	 	<vlayout>
+	 		<label value = "Дата"/>
+	 		<datebox mold="rounded" placeholder="Изберете дата" height="100%">
+	 		</datebox>
+	 	</vlayout>
+	 </hlayout>
+	<listbox model="@load(vm.rows)"  sclass="budget_listbox"
+		  hflex="min" selectedItem="@bind(vm.selectedElement)">
+		<auxhead 
+			children="@load(vm.auxheaders) @template('auxheader')">
+			<template name="auxheader">
+				<auxheader
+					colspan="@load(each.colspan)" align="center" sclass = "@load(each.id > 3 ? 'budget_auxhead' : 'hidden_auxheader')">
+					<label multiline="true">
+					<attribute name="value">${each.year} - ${each.auxheaderType.name}
+					${each.label}</attribute>
+					</label>
+					</auxheader>
+			</template>
+		</auxhead>
+		<listhead 
+			children="@load(vm.columns) @template('header')">
+			<template name="header">
+				<listheader width="@load(each.formColumnType.code eq 'CPVNAME' ? '200pt' :'')"
+					label="@load(each.columnName)"
+					sclass="budget_listheader"
+					align="center" />
+			</template>
+		</listhead>
+		<template name="model" var="item">
+			<listitem
+				children="@load(item.values) @template('cell')">
+				<!-- children="@load(vm.getValuesByRow(item)) @template('cell')"> -->
+				<template name="cell">
+					<listcell if="${each.rowValueType eq null}" sclass="@load(each.formConfig.formColumnType.code eq 'TOTAL' or each.formConfig.formColumnType.code eq 'CPVNAME' ? 'budget_amount_listcell' : '' )">
+						<label width="99%"
+							if="${each.formConfig.formColumnType.componentType.code eq 'LBL' and each.formConfig.formColumnType.code eq 'ELEMENTORDER'}"
+							value="@load(each.selectedCpvCode.cpvCode.orderNum)" />
+						<combobox sclass="budget_combobox"
+							if="${each.formConfig.formColumnType.componentType.code eq 'COMBO' and each.formConfig.formColumnType.code eq 'CPVCODE'}"
+							model="@load(vm.cpvCodes)" mold="rounded" readonly="true"
+							width="99%"
+							onSelect="@command('refreshElement', element=item, cpv=each.selectedCpvCode)"
+							value="@load(each.selectedCpvCode.cpvCode.code)"
+							selectedItem="@bind(each.selectedCpvCode.cpvCode)">
+							<template name="model"
+								var="item">
+								<comboitem
+									value="@load(item)" label="@load(item.code)" />
+							</template>
+						</combobox>
+						<label width="99%"
+							if="${each.formConfig.formColumnType.componentType.code eq 'LBL' and each.formConfig.formColumnType.code eq 'CPVNAME'}"
+							value="@load(each.selectedCpvCode.cpvCode.name)" />
+						<intbox width="99%" disabled="@load(each.formConfig.formColumnType.code eq 'TOTAL')"
+							mold="rounded" onChange="@command('calculate', selectedValue = each)"
+							if="${each.formConfig.formColumnType.componentType.code eq 'NUM'}"
+							value="@bind(each.value)" />
+						<combobox sclass="budget_combobox"
+							if="${each.formConfig.formColumnType.componentType.code eq 'COMBO' and each.formConfig.formColumnType.code eq 'EBKCODE'}"
+							model="@load(vm.ebkCodes)" mold="rounded" readonly="true"
+							width="99%"
+							onSelect="@command('refreshElement', element=item, ebk=each.ebkCode)"
+							value="@load(each.ebkCode.code)"
+							selectedItem="@bind(each.ebkCode)">
+							<template name="model"
+								var="item">
+								<comboitem
+									value="@load(item)" label="@load(item.code)" />
+							</template>
+						</combobox>
+					</listcell>
+					<listcell sclass="budget_totals_listcell" span="5" if="${each.rowValueType ne null and each.rowValueType.name ne null}" ><label value="@load(each.rowValueType.name)"/></listcell>
+					<listcell span="1" if="${each.rowValueType ne null and each.rowValueType.name eq null}" >
+						<intbox width="99%" mold="rounded" disabled="true" value="@bind(each.value)"></intbox>
+					</listcell>
+				</template>
+			</listitem>
+		</template>
+		<listfoot>
+			<listfooter align="center" span="17">
+				
+	<button label="add" onClick="@command('add')" /> 
+	<button label="save" onClick="@command('saveForm')" />
+		<button label="Контрола"
+		onClick="@global-command('changeCenterContent', zulName='checklist')" />
+			</listfooter>
+		</listfoot>
+	</listbox>
+</vlayout>

@@ -1,0 +1,30 @@
+package bg.infosys.daeu.db.entity.projects;
+
+import java.util.Date;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
+import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
+
+@Entity
+@Table(schema = "projects", name = "projects")
+public class Project {
+	@Id
+	@SequenceGenerator(name = "projects_seq", sequenceName = "projects_id_seq", allocationSize = 1)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "projects_seq")
+	private Integer id;
+	
+	@OneToOne
+	@JoinColumn(name = "last_version_id")
+	private ProjectVersion projectVersion;
+	
+	@Column(name = "date_created", columnDefinition = "TIMESTAMP")
+	private Date dateCreated;
+	public static final String _dateCreated = "date_created";
+}

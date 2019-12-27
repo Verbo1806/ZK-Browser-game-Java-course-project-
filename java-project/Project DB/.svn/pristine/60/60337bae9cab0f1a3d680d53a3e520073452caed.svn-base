@@ -1,0 +1,41 @@
+package bg.infosys.daeu.db.entity.projects;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
+
+@Entity
+@Table(schema = "projects", name = "project_form_config")
+public class ProjectFormConfig {
+	@Id
+	@SequenceGenerator(name = "project_form_config_seq", sequenceName = "project_form_config_id_seq", allocationSize = 1)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "project_form_config_seq")
+	private Integer id;
+	
+	@Column(name = "order_num")
+	private Integer orderNum;
+	public static final String _orderNum = "order_num";
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "row_type_code")
+	private RowType RowType;
+	
+	@Column(name = "row_label")
+	private String rowLabel;
+	public static final String _rowLabel = "row_label";
+	
+	@Column(name = "placeholder")
+	private String placeholder;
+	public static final String _placeholder = "placeholder";
+	
+	@Column(name = "is_valid")
+	private String isValid;
+	public static final String _isValid = "is_valid";
+}

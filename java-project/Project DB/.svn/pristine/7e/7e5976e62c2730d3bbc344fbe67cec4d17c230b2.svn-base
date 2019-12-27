@@ -1,0 +1,62 @@
+package bg.infosys.daeu.db.entity.projects;
+
+import java.util.Date;
+import java.util.List;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
+
+@Entity
+@Table(schema = "projects", name = "project_versions")
+public class ProjectVersion {
+	@Id
+	@SequenceGenerator(name = "project_versions_seq", sequenceName = "project_versions_id_seq", allocationSize = 1)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "project_versions_seq")
+	private Integer id;
+	
+	@Column(name = "funding_description")
+	private String fundingDescription;
+	public static final String _fundingDescription = "funding_description";
+	
+	@Column(name = "in_budget")
+	private String inBudget;
+	public static final String _inBudget = "in_budget";
+	
+	@Column(name = "type")
+	private String type;
+	public static final String _type = "type";
+	
+	@Column(name = "date_created", columnDefinition = "TIMESTAMP")
+	private Date dateCreated;
+	public static final String _dateCreated = "date_created";
+	
+	@Column(name = "last_update", columnDefinition = "TIMESTAMP")
+	private Date lastUpdate;
+	public static final String _lastUpdate = "last_update";
+	
+	@Column(name = "outgoing_num")
+	private String outgoingNum;
+	public static final String _outgoingNum = "outgoing_num";
+	
+	@Column(name = "outgoing_date")
+	private Date outgoingDate;
+	public static final String _outgoingDate = "outgoing_date";
+	
+	@Column(name = "incoming_num")
+	private String incomingNum;
+	public static final String _incomingNum = "incoming_num";
+	
+	@Column(name = "incoming_date")
+	private Date incomingDate;
+	public static final String _incomingDate = "incoming_date";
+	
+	@OneToMany(mappedBy = "projectVersion", fetch = FetchType.LAZY)
+	private List<AttachedDoc> attachedDocs;
+}

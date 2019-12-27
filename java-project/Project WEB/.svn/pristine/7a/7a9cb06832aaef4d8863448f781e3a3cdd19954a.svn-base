@@ -1,0 +1,41 @@
+<zk>
+	<window viewModel="@id('vm') @init('bg.infosys.base.web.vm.messages.MessageVM')" vflex="1">
+		<vlayout>
+			<hbox align="center" hflex="1">
+				<label value="${labels.data}" /> <textbox value="@bind(vm.message)" hflex="1" placeholder="${labels.placeholder}" />
+				<button label="${labels.save}" onClick="@command('save')"/>
+				<button label="${labels.dbLoad}" onClick="@command('loadData')"/>
+				<button label="${labels.clear}" onClick="@command('clearValues')"/>
+			</hbox>
+			
+			<listbox model="@bind(vm.messages)" rows="10">
+				<listhead>
+					<listheader hflex="min" />
+					<listheader hflex="min" label="id"/>
+					<listheader hflex="min" label="date"/>
+					<listheader hflex="min" label="message"/>
+				</listhead>
+				<template name="model">
+					<listitem>
+						<listcell>
+							<button label="${labels.delete}" onClick="@command('delete', element=each)" />
+							<button label="${labels.save}" onClick="@command('update', element=each)" />
+						</listcell>
+						<!-- <listcell>
+							<label value="@bind(each.date) @converter('formattedDate', format='yyyy/MM/dd HH:mm:ss')" />
+						</listcell> -->
+						<listcell>
+							<label value="@init(each.id)" />
+						</listcell>
+						<listcell>
+							<label value="@init(each.date)" />
+						</listcell>
+						<listcell>
+							<textbox value="@bind(each.message)"/>
+						</listcell>
+					</listitem>
+				</template>
+			</listbox>
+		</vlayout>
+	</window>
+</zk>

@@ -1,0 +1,173 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	
+	<groupId>bg.verbo.project.db</groupId>
+	<artifactId>project-system-db</artifactId>
+	<version>0.0.1</version>
+	
+	<properties>
+		<!-- Java and Maven plug-ins Versions -->
+		<v.java>8</v.java>
+		<v.compiler.plugin>3.7.0</v.compiler.plugin>
+
+		<!-- Hibernate Version -->
+		<v.hibernate>5.3.3.Final</v.hibernate>
+
+		<!-- Spring Versions -->
+		<v.spring>5.0.8.RELEASE</v.spring>
+		<v.spring.data>2.0.9.RELEASE</v.spring.data>
+		<v.spring.retry>1.2.4.RELEASE</v.spring.retry>
+
+		<!-- PostgreSQL Driver Version -->
+		<v.postgres>42.2.7</v.postgres>
+		
+		<!-- JDBC Connection Pooling Version -->
+		<v.c3p0>0.9.5.2</v.c3p0>
+		
+		<!-- Log4j Logging Version -->
+		<!-- <v.log4j>2.11.2</v.log4j> -->
+		
+		<!-- SLF4J Version -->
+		<v.slf4j>1.7.26</v.slf4j>
+		
+		<!-- GSON (JSON) Version -->
+		<v.gson>2.8.5</v.gson>
+		
+		<!-- Java Mail Api Version -->
+		<v.mail>1.4</v.mail>
+		
+		<!-- JAXB API Version -->
+		<v.jaxb>2.3.1</v.jaxb>
+
+		<!-- Default encoding -->
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+	</properties>
+
+	<build>
+		<sourceDirectory>src</sourceDirectory>
+		<resources>
+			<resource>
+				<directory>src</directory>
+				<excludes>
+					<exclude>**/*.java</exclude>
+				</excludes>
+			</resource>
+			<resource>
+				<directory>src/main/resources</directory>
+			</resource>
+		</resources>
+		
+		<plugins>
+			<plugin>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>${v.compiler.plugin}</version>
+				<configuration>
+					<source>${v.java}</source>
+					<target>${v.java}</target>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+	
+	<dependencies>
+		<!-- Spring Dependencies -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-core</artifactId>
+			<version>${v.spring}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-beans</artifactId>
+			<version>${v.spring}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-context</artifactId>
+			<version>${v.spring}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-tx</artifactId>
+			<version>${v.spring}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-orm</artifactId>
+			<version>${v.spring}</version>
+		</dependency>
+		<dependency>
+		    <groupId>org.springframework</groupId>
+		    <artifactId>spring-web</artifactId>
+		    <version>${v.spring}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.retry</groupId>
+			<artifactId>spring-retry</artifactId>
+			<version>${v.spring.retry}</version>
+		</dependency>
+		
+		<!-- Hibernate Dependencies -->
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-core</artifactId>
+			<version>${v.hibernate}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-validator</artifactId>
+			<version>${v.hibernate}</version>
+		</dependency>
+		
+		<!-- JDBC Connection Pooling Dependency -->
+		<dependency>
+			<groupId>com.mchange</groupId>
+			<artifactId>c3p0</artifactId>
+			<version>${v.c3p0}</version>
+		</dependency>
+
+		<!-- PostgreSQL Driver Dependency -->
+		<dependency>
+			<groupId>org.postgresql</groupId>
+			<artifactId>postgresql</artifactId>
+			<version>${v.postgres}</version>
+		</dependency>
+		
+		<!-- SLF4J Logging Dependency -->
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-api</artifactId>
+			<version>${v.slf4j}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-log4j12</artifactId>
+			<version>${v.slf4j}</version>
+		</dependency>
+		
+		<!-- GSON (JSON) Dependency -->
+		<dependency>
+		    <groupId>com.google.code.gson</groupId>
+		    <artifactId>gson</artifactId>
+		    <version>${v.gson}</version>
+		</dependency>
+		
+		<!-- Java Mail API -->
+		<dependency>
+		    <groupId>javax.mail</groupId>
+		    <artifactId>mail</artifactId>
+		    <version>${v.mail}</version>
+		</dependency>
+
+		<!-- JavaX Binding API. Excluded from the SE default classpath.
+			 JAXB is considered to be part of the EE version since v9. -->
+		<dependency>
+			<groupId>javax.xml.bind</groupId>
+			<artifactId>jaxb-api</artifactId>
+			<version>${v.jaxb}</version>
+		</dependency>
+	</dependencies>
+	
+</project>

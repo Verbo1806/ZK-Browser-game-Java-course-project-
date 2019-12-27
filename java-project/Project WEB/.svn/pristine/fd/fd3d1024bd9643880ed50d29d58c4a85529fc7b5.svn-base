@@ -1,0 +1,147 @@
+package bg.infosys.daeu.web.vm.tech_specs;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import org.zkoss.bind.annotation.AfterCompose;
+import org.zkoss.bind.annotation.Command;
+import org.zkoss.bind.annotation.ContextParam;
+import org.zkoss.bind.annotation.ContextType;
+import org.zkoss.bind.annotation.Init;
+import org.zkoss.bind.annotation.NotifyChange;
+import org.zkoss.zk.ui.Component;
+import org.zkoss.zk.ui.Executions;
+import org.zkoss.zk.ui.event.InputEvent;
+import org.zkoss.zk.ui.select.Selectors;
+import org.zkoss.zk.ui.select.annotation.VariableResolver;
+import org.zkoss.zk.ui.select.annotation.WireVariable;
+import org.zkoss.zkplus.spring.DelegatingVariableResolver;
+import org.zkoss.zul.event.PagingEvent;
+
+import bg.infosys.common.db.dao.aux.ListModelFilter;
+import bg.infosys.common.web.model.SortablePagingListModel;
+import bg.infosys.daeu.db.entity.pub.Status;
+import bg.infosys.daeu.db.entity.pub.Subject;
+import bg.infosys.daeu.db.entity.tech_specs.TechSpecs;
+import bg.infosys.daeu.web.aux.Config;
+import bg.infosys.daeu.web.dto.SearchTechSpecsDTO;
+import bg.infosys.daeu.web.service.NomenclaturesService;
+import bg.infosys.daeu.web.service.SubjectsService;
+import bg.infosys.daeu.web.service.TechSpecsService;
+
+@VariableResolver(DelegatingVariableResolver.class)
+public class SearchTechSpecsVM {
+	@WireVariable
+	private TechSpecsService techSpecsService;
+	@WireVariable 
+	private NomenclaturesService nomenclaturesService;
+	@WireVariable 
+	private SubjectsService subjectsService;
+	
+	private Paging techSpecs;
+	private SearchTechSpecsDTO searchObject;
+	
+	private List<Subject> subjects;
+	private List<Status> statuses;
+	
+	@Init
+	public void init() {
+		String type = (String) Executions.getCurrent().getArg().get(Config.PARAM);
+		
+		searchObject = new SearchTechSpecsDTO();
+		techSpecs = new Paging();
+		subjects = new ArrayList<Subject>();
+		
+		statuses = nomenclaturesService.findByFormType(type);
+	}
+	
+	@AfterCompose
+	public void afterCompose(@ContextParam(ContextType.VIEW) Component view) {
+		Selectors.wireComponents(view, this, false);
+	}
+	
+	@Command
+	@NotifyChange("subjects")
+	public void findVersions(@ContextParam(ContextType.TRIGGER_EVENT) InputEvent event) {
+		String searchPhrase = event.getValue();
+		if (searchPhrase.length() > 2) {
+			subjects = subjectsService.searchVersions(searchPhrase);
+		} else
+			subjects.clear();
+	}
+	
+	@Command
+	@NotifyChange({"techSpecs", "searchObject"})
+	public void showAll() {
+		searchObject = new SearchTechSpecsDTO();
+		techSpecs = new Paging();
+	}
+	
+	@Command
+	@NotifyChange("techSpecs")
+	public void search() {
+		techSpecs = new Paging();
+	}
+	
+	public Paging getTechSpecs() {
+		return techSpecs;
+	}
+
+	public void setTechSpecs(Paging techSpecs) {
+		this.techSpecs = techSpecs;
+	}
+
+	public SearchTechSpecsDTO getSearchObject() {
+		return searchObject;
+	}
+
+	public void setSearchObject(SearchTechSpecsDTO searchObject) {
+		this.searchObject = searchObject;
+	}
+	
+	public List<Subject> getSubjects() {
+		return subjects;
+	}
+
+	public void setSubjects(List<Subject> subjects) {
+		this.subjects = subjects;
+	}
+
+	public List<Status> getStatuses() {
+		return statuses;
+	}
+
+	public void setStatuses(List<Status> statuses) {
+		this.statuses = statuses;
+	}
+
+	// PAGING
+	@Command
+	@NotifyChange("techSpecs")
+	public void onPageChanged(@ContextParam(ContextType.TRIGGER_EVENT) PagingEvent pagingEvent) {
+		techSpecs.setPage(pagingEvent.getActivePage());
+	}
+		
+	private class Paging extends SortablePagingListModel<TechSpecs> {
+		private static final long serialVersionUID = 1L;
+
+		public Paging() {
+			super(Config.PAGE_SIZE, false);
+		}
+
+		@Override
+		protected List<TechSpecs> getPageItems(ListModelFilter filter) {
+			return techSpecsService.findByProperties(searchObject, filter);
+		}
+
+		@Override
+		public void resetPaging() {
+			setActivePage(0);
+		}
+
+		@Override
+		public long getTotalSize() {
+			return techSpecsService.countByProperties(searchObject);
+		}
+	}
+}

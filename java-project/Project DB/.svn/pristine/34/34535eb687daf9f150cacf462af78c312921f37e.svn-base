@@ -1,0 +1,119 @@
+package bg.infosys.daeu.db.entity.budgets;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
+
+import bg.infosys.daeu.db.entity.pub.EBKCode;
+
+@Entity
+@Table(schema = "budgets", name = "row_values")
+public class RowValue {
+	@Id
+	@SequenceGenerator(name = "row_values_seq", sequenceName = "row_values_id_seq", allocationSize = 1)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "row_values_seq")
+	private Integer id;
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "row_id")
+	private VersionRow versionRow;
+	public static final String _versionRow = "versionRow";
+	
+	@Column(name = _value)
+	private Integer value;
+	public static final String _value = "value";
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "form_config_id")
+	private FormConfig formConfig;
+	public static final String _formConfig = "formConfig";
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "ebk_code_id")
+	private EBKCode ebkCode;
+	public static final String _ebkCode = "ebkCode";
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "selected_cpv_code_id")
+	private SelectedCPVCode selectedCpvCode;
+	public static final String _selectedCpvCode = "selectedCpvCode";
+	
+	@Column(name = "automatic_value")
+	private Integer automaticValue;
+	public static final String _automaticValue = "automaticValue";
+	
+	@Column(name = "approved_value")
+	private Integer approvedValue;
+	public static final String _approvedValue = "approvedValue";
+	
+	public Integer getId() {
+		return id;
+	}
+	
+	public void setId(Integer id) {
+		this.id = id;
+	}
+	
+	public VersionRow getVersionRow() {
+		return versionRow;
+	}
+	
+	public void setVersionRow(VersionRow versionRow) {
+		this.versionRow = versionRow;
+	}
+	
+	public Integer getValue() {
+		return value;
+	}
+	
+	public void setValue(Integer value) {
+		this.value = value;
+	}
+	
+	public FormConfig getFormConfig() {
+		return formConfig;
+	}
+	
+	public void setFormConfig(FormConfig formConfig) {
+		this.formConfig = formConfig;
+	}
+	
+	public EBKCode getEbkCode() {
+		return ebkCode;
+	}
+	
+	public void setEbkCode(EBKCode ebkCode) {
+		this.ebkCode = ebkCode;
+	}
+	
+	public SelectedCPVCode getSelectedCpvCode() {
+		return selectedCpvCode;
+	}
+	
+	public void setSelectedCpvCode(SelectedCPVCode selectedCpvCode) {
+		this.selectedCpvCode = selectedCpvCode;
+	}
+	
+	public Integer getAutomaticValue() {
+		return automaticValue;
+	}
+	
+	public void setAutomaticValue(Integer automaticValue) {
+		this.automaticValue = automaticValue;
+	}
+	
+	public Integer getApprovedValue() {
+		return approvedValue;
+	}
+	
+	public void setApprovedValue(Integer approvedValue) {
+		this.approvedValue = approvedValue;
+	}
+}

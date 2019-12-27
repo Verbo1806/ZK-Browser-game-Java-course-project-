@@ -1,0 +1,14 @@
+<vlayout sclass="centered_vlayout" vflex="1">
+	<div sclass="custom_component_row">
+		<include src="custom/custom-component.zul" name="Видове приложения за бюджетен контрол" icon="icon icon-edit"
+			color="#00a500" onClick='Executions.getCurrent().sendRedirect("")' />
+		<include src="custom/custom-component.zul" name="Срокове и начин на попълване на приложения" icon="icon icon-delete" 
+			color="#72e372" onClick='Executions.getCurrent().sendRedirect("")' />
+	</div>
+	<div sclass="custom_component_row">
+		<include src="custom/custom-component.zul" name="Процедури" icon="icon icon-search"
+			color="#ce5df6" onClick='Executions.getCurrent().sendRedirect("")' style="custom-component" />
+		<include src="custom/custom-component.zul" name="Правила" icon="icon icon-reset" 
+			color="#5d67f6" onClick='Executions.getCurrent().sendRedirect("")' />
+	</div>
+</vlayout>

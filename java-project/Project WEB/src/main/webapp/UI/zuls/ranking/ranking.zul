@@ -1,0 +1,26 @@
+<vlayout viewModel="@id('vm') @init('bg.verbo.project.web.vm.ranking.RankingVM')" vflex="1" hflex="1">
+
+<grid model="@load(vm.teams)" vflex="1" hflex="1">
+	<columns>
+		<column label="${labels.name }" hflex="5" />
+		<column label="${labels.points }" hflex="4" />
+		<column hflex="min" />
+	</columns>
+	<rows>
+		<template name="model">
+			<row>
+				<cell>
+					<label value="@load(each.name)"/>
+				</cell>
+				<cell>
+					<label value="@load(each.points)"/>
+				</cell>
+				<cell>
+					<label sclass="icon icon-attack" tooltiptext="${labels.attack }" onClick="@command('attack', param=each)" />
+				</cell>
+			</row>
+		</template>
+	</rows>
+</grid>
+
+</vlayout>

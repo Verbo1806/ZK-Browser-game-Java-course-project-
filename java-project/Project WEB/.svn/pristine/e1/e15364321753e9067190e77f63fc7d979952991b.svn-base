@@ -1,0 +1,94 @@
+package bg.infosys.daeu.web.util;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.SocketException;
+
+import org.apache.commons.net.ftp.FTPClient;
+import org.apache.commons.net.ftp.FTPReply;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.zkoss.util.resource.Labels;
+import org.zkoss.zul.Messagebox;
+
+import bg.infosys.daeu.web.aux.Config;
+
+public class FTPUtils {
+	private static final Logger LOGGER = LoggerFactory.getLogger(FTPUtils.class);
+	
+	// TODO: add production credentials
+	private String ftpHost = Config.FTP_HOST;
+	private String ftpUser = Config.FTP_USER;
+	private String ftpPass = Config.FTP_PASS;
+	private int ftpPort = Config.FTP_PORT;
+	
+	public FTPUtils() {}
+	
+	public FTPUtils(String ftpHost, String ftpUser, String ftpPass, int ftpPort) {
+		this.ftpHost = ftpHost;
+		this.ftpUser = ftpUser;
+		this.ftpPass = ftpPass;
+		this.ftpPort = ftpPort;
+	}
+	
+	@SuppressWarnings("static-access")
+	public boolean uploadFileOnFTP(InputStream inputStream, String absolutePath) {
+		FTPClient client = null;
+		String fileName = null;
+		
+		try {
+			client = makeFtpConnection();
+			if (client == null)
+				return false;
+
+			String[] folders = absolutePath.split("/");
+			for (int i = 0; i < folders.length; i++) {
+				fileName = folders[i];
+				if (i + 1 == folders.length) {
+					client.setFileTransferMode(client.BINARY_FILE_TYPE);
+					client.enterLocalPassiveMode();
+					return client.storeFile(fileName, inputStream);
+				} else if (!fileName.equals("")) {
+					if (!client.changeWorkingDirectory(fileName)) {
+						client.makeDirectory(fileName);
+						client.changeWorkingDirectory(fileName);
+					}
+				}
+			}
+		} catch (IOException e) {
+			LOGGER.error("FILE IS NOT UPLOADED: " + e.getMessage());
+		} finally {
+			try {
+				if (client != null) {
+					client.disconnect();
+				}
+			} catch (IOException | NullPointerException e) {
+				e.printStackTrace();
+			}
+		}
+		return false;
+	}
+
+	private FTPClient makeFtpConnection() throws SocketException, IOException {
+		FTPClient client = new FTPClient();
+		client.connect(ftpHost, ftpPort);
+		client.setConnectTimeout(Config.FTP_CONNECTION_TIMEOUT);
+		int reply = client.getReplyCode();
+		
+		if (!FTPReply.isPositiveCompletion(reply)) {
+			LOGGER.info("Connection was not establish..");
+			Messagebox.show(Labels.getLabel("ftp.error"), Labels.getLabel("error"), Messagebox.OK, Messagebox.ERROR);
+			return null;
+		}
+		
+		if (!client.login(ftpUser, ftpPass)) {
+			LOGGER.info("Login failed..");
+			Messagebox.show(Labels.getLabel("ftp.error"), Labels.getLabel("error"), Messagebox.OK, Messagebox.ERROR);
+			return null;
+		}
+		
+		client.setFileType(FTPClient.BINARY_FILE_TYPE);
+		client.enterLocalPassiveMode();
+		return client;
+	}
+}

@@ -1,0 +1,95 @@
+	
+	<tabbox>
+        <tabs>
+            <tab label="${labels.approvedBudgets55 }" />
+            <tab label="${labels.CPVCodes }" />
+            <tab label="${labels.EBKCodes }" />
+            <tab label="${labels.budgetProceduresDates }" />
+        </tabs>
+        <tabpanels>
+            <tabpanel>
+               <listbox sclass="display_listbox">
+               		<listhead>
+						<listheader label="Наименование" />
+						<listheader label="Текущи разходи"/>
+						<listheader label="Капиталови разходи"/>
+						<listheader label="Общо разходи"/>
+					</listhead>
+					<listitem>
+						<listcell> <label value="Сметна палата"/> </listcell>
+						<listcell> 
+							<doublebox style="border-style: none; text-align: center" placeholder="Въведете сума" value="8" height="100%" width="100%"/>
+						</listcell>
+						<listcell> 
+							<doublebox style="border-style: none; text-align: center" placeholder="Въведете сума" value="8" height="100%" width="100%"/>
+						</listcell>
+						<listcell > 
+							<label style="text-align: center" height="100%" width="100%" value="16"/>
+						</listcell>
+					</listitem>
+               </listbox>
+            </tabpanel>
+            <tabpanel viewModel="@id('vm') @init('bg.infosys.daeu.web.vm.nomenclatures.CPVCodesVM')">
+                <listbox sclass="display_listbox" model="@load(vm.codes.entrySet())">
+                	<template name="model">
+                	<listitem>
+                		<listcell>
+                			<label value="@load(each.key.name)"></label>
+                			<listbox sclass="display_listbox" model="@load(each.value)">
+                			<listhead>
+								<listheader label="Код" />
+								<listheader label="Име" />
+							</listhead>
+                				<template name="model">
+                					<listitem>
+                						<listcell label="@load(each.code)"></listcell>
+                						<listcell label="@load(each.name)"></listcell>
+                					</listitem>
+                				</template>
+                		</listbox>
+                		<vlayout style="text-align: center;  background-color: #D2E3EE;"> <label sclass="icon icon-add" tooltiptext="${labels.add }" onClick="@command('add', parent = each.key)" /> </vlayout>
+                		</listcell>
+                	</listitem>
+                		
+                	</template>
+                </listbox>
+            </tabpanel>
+            <tabpanel viewModel="@id('vm') @init('bg.infosys.daeu.web.vm.nomenclatures.EBKCodesVM')">
+               <listbox sclass="display_listbox" model="@load(vm.ebkCodes)">
+					<listhead>
+						<listheader hflex="min" label="${labels.code }" />
+						<listheader label="${labels.description }" />
+					</listhead>
+				
+					<template name="model">
+						<listitem>
+							<listcell label="@load(each.code)"></listcell>
+							<listcell label="@load(each.description)"></listcell>
+						</listitem>
+					</template>
+				</listbox>
+				<vlayout style="text-align: center; background-color: #D2E3EE;"> <label sclass="icon icon-add" tooltiptext="${labels.add }" onClick="@command('add')" /> </vlayout>
+            </tabpanel>
+             <tabpanel>
+               <listbox sclass="display_listbox">
+					<listhead>
+						<listheader label="${labels.description }" />
+						<listheader hflex="min" label="${labels.date }" />
+					</listhead>
+				
+					<listitem>
+						<listcell> <label value="da"/> </listcell>
+						<listcell> 
+							<datebox lenient="true" buttonVisible="true"/> 
+						</listcell>
+					</listitem>
+					<listitem>
+						<listcell> <label value="da"/> </listcell>
+						<listcell> 
+							<datebox lenient="true" buttonVisible="true"/> 
+						</listcell>
+					</listitem>
+				</listbox>
+            </tabpanel>
+        </tabpanels>
+    </tabbox>

@@ -1,0 +1,55 @@
+package bg.infosys.daeu.web.vm;
+
+import org.zkoss.bind.annotation.AfterCompose;
+import org.zkoss.bind.annotation.BindingParam;
+import org.zkoss.bind.annotation.Command;
+import org.zkoss.bind.annotation.ContextParam;
+import org.zkoss.bind.annotation.ContextType;
+import org.zkoss.bind.annotation.NotifyChange;
+import org.zkoss.util.resource.Labels;
+import org.zkoss.zk.ui.Component;
+import org.zkoss.zk.ui.Executions;
+import org.zkoss.zk.ui.select.Selectors;
+import org.zkoss.zk.ui.select.annotation.Wire;
+
+import bg.infosys.common.web.utils.ZulLocator;
+
+public class IndexVM {
+	@Wire("#centerContent")
+	private Component centerContent;
+	
+	private String lastZul;
+	
+//	@Init
+//	public void init() {
+//	}
+	
+	@AfterCompose
+	public void afterCompose(@ContextParam(ContextType.VIEW) Component view) {
+		Selectors.wireComponents(view, this, false);
+	}
+	
+	@Command
+	@NotifyChange("mapVisible")
+	public void changeContent(@BindingParam("zulName") String zulName) {
+		if (lastZul != null && lastZul.equals(zulName)) {
+			// If the same page is clicked, skip reloading...
+			return;
+		}
+		lastZul = zulName;
+		detachCenterContent();
+		Executions.createComponents(ZulLocator.zulLocationByName(zulName), centerContent, null);
+	}
+	
+	@Command
+	public void reloadLabels() {
+		Labels.reset();
+	}
+	
+	private void detachCenterContent() {
+		if (centerContent != null) {
+			centerContent.getChildren().clear();
+		}
+	}
+	
+}

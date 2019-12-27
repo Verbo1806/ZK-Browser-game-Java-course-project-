@@ -1,0 +1,6 @@
+<vlayout viewModel="@id('vm') @init('bg.infosys.daeu.web.vm.usefulInfo.UsefulInfoVM')" vflex="1">
+
+	<div>
+		<label value="test"
+	</div>
+</vlayout>

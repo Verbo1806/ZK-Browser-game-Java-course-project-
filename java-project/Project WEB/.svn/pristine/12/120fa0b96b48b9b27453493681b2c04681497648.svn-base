@@ -1,0 +1,70 @@
+package bg.infosys.daeu.web.vm.nomenclatures;
+
+import java.util.Map;
+
+import org.zkoss.bind.annotation.AfterCompose;
+import org.zkoss.bind.annotation.Command;
+import org.zkoss.bind.annotation.ContextParam;
+import org.zkoss.bind.annotation.ContextType;
+import org.zkoss.bind.annotation.Init;
+import org.zkoss.zk.ui.Component;
+import org.zkoss.zk.ui.Executions;
+import org.zkoss.zk.ui.select.Selectors;
+import org.zkoss.zk.ui.select.annotation.VariableResolver;
+import org.zkoss.zk.ui.select.annotation.Wire;
+import org.zkoss.zk.ui.select.annotation.WireVariable;
+import org.zkoss.zkplus.spring.DelegatingVariableResolver;
+import org.zkoss.zul.Window;
+
+import bg.infosys.common.web.interfaces.Refreshable;
+import bg.infosys.daeu.db.entity.pub.EBKCode;
+import bg.infosys.daeu.web.service.NomenclaturesService;
+
+@VariableResolver(DelegatingVariableResolver.class)
+public class AddEditEBKCodeVM {
+	@Wire 
+	private Window addEditEBKCodeDlg;
+	
+	private Refreshable<EBKCode> parent;
+	
+	@WireVariable
+	private NomenclaturesService nomenclaturesService;
+	
+	private EBKCode ebkCode = new EBKCode();
+	
+	@SuppressWarnings("unchecked")
+	@Init
+	public void init() {
+		Map<String, Object> args = (Map<String, Object>) Executions.getCurrent().getArg();
+		
+		parent = (Refreshable<EBKCode>) args.get(Refreshable.PARENT_VM);
+	}
+	
+	@AfterCompose
+	public void afterCompose(@ContextParam(ContextType.VIEW) Component view) {
+		Selectors.wireComponents(view, this, false);
+	}
+	
+	@Command
+	public void save() {
+		ebkCode.setValid("Y");
+		nomenclaturesService.saveEBKCode(ebkCode);
+		
+		parent.refresh(ebkCode);
+		
+		addEditEBKCodeDlg.detach();
+	}
+	
+	@Command
+	public void cancel() {
+		addEditEBKCodeDlg.detach();
+	}
+
+	public EBKCode getEbkCode() {
+		return ebkCode;
+	}
+
+	public void setEbkCode(EBKCode ebkCode) {
+		this.ebkCode = ebkCode;
+	}
+}

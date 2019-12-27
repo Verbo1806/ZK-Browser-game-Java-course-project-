@@ -1,0 +1,26 @@
+<vlayout viewModel="@id('vm') @init('bg.verbo.project.web.vm.arenas.ArenasVM')" vflex="1" hflex="1">
+
+<grid model="@load(vm.arenas)" vflex="1" hflex="1">
+	<columns>
+		<column hflex="1" />
+		<column label="${labels.name }" hflex="4" />
+		<column label="${labels.description }" hflex="4" />
+	</columns>
+	<rows>
+		<template name="model">
+			<row>
+				<cell>
+					<image src="/UI/icons/no-image.jpg" height="50pt" width="50pt" />			
+				</cell>
+				<cell>
+					<label value="@load(each.name)"/>			
+				</cell>
+				<cell>
+					<label value="@load(each.description)"/>			
+				</cell>
+			</row>
+		</template>
+	</rows>
+</grid>
+
+</vlayout>

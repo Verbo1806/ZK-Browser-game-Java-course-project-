@@ -1,0 +1,105 @@
+package bg.infosys.daeu.db.dao.projects;
+
+import static bg.infosys.daeu.db.entity.projects.Project._projectVersion;
+import static bg.infosys.daeu.db.entity.projects.Project._status;
+import static bg.infosys.daeu.db.entity.projects.Project._subjectVersion;
+import static bg.infosys.daeu.db.entity.projects.ProjectVersion._dateCreated;
+import static bg.infosys.daeu.db.entity.projects.ProjectVersion._outgoingNum;
+import static bg.infosys.daeu.db.entity.projects.ProjectVersion._type;
+import static bg.infosys.daeu.db.entity.pub.SubjectVersion._fullName;
+
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
+
+import org.springframework.stereotype.Repository;
+
+import bg.infosys.common.db.dao.GenericDaoImpl;
+import bg.infosys.common.db.dao.aux.ListModelFilter;
+import bg.infosys.common.utils.Strings;
+import bg.infosys.daeu.db.entity.projects.Project;
+import bg.infosys.daeu.db.entity.projects.ProjectVersion;
+import bg.infosys.daeu.db.entity.pub.Status;
+
+@Repository
+public class ProjectVersionDAO extends GenericDaoImpl<ProjectVersion, Integer> {
+
+	public List<Project> findByProperties(String type, String name, String outgoingNumber, 
+			Status status, Date startPeriod, Date endPeriod, ListModelFilter filter) {
+		CriteriaBuilder builder = criteriaBuilder();
+		CriteriaQuery<Project> criteria = builder.createQuery(Project.class);
+		Root<Project> root = criteria.from(Project.class);
+		
+		List<Predicate> predicates = new ArrayList<>();
+		if (!Strings.isEmpty(type)) {
+			predicates.add(builder.equal(root.get(_projectVersion).get(_type), type));
+		}
+		
+		if (!Strings.isEmpty(name)) {
+			predicates.add(builder.like(builder.lower(root.get(_subjectVersion).get(_fullName)), "%" + name.toLowerCase() + "%"));
+		}
+		
+		if (!Strings.isEmpty(outgoingNumber)) {
+			predicates.add(builder.like(root.get(_projectVersion).get(_outgoingNum), "%" + outgoingNumber + "%"));
+		}
+		
+		if (status != null) {
+			predicates.add(builder.equal(root.get(_status), status));
+		}
+
+		if (startPeriod != null) {
+			predicates.add(builder.greaterThanOrEqualTo(root.get(_projectVersion).get(_dateCreated), startPeriod));
+		}
+		
+		if (endPeriod != null) {
+			predicates.add(builder.lessThanOrEqualTo(root.get(_projectVersion).get(_dateCreated), endPeriod));
+		}
+		
+		criteria.where(builder.and(predicates.toArray(new Predicate[predicates.size()])));
+		
+		return createQuery(criteria).setFirstResult(filter.getFrom()).setMaxResults(filter.getLimit()).getResultList();
+	}
+
+	public long countByProperties(String type, String name, String outgoingNumber, Status status, Date startPeriod,
+			Date endPeriod) {
+		CriteriaBuilder builder = criteriaBuilder();
+		CriteriaQuery<Long> criteria = builder.createQuery(Long.class);
+		Root<Project> root = criteria.from(Project.class);
+		
+		criteria.select(builder.count(root));
+		
+		List<Predicate> predicates = new ArrayList<>();
+		if (!Strings.isEmpty(type)) {
+			predicates.add(builder.equal(root.get(_projectVersion).get(_type), type));
+		}
+		
+		if (!Strings.isEmpty(name)) {
+			predicates.add(builder.like(builder.lower(root.get(_subjectVersion).get(_fullName)), "%" + name.toLowerCase() + "%"));
+		}
+		
+		if (!Strings.isEmpty(outgoingNumber)) {
+			predicates.add(builder.like(root.get(_projectVersion).get(_outgoingNum), "%" + outgoingNumber + "%"));
+		}
+		
+		if (status != null) {
+			predicates.add(builder.equal(root.get(_status), status));
+		}
+
+		if (startPeriod != null) {
+			predicates.add(builder.greaterThanOrEqualTo(root.get(_projectVersion).get(_dateCreated), startPeriod));
+		}
+		
+		if (endPeriod != null) {
+			predicates.add(builder.lessThanOrEqualTo(root.get(_projectVersion).get(_dateCreated), endPeriod));
+		}
+		
+		criteria.where(builder.and(predicates.toArray(new Predicate[predicates.size()])));
+		
+		return createQuery(criteria).getSingleResult();
+	}
+}

@@ -1,0 +1,27 @@
+package bg.infosys.daeu.db.entity.pub;
+
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
+
+@Entity
+@Table(name = "mail_logs")
+public class MailLog {
+	
+	@Id
+	@SequenceGenerator(name = "mail_logs_seq", sequenceName = "mail_logs_id_seq", allocationSize = 1)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "mail_logs_seq")
+	private int id;
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+	
+}

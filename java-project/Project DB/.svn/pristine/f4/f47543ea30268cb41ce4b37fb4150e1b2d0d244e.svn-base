@@ -1,0 +1,60 @@
+package bg.infosys.daeu.db.entity.pub;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
+
+@Entity
+@Table(name = "checklist_values")
+public class ChecklistValue {
+	
+	@Id
+	@SequenceGenerator(name = "checklist_values_seq", sequenceName = "checklist_values_id_seq", allocationSize= 1)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "checklist_values_seq")
+	private int id;
+	
+	@ManyToOne(fetch = FetchType.LAZY, optional = false)
+	@JoinColumn(name = "checklist_config_id")
+	private ChecklistConfig config;
+	
+	@ManyToOne(fetch = FetchType.LAZY, optional = false)
+	@JoinColumn(name = "checklist_id")
+	private Checklist checklist;
+	
+	@Column(name = _value)
+	private String value;
+	public static final String _value = "value";
+	
+	public int getId() {
+		return id;
+	}
+	public void setId(int id) {
+		this.id = id;
+	}
+	public ChecklistConfig getConfig() {
+		return config;
+	}
+	public void setConfig(ChecklistConfig config) {
+		this.config = config;
+	}
+	public Checklist getChecklist() {
+		return checklist;
+	}
+	public void setChecklist(Checklist checklist) {
+		this.checklist = checklist;
+	}
+	public String getValue() {
+		return value;
+	}
+	public void setValue(String value) {
+		this.value = value;
+	}
+	
+}

@@ -1,0 +1,44 @@
+<?import bg.verbo.project.web.utils.ZulUtil?>
+<vlayout viewModel="@id('vm') @init('bg.verbo.project.web.vm.team.TeamVM')">
+
+	<div style="text-align: center;">
+		<label value="${labels.name }:" style="font-size: 25pt;" />
+		<separator orient="vertical"/>
+		<label value="@load(vm.team.name)" style="font-size: 25pt;" />
+	</div>
+	<div style="text-align: center;">
+		<label value="${labels.points }:" style="font-size: 25pt;" />
+		<separator orient="vertical"/>
+		<label value="@load(vm.team.points)" style="font-size: 25pt;" />
+	</div>
+	<div style="text-align: center;">
+		<label value="${labels.funds }:" style="font-size: 25pt;" />
+		<separator orient="vertical"/>
+		<label value="@load(vm.team.funds)" style="font-size: 25pt;" />
+	</div>
+	
+	<grid model="@load(vm.team.players)" hflex="1" vflex="1">
+		<columns>
+			<column label="${labels.name }" hflex="7" />
+			<column label="${labels.type }" hflex="1" />
+			<column label="" hflex="1" />
+		</columns>
+		<rows>
+			<template name="model">
+				<row>
+					<cell>
+						<label value="@load(each.name)"/>
+					</cell>
+					<cell>
+						<label sclass="@load(ZulUtil.getPlayerType(each.type.code))"
+							tooltiptext="@load(ZulUtil.getPlayerTooltiptext(each.type.code))" />
+					</cell>
+					<cell>
+						<label sclass="icon icon-remove" onClick="@command('removePlayer', player=each)" />
+					</cell>
+				</row>
+			</template>
+		</rows>
+	</grid>
+
+</vlayout>

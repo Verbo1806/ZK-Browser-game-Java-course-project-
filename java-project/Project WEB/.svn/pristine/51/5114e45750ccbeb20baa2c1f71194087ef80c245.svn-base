@@ -1,0 +1,60 @@
+<vlayout sclass="centered_vlayout main_container profile" style="text-align: center;" vflex="1" viewModel="@id('vm') @init('bg.infosys.daeu.web.vm.profile.ProfileVM')">
+	<vlayout sclass="display_vlayout" style="border: 1pt solid green; padding-top: 0pt;">
+		<div width="75%" height="6pt" style="background-color: green;" sclass="custom_component_color" />
+		<div style="padding: 30pt 0pt;">
+			<label value="ХС" sclass="profile_name noselect" />
+		</div>
+		<label value="Христо Стоянов" style="font-size: 15pt; font-weight: bold;" />
+		<div style="display: inline-block;">
+			<label sclass="icon icon-marker" />
+			<label value="1600 Министерство на сексапила" style="font-size: 11pt; font-style: italic;" />
+		</div>
+	</vlayout>
+	
+	<div sclass="table_div">
+		<grid sclass="display_grid" hflex="1">
+			<columns>
+				<column hflex="min" />
+				<column />
+				<column hflex="min" />
+				<column />
+				<column hflex="min" />
+			</columns>
+			<rows>
+				<row>
+					<cell><label sclass="icon icon-user" /></cell>
+					<cell colspan="3">
+						<label value="${labels.username }" style="display: block;" />
+						<textbox value="samokaliakra" placeholder="${labels.placeholder.enterUsername }" disabled="true" style="width: 100%;" />
+					</cell>
+				</row>
+				<row>
+					<cell><label sclass="icon icon-message" /></cell>
+					<cell colspan="3">
+						<label value="${labels.email }" style="display: block;" />
+						<textbox placeholder="${labels.placeholder.enterEmail }" style="width: 100%;" />
+					</cell>
+				</row>
+				<row>
+					<cell><label sclass="icon icon-phone" /></cell>
+					<cell colspan="3">
+						<label value="${labels.phoneNumber }" style="display: block;" />
+						<textbox placeholder="${labels.placeholder.enterPhoneNumber }" style="width: 100%;" />
+					</cell>
+				</row>
+				<row>
+					<cell><label sclass="icon icon-lock" /></cell>
+					<cell colspan="3">
+						<label value="${labels.password }" style="display: block;" />
+						<textbox type="password" placeholder="${labels.placeholder.enterPassword }" disabled="true" style="width: 100%;" />
+						<cell><label sclass="icon icon-edit" tooltiptext="${labels.changePassword }" onClick="@command('changePassword')" /></cell>
+					</cell>
+				</row>
+				<row>
+					<cell colspan="3"></cell>
+					<cell align="right"><button label="${labels.save }" sclass="button_standard" /></cell>
+				</row>
+			</rows>
+		</grid>
+	</div>
+</vlayout>

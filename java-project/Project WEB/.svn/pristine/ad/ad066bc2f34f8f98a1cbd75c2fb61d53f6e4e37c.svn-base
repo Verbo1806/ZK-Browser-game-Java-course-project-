@@ -1,0 +1,67 @@
+<vlayout viewModel="@id('vm') @init('bg.infosys.daeu.web.vm.projects.ProjectsVM')" width="50%" sclass="centered_vlayout menu_background_color">
+	<label value="Предложение за проект/дейност" />
+	<label value="@load(vm.page)" />
+
+<listbox sclass="search_listbox menu_background_color" model="@load(vm.forms)" vflex="1" hflex="1">
+		<listhead>
+			<listheader />
+			<listheader />
+		</listhead>
+		
+		<template name="model">
+			<listitem>
+				<listcell hflex="min">
+					<label value="@load(each.rowLabel)" style="display: block;"/>
+					<label if="${each.rowType.componentType.code eq 'LBL'}" value="@load(each.orderNum)" />
+					<textbox if="${each.rowType.componentType.code eq 'TXT'}" value="@bind(each.orderNum)" style="width: 100%;" rows="5" placeholder="@load(each.placeholder)" />
+					<combobox if="${each.rowType.componentType.code eq 'COMBO'}">
+	                    <template name="model">
+	                        <comboitem label="@load(each)" image="@load(vm.getIconImage(each))" />
+	                    </template>
+	                </combobox>
+	                
+				</listcell>
+			</listitem>
+		</template>
+			
+	</listbox>
+	
+	<!-- Step 4 -->
+	<vlayout visible="@load(vm.page eq 4)">
+		<label value="Прикачване на документи" />
+		<button label="Избери файл" sclass="button_standard" onClick="" onUpload="@command('upload', event=event)" upload="true, accept=.docx"/>
+		<label value="Приложени документи" />
+		<listbox sclass="search_listbox">
+			<listhead>
+				<listheader />
+				<listheader hflex="min" />
+				<listheader hflex="min" />
+			</listhead>
+		
+			<listitem>
+				<listcell> <label value="Документи1_39485_920"/> </listcell>
+				<listcell> <label value="3 MB"/> </listcell>
+				<listcell> <label sclass="icon icon-delete"/> </listcell>
+			</listitem>
+			<listitem>
+				<listcell> <label value="Приложение_1_8400_430"/> </listcell>
+				<listcell> <label value="1 MB"/> </listcell>
+				<listcell> <label sclass="icon icon-delete"/> </listcell>
+			</listitem>
+			<listitem>
+				<listcell> <label value="Проектно предложение 3"/> </listcell>
+				<listcell> <label value="731 b"/> </listcell>
+				<listcell> <label sclass="icon icon-delete"/> </listcell>
+			</listitem>
+		</listbox>
+	</vlayout>
+
+	<!-- Step 5 -->
+	
+	<!-- Navigation -->
+	
+	<hlayout>
+		<button label="Отказ" sclass="button_distinct no_border_radius bold" onClick="@command('changePage', command='previous')" />
+		<button label="Продължи" sclass="button_standard no_border_radius bold" onClick="@command('changePage', command='next')" />
+	</hlayout>
+</vlayout>

@@ -1,0 +1,32 @@
+package bg.infosys.daeu.db.dao.tech_specs;
+
+import static bg.infosys.daeu.db.entity.projects.ProjectFormConfig._formType;
+import static bg.infosys.daeu.db.entity.projects.ProjectFormConfig._orderNum;
+import static bg.infosys.daeu.db.entity.projects.ProjectFormConfig._isValid;
+
+import java.util.List;
+
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
+
+import org.springframework.stereotype.Repository;
+
+import bg.infosys.common.db.dao.GenericDaoImpl;
+import bg.infosys.daeu.db.entity.pub.FormType;
+import bg.infosys.daeu.db.entity.tech_specs.TechSpecsFormConfig;
+
+@Repository
+public class TechSpecsFormConfigDAO extends GenericDaoImpl<TechSpecsFormConfig, Integer> {
+	public List<TechSpecsFormConfig> findAllByFormType(FormType type) {
+		CriteriaBuilder builder = criteriaBuilder();
+		CriteriaQuery<TechSpecsFormConfig> criteria = builder.createQuery(TechSpecsFormConfig.class);
+		Root<TechSpecsFormConfig> root = criteria.from(TechSpecsFormConfig.class);
+		
+		criteria.where(builder.equal(root.get(_formType), type));
+		criteria.where(builder.equal(root.get(_isValid), "Y"));
+		criteria.orderBy(builder.asc(root.get(_orderNum)));
+		
+		return createQuery(criteria).getResultList();
+	}
+}

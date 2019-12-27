@@ -1,0 +1,245 @@
+<vlayout viewModel="@id('vm') @init('bg.infosys.daeu.web.vm.projects.ProjectsVM')" 
+	sclass="centered_vlayout main_container" style="justify-content: start; overflow: auto;" vflex="1">
+	<label value="${labels.project.header }" style="font-size: 24pt;" />
+	<label value="@load(vm.page)" />
+	
+	<hlayout style="background-color: lightgray; padding: 20pt;" visible="@load(vm.page eq 5)" width="800pt;">
+		<hbox hflex="7">
+			<label value="${labels.project.exportHeader }" style="font-size: 18pt;" />
+		</hbox>
+		<hbox hflex="3" pack="end">
+			<button label="${labels.export }" sclass="button_distinct no_border_radius bold" onClick="" />
+		</hbox>
+	</hlayout>
+	<div id="commands" visible="false"></div>
+	
+	<vlayout sclass="menu_background_color" style="padding: 30pt;" width="800pt;">
+	
+		<!-- Step 1 -->
+		<vlayout visible="@load(vm.page eq 1)">
+			<hbox hflex="1">
+				<vbox hflex="6">
+					<label value="${labels.subject }" sclass="header_text" />
+					<label value="АО Министерство на образованието и науката " />
+					<label value="BG15154589" />
+					<label value="Представлявано от Димитър Павлов" />
+				</vbox>
+				<vbox hflex="4">
+					<label value="${labels.correspondence }" sclass="header_text" />
+					<label value="info@mon.bg" />
+					<label value="Лиляна Симеонова" />
+					<label value="0897 65 54 52" />
+				</vbox>
+			</hbox>
+			
+			<separator />
+			<label value="${labels.project.financingType }" />
+			<div children="@load(vm.funding) @template('funding')">
+				<template name="funding">
+					<button label="@load(each.name)" sclass="@load(vm.fundingId ne each.id ? 'button_group' : 'button_group_selected')"
+						onClick="@command('chooseFunding', funding=each)" />
+				</template>
+			</div>
+			<textbox width="75%" visible="@load(vm.fundingId eq 3)" value="@bind(vm.project.projectVersion.fundingDescription)" />
+			
+			<separator />
+			<label value="${labels.project.indicativeBudget }" sclass="header_text" />
+			<separator />
+			<listbox sclass="display_listbox" width="90%" model="@load(vm.project.projectVersion.projectBudget)">
+				<listhead>
+					<listheader hflex="7" />
+					<listheader hflex="3" />
+				</listhead>
+				<template name="model">
+					<listitem>
+						<listcell sclass="important_listcell"> <label value="@load(each.projectBudgetType.name)" /> </listcell>
+						<listcell> 
+							<doublebox style="border-style: none;" placeholder="${labels.enterSum }" value="@bind(each.value)"/>
+						</listcell>
+					</listitem>
+				</template>
+			</listbox>
+			<separator />
+			<label sclass="bold" value="${labels.project.inBudgetLbl }" />
+			<radiogroup selectedItem="@bind(vm.project.projectVersion.inBudget)">
+	            <radio label="${labels.yes }" value="Y" />
+	            <radio label="${labels.no }" value="N" />
+	            <radio label="${labels.notApplicable }" value="NA" />
+	        </radiogroup>
+		</vlayout>
+		
+		<!-- Steps 2 & 3 -->
+		<div visible="@load(vm.page eq 2 || vm.page eq 3)" style="padding-bottom: 15pt;">
+			<label value="@load(vm.page eq 2 ? labels.project.headerStep2 : labels.project.headerStep3)" sclass="header_text" />
+		</div>
+	
+		<!-- Step 2 -->
+		<div visible="@load(vm.page eq 2)">
+			<listbox model="@load(vm.project.projectVersion.projectMainData.mainDataValues)" sclass="form_listbox">
+				<listhead>
+					<listheader />
+				</listhead>
+				<template name="model">
+					<listitem>
+						<listcell style="padding-bottom: 20pt;">
+							<label value="@load(each.projectFormConfig.rowLabel)" style="display: block;" sclass="bold" />
+							<textbox if="${each.projectFormConfig.rowType.componentType.code eq 'TXT'}" value="@bind(each.value)" style="width: 100%;" 
+								rows="5" placeholder="@load(each.projectFormConfig.placeholder)" />
+							<combobox if="${each.projectFormConfig.rowType.componentType.code eq 'COMBO'}" model="@load(vm.model(each.projectFormConfig.rowType.code))"
+								selectedItem="@bind(each.value)">
+			                    <template name="model" var="item">
+			                        <comboitem label="@load(item)" value="@load(each.value)" />
+			                    </template>
+			                </combobox>
+			                <radiogroup selectedItem="@bind(each.value)" 
+			                	if="${each.projectFormConfig.rowType.componentType.code eq 'YN' or each.projectFormConfig.rowType.componentType.code eq 'YNNA'}">
+					            <radio label="${labels.yes }" value="Y" />
+					            <radio label="${labels.no }" value="N" />
+					            <radio label="${labels.notApplicable }" value="NA" if="${each.projectFormConfig.rowType.componentType.code eq 'YNNA'}" />
+					        </radiogroup>
+					        <intbox if="${each.projectFormConfig.rowType.componentType.code eq 'NUM'}" value="@bind(each.value)" 
+					        	placeholder="@load(each.projectFormConfig.placeholder)" />
+						</listcell>
+					</listitem>
+				</template>
+			</listbox>
+		</div>
+		
+		<!-- Step 3 -->
+		<div visible="@load(vm.page eq 3)" children="@load(vm.project.projectVersion.projectMainData.executionDatas) @template('step3')">
+			<template name="step3">
+				<listbox model="@load(each.executionValues)" sclass="form_listbox">
+					<listhead>
+						<listheader />
+					</listhead>
+					<template name="model">
+						<listitem>
+							<listcell style="padding-bottom: 20pt;">
+								<label value="@load(each.projectFormConfig.rowLabel)" style="display: block;" sclass="bold" />
+								<textbox if="${each.projectFormConfig.rowType.componentType.code eq 'TXT'}" value="@bind(each.value)" style="width: 100%;" 
+									rows="5" placeholder="@load(each.projectFormConfig.placeholder)" />
+								<combobox if="${each.projectFormConfig.rowType.componentType.code eq 'COMBO'}" model="@load(vm.model(each.projectFormConfig.rowType.code))"
+									selectedItem="@bind(each.value)">
+				                    <template name="model" var="item">
+				                        <comboitem label="@load(item)" value="@bind(each.value)" />
+				                    </template>
+				                </combobox>
+				               <radiogroup selectedItem="@bind(each.value)" 
+				               		if="${each.projectFormConfig.rowType.componentType.code eq 'YN' or each.projectFormConfig.rowType.componentType.code eq 'YNNA'}">
+					           		<radio label="${labels.yes }" value="Y" />
+					            	<radio label="${labels.no }" value="N" />
+					            	<radio label="${labels.notApplicable }" value="NA" if="${each.projectFormConfig.rowType.componentType.code eq 'YNNA'}" />
+					       		</radiogroup>
+						        <intbox if="${each.projectFormConfig.rowType.componentType.code eq 'NUM'}" value="@bind(each.value)" 
+						        	placeholder="@load(each.projectFormConfig.placeholder)" />
+							</listcell>
+						</listitem>
+					</template>
+				</listbox>
+			
+	 			<vlayout xmlns:h="native">
+					<label value="${labels.attachDocument }" sclass="header_text" />
+					<h:div ondrop="drop(event)" ondragover="allowDrop(event)">
+						<vlayout sclass="drop-file">
+							<image src="UI/icons/cloud.png"  />
+							<label value="${labels.dragAndDrop }" />
+							<button label="${labels.chooseFile }" sclass="button_standard" onUpload="@command('uploadFile', event=event, obj=each)" upload="true" />
+						</vlayout>
+					</h:div>
+				</vlayout>
+				<vlayout style="margin-top: 20pt;">
+					<label value="${labels.appliedDocuments }" sclass="header_text" />
+					<listbox model="@load(vm.getAttachedDocs(each, 3))" sclass="search_listbox" style="padding: 0pt;">
+						<listhead>
+							<listheader />
+							<listheader hflex="min" />
+							<listheader hflex="min" />
+						</listhead>
+					
+						<template name="model">
+							<listitem>
+								<listcell> <label value="@load(each.fileName)"/> </listcell>
+								<listcell> <label value="@load(each.size)"/> </listcell>
+								<listcell> <label sclass="icon icon-delete" onClick="@command('deleteFile', file=each)" /> </listcell>
+							</listitem>
+						</template>
+					</listbox>
+				</vlayout>
+			</template>
+		</div>
+		<div visible="@load(vm.page eq 3)" style="text-align: center;">
+			<label sclass="icon icon-add" onClick="@command('addExecutionData')" tooltiptext="${labels.add }"/>
+		</div>
+		
+		<!-- Step 4 -->
+		<vlayout visible="@load(vm.page eq 4)" xmlns:h="native">
+ 			<vlayout>
+				<label value="${labels.attachDocument }" sclass="header_text" />
+				<h:div ondrop="drop(event)" ondragover="allowDrop(event)">
+					<vlayout sclass="drop-file">
+						<image src="UI/icons/cloud.png"  />
+						<label value="${labels.dragAndDrop }" />
+						<button label="${labels.chooseFile }" sclass="button_standard" onUpload="@command('uploadFile', event=event)" upload="true" />
+					</vlayout>
+				</h:div>
+			</vlayout>
+			<vlayout style="margin-top: 20pt;">
+				<label value="${labels.appliedDocuments }" sclass="header_text" />
+				<listbox model="@load(vm.getAttachedDocs(null, 4))" sclass="search_listbox" style="padding: 0pt;">
+					<listhead>
+						<listheader />
+						<listheader hflex="min" />
+						<listheader hflex="min" />
+					</listhead>
+				
+					<template name="model">
+						<listitem>
+							<listcell> <label value="@load(each.fileName)"/> </listcell>
+							<listcell> <label value="@load(each.size)"/> </listcell>
+							<listcell> <label sclass="icon icon-delete" onClick="@command('deleteFile', file=each)" /> </listcell>
+						</listitem>
+					</template>
+				</listbox>
+			</vlayout>
+		</vlayout>
+	
+		<!-- Step 5 -->
+		<grid visible="@load(vm.page eq 5)" style="border: none;">
+			<columns>
+				<column hflex="1" />
+				<column hflex="9" />
+			</columns>
+			<rows>
+				<row>
+					<cell>
+						<label sclass="icon icon-document" style="font-size: 50pt; color: black;" />
+					</cell>
+					<cell>
+						<label value="${labels.project.successfulForm }" style="font-size: 18pt;" />
+						<div width="100%" style="padding-top: 10pt;">
+							<hbox hflex="5" style="display: inline-block;">
+								<textbox value="@bind(vm.project.projectVersion.outgoingNum)" />
+							</hbox>
+							<hbox hflex="5" style="display: inline-block;">
+								<label value="${labels.signWithESign }" sclass="label_button cursor_pointer" visible="@load(vm.page eq 5)" hflex="5" />
+							</hbox>
+						</div>
+					</cell>
+				</row>
+			</rows>
+		</grid>
+			
+		<!-- Navigation -->
+		<hlayout style="margin-top: 20pt;">
+			<hbox hflex="3">
+				<button label="${labels.back }" sclass="button_distinct no_border_radius bold" onClick="@command('changePage', command='previous')" />
+			</hbox>
+			<hbox pack="end" hflex="7">
+				<button label="${labels.save }" sclass="button_distinct no_border_radius bold" onClick="" visible="@load(vm.page ne 5)" />
+				<button label="${labels.next }" sclass="button_standard no_border_radius bold" onClick="@command('changePage', command='next')" visible="@load(vm.page ne 5)" />
+				<button label="${labels.send }" sclass="button_standard no_border_radius bold" onClick="@command('sendProject')" visible="@load(vm.page eq 5)" />
+			</hbox>
+		</hlayout>
+	</vlayout>
+</vlayout>
+

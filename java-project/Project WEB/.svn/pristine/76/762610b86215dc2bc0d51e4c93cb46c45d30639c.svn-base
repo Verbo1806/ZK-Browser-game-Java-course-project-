@@ -1,0 +1,23 @@
+package bg.infosys.daeu.web.enums;
+
+public enum TripleChoise {
+	
+	YES("Y", "Да"),
+	NO("N", "Не"),
+	NA("NA", "Не е приложимо");
+	
+	private final String value;
+	private final String label;
+	
+	TripleChoise(String value, String label) {
+        this.value = value;
+        this.label = label;
+    }
+	
+	public String getLabel() {
+		return label;
+	}
+	public String getValue() {
+		return value;
+	}
+}

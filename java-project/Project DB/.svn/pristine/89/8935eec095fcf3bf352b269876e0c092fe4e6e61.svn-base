@@ -1,0 +1,61 @@
+package bg.infosys.daeu.db.entity.pub;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
+
+@Entity
+@Table(name = "n_mail_templates")
+public class MailTemplate {
+
+	@Id
+	@SequenceGenerator(name = "mail_templates_seq", sequenceName = "n_mail_templates_id_seq", allocationSize = 1)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "mail_templates_seq")
+	private int id;
+	
+	@Column(name = "mail_text")
+	private String text;
+	public static final String _text = "text";
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "mail_type_id")
+	private MailType type;
+	public static final String _type = "type";
+	
+	@Column(name = "is_valid")
+	private String isValid;
+	public static final String _isValid = "isValid";
+	
+	public int getId() {
+		return id;
+	}
+	public void setId(int id) {
+		this.id = id;
+	}
+	public String getText() {
+		return text;
+	}
+	public void setText(String text) {
+		this.text = text;
+	}
+	public MailType getType() {
+		return type;
+	}
+	public void setType(MailType type) {
+		this.type = type;
+	}
+	public String isValid() {
+		return isValid;
+	}
+	public void setValid(String isValid) {
+		this.isValid = isValid;
+	}
+	
+}

@@ -1,0 +1,56 @@
+package bg.infosys.daeu.web.vm.budget;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
+import org.zkoss.bind.annotation.Command;
+import org.zkoss.bind.annotation.Init;
+import org.zkoss.zk.ui.Executions;
+import org.zkoss.zk.ui.select.annotation.VariableResolver;
+import org.zkoss.zk.ui.select.annotation.WireVariable;
+import org.zkoss.zkplus.spring.DelegatingVariableResolver;
+
+import bg.infosys.daeu.db.entity.pub.Checklist;
+import bg.infosys.daeu.db.entity.pub.ChecklistConfig;
+import bg.infosys.daeu.db.entity.pub.ChecklistValue;
+import bg.infosys.daeu.db.entity.pub.FormType;
+import bg.infosys.daeu.db.entity.security.Authority;
+import bg.infosys.daeu.web.service.NomenclaturesService;
+import bg.infosys.daeu.web.vm.checklist.AbstractChecklist;
+
+@VariableResolver(DelegatingVariableResolver.class)
+public class BudgetChecklistVM extends AbstractChecklist {
+	@WireVariable private NomenclaturesService nomenclaturesService;
+	
+	@SuppressWarnings("unchecked")
+	@Init
+	public void init() {
+		Map<String, Object> args = (Map<String, Object>) Executions.getCurrent().getArg();
+		FormType formType = nomenclaturesService.getFormTypeByCode("F1");
+		Checklist obj = (Checklist) args.get("4i4ko trevi4ko");
+
+		List<ChecklistValue> checklistValues;
+		if (obj != null) {
+//			checklistValues = new ArrayList<ChecklistValue>(nomenclaturesService.findAllValuesByChecklist(obj));
+			checklistValues = new ArrayList<ChecklistValue>(nomenclaturesService.findAllChecklistValues());
+			checklistConfig = new ArrayList<ChecklistConfig>();
+			for (ChecklistValue value : checklistValues) {
+				checklistConfig.add(value.getConfig());
+			}
+		} else {
+			checklistConfig = new ArrayList<ChecklistConfig>(nomenclaturesService.findChecklistElementsByFormType(formType));
+			checklistValues = new ArrayList<ChecklistValue>();
+		}
+		expertColumns.add(new Authority());
+		for(ChecklistConfig checkConfig : checklistConfig) {
+			expertColumns.add(checkConfig.getAuthority());
+		}
+		loadForm(checklistConfig, checklistValues);
+	}
+	
+	@Command
+	public void save() {
+		nomenclaturesService.saveChecklistValues(rows);
+	}
+}

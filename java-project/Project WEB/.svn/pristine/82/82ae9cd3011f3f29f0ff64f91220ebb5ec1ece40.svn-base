@@ -1,0 +1,15 @@
+<zk xmlns:w="http://www.zkoss.org/2005/zk/client">
+<menubar>
+	<!--
+	<menuitem label="${labels.monitoring}"		onClick="@command('changeContent', zulName = 'monitoring')"/>
+	<menuitem label="${labels.tracks}" 			onClick="@command('changeContent', zulName = 'routes')"/>
+	<menuitem label="${labels.geofences}"		onClick="@command('changeContent', zulName = 'geofences')"/>
+	<menuitem label="${labels.units}"			onClick="@command('changeContent', zulName = 'units')"/>
+	<menuitem label="${labels.clients}"			onClick="@command('changeContent', zulName = 'clients')"/>
+	<menuitem label="${labels.deviceModels}"	onClick="@command('changeContent', zulName = 'deviceModels')"/>
+	<menuitem label="${labels.mappings}"		onClick="@command('changeContent', zulName = 'parameterMappings')"/> -->
+	
+	<menuitem label="${labels.messages}"		onClick="@command('changeContent', zulName = 'messages')"/>
+	<menuitem label="${labels.reloadLabels}"	onClick="@command('reloadLabels')"/>
+</menubar>
+</zk>

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE xml>
+<zk>
+	<!-- [Optional]
+	Uncomment if you want to defines the application's name 
+	
+	<preference>
+		<name>org.zkoss.zk.ui.WebApp.name</name>
+		<value>smt</value>
+	</preference>
+	-->
+	<system-config>
+		<label-location>/WEB-INF/labels/zk-label_bg_BG.properties</label-location>
+	</system-config>
+	
+</zk>

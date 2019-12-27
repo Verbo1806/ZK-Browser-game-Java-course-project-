@@ -1,0 +1,30 @@
+package bg.infosys.daeu.db.entity.pub;
+
+import java.util.List;
+
+public class ChecklistNDBO {
+
+	private ChecklistElement checklistElement;
+	private List<ChecklistValue> values;
+	
+	public ChecklistNDBO(ChecklistElement checklistElement, List<ChecklistValue> values) {
+		this.checklistElement = checklistElement;
+		this.values = values;
+	}
+	
+	public ChecklistElement getChecklistElement() {
+		return checklistElement;
+	}
+	public void setChecklistElement(ChecklistElement checklistElement) {
+		this.checklistElement = checklistElement;
+	}
+	public List<ChecklistValue> getValues() {
+		return values;
+	}
+	public void setValues(List<ChecklistValue> values) {
+		this.values = values;
+	}
+	
+	
+	
+}

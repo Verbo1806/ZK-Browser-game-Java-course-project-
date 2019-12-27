@@ -1,0 +1,32 @@
+<vlayout viewModel="@id('vm') @init('bg.verbo.project.web.vm.arenas.ArenasVM')">
+
+<grid>
+	<columns>
+		<column hflex="2" />
+		<column hflex="4" />
+		<column hflex="4" />
+	</columns>
+	<rows>
+		<row>
+			<cell>
+				<image src="/UI/icons/ga.jpg" height="100pt" width="100pt" />			
+			</cell>
+			<cell>
+				<label value="Ime"/>			
+			</cell>
+			<cell>
+				<label value="Desc"/>			
+			</cell>
+		</row>
+		<row>
+			<cell>
+				<label value="Ime"/>			
+			</cell>
+			<cell>
+				<label value="Desc"/>			
+			</cell>
+		</row>
+	</rows>
+</grid>
+
+</vlayout>

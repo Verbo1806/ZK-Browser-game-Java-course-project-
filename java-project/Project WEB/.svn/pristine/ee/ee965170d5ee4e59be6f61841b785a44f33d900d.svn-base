@@ -1,0 +1,140 @@
+<vlayout
+	viewModel="@id('vm') @init('bg.infosys.daeu.web.vm.checklist.ChecklistVM')"
+	vflex="1" hflex="1" style="overflow: scroll;">
+	<button sclass="button_distinct no_border_radius bold" label = "${labels.back}"/>
+	
+	
+	<grid model="@load(vm.rows)" sclass="checklist_grid"  height="100%" width="100%" >
+		<columns children="@load(vm.expertColumns) @template('columns')">
+		<template name="columns">
+			<column align="center" label="@load(each.description)" />
+		</template>
+		</columns>
+<!-- 		<rows > -->
+			<template name="model" var="item">
+				<row children="@load(vm.expertColumns) @template(0 eq forEachStatus.index ? 'fixed' : 'variable')">
+					<template name="fixed">
+						<cell>
+							<label value = "@bind(item.checklistElement.description)"/>
+						</cell>
+					</template>
+					<template name="variable">
+						<cell>
+						<radiogroup	model="@load(vm.checksYNNA)">
+ 							<template name="model" var="check">
+ 								<radio value="@load(check.value)"
+ 									label="@load(check.label)" />
+ 							</template>
+						</radiogroup>
+<!-- 							<label value = "@bind(item.checklistElement.description)"/> -->
+						</cell>
+					</template>
+<!-- 					<cell sclass="checklist_cell"> -->
+<!-- 						<label -->
+<!-- 							value="@load(each)" /> -->
+<!-- 					</cell> -->
+<!-- 					<cell align="left"> -->
+<!-- 						<radiogroup if="${item.checklistElement.componentType.code.equals('YNNA')}"  -->
+<!-- 							model="@load(vm.checksYNNA)"> -->
+<!-- 							<template name="model" var="check"> -->
+<!-- 								<radio value="@load(check.value)" -->
+<!-- 									label="@load(check.label)" /> -->
+<!-- 							</template> -->
+<!-- 						</radiogroup> -->
+<!-- 						<radiogroup if="${item.checklistElement.componentType.code.equals('YN')}"  -->
+<!-- 							model="@load(vm.checksYN)"> -->
+<!-- 							<template name="model" var="check"> -->
+<!-- 								<radio value="@load(check.value)" -->
+<!-- 									label="@load(check.label)" /> -->
+<!-- 							</template> -->
+<!-- 						</radiogroup> -->
+<!-- 					</cell> -->
+				</row>
+			</template>
+<!-- 		</rows> -->
+	</grid>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+<!-- 	<grid model="@load(vm.checklistConfig)" sclass="checklist_grid"  height="100%" width="100%" > -->
+<!-- 		<columns children="@load(vm.expertColumns) @template('columns')"> -->
+<!-- 		<template name="columns"> -->
+<!-- 			<column align="center" label="@load(each.description)" /> -->
+<!-- 		</template> -->
+<!-- 		</columns> -->
+<!-- 		<rows> -->
+<!-- 			<template name="model" var="item"> -->
+<!-- 				<row >children="@load(item.values) @template('cell')" -->
+<!-- 					<cell sclass="checklist_cell"> -->
+<!-- 						<label -->
+<!-- 							value="@load(item.checklistElement.description)" /> -->
+<!-- 					</cell> -->
+<!-- 					<cell align="left"> -->
+<!-- 						<radiogroup if="${item.checklistElement.componentType.code.equals('YNNA')}"  -->
+<!-- 							model="@load(vm.checksYNNA)"> -->
+<!-- 							<template name="model" var="check"> -->
+<!-- 								<radio value="@load(check.value)" -->
+<!-- 									label="@load(check.label)" /> -->
+<!-- 							</template> -->
+<!-- 						</radiogroup> -->
+<!-- 						<radiogroup if="${item.checklistElement.componentType.code.equals('YN')}"  -->
+<!-- 							model="@load(vm.checksYN)"> -->
+<!-- 							<template name="model" var="check"> -->
+<!-- 								<radio value="@load(check.value)" -->
+<!-- 									label="@load(check.label)" /> -->
+<!-- 							</template> -->
+<!-- 						</radiogroup> -->
+<!-- 					</cell> -->
+<!-- 					<cell align="left"> -->
+<!-- 						<radiogroup if="${item.checklistElement.componentType.code.equals('YNNA')}"  -->
+<!-- 							model="@load(vm.checksYNNA)"> -->
+<!-- 							<template name="model" var="check"> -->
+<!-- 								<radio value="@load(check.value)" -->
+<!-- 									label="@load(check.label)" /> -->
+<!-- 							</template> -->
+<!-- 						</radiogroup> -->
+<!-- 						<radiogroup if="${item.checklistElement.componentType.code.equals('YN')}"  -->
+<!-- 							model="@load(vm.checksYN)"> -->
+<!-- 							<template name="model" var="check"> -->
+<!-- 								<radio value="@load(check.value)" -->
+<!-- 									label="@load(check.label)" /> -->
+<!-- 							</template> -->
+<!-- 						</radiogroup> -->
+<!-- 					</cell> -->
+<!-- 				</row> -->
+<!-- 			</template> -->
+<!-- 		</rows> -->
+<!-- 	</grid> -->
+	<vlayout>
+		<grid>
+			<rows>
+				<row>
+					<cell align="center">
+						<button sclass="button_distinct no_border_radius bold" label = "${labels.budget.returnVerification}"/>
+					</cell>
+				</row>
+				<row>
+					<cell align="center">
+						<button sclass="button_standard no_border_radius bold" label = "${labels.budget.finalize}"/>
+					</cell>
+				</row>
+			</rows>
+		</grid>
+	</vlayout>
+</vlayout>

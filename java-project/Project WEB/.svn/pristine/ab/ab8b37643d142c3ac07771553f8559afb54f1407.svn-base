@@ -1,0 +1,23 @@
+package bg.infosys.daeu.web.util;
+
+import java.text.DateFormatSymbols;
+import java.util.ArrayList;
+import java.util.List;
+
+import org.zkoss.util.resource.Labels;
+
+public class StringUtil {
+
+	public static List<String> getMonths() {
+		List<String> months = new ArrayList<String>();
+		for (String month : new DateFormatSymbols().getMonths()) {
+			/*There is a field indicating the thirteenth month of the year.
+			GregorianCalendar does not use this value, but lunar calendars do.*/
+			if (month.equals(""))
+				break;
+			months.add(Labels.getLabel(month));
+		}
+		
+		return months;
+	}
+}

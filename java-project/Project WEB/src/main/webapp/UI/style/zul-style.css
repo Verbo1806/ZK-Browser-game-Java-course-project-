@@ -1,0 +1,143 @@
+/* ########## GLOBAL ########## */
+:root {
+  --main-bg-color: lightgray;
+}
+
+.z-center {
+    background-color: var(--main-bg-color);
+}
+
+.z-west {
+    border-right: none !important;
+}
+
+.z-listbox-body {
+    height: 100% !important;
+}
+
+.menu-grid {
+	border: none;
+}
+
+.menu-grid > * span {
+	font-size: 20pt;
+	font-family: fantasy;
+}
+
+.menu-grid > * span:hover {
+	color: #4fb7ff;
+	font-size: 20pt;
+	font-family: fantasy;
+}
+
+.z-north, .z-south, .z-west, .z-center, .z-east {
+    border: none;
+}
+
+.z-west {
+	border-right: 1px solid #d9d9d9;
+}
+
+.z-north-body {
+	padding: 2pt;
+}
+
+.z-column {
+    background: gray;
+    border-left: 1px solid gray;
+    border-bottom: 1px solid gray;
+}
+
+.z-columns-bar {
+    border-left: 1px solid gray;
+    border-bottom: 1px solid gray;
+}
+
+.z-grid-header {
+    background: gray;
+}
+
+.z-label {
+    font-family: fantasy;
+}
+
+.z-column-content, .z-row-content {
+    font-family: cursive;
+}
+
+
+/* ########## ICONS ########## */
+.icon {
+	font-family: ZK85Icons, FontAwesome;
+	font-size: 16pt;
+	color: #616161;
+	cursor: pointer;
+}
+
+.icon:hover {
+	color: #4fb7ff;
+}
+
+.icon-profile:before {
+	font-size: 22pt;
+	content: '\f2bd';
+}
+
+.icon-buy:before {
+	content: '\f07a';
+}
+
+.icon-d01:before {
+	content: '\f004';
+}
+
+.icon-t01:before {
+	content: '\f1e2';
+}
+
+.icon-t02:before {
+	content: '\f071';
+}
+
+.icon-t012:before {
+	content: '\f05b';
+}
+
+.icon-t013:before {
+	content: '\f06d';
+}
+
+.icon-remove:before {
+	content: '\f235';
+}
+
+.icon-attack:before {
+	content: '\f06a';
+	color: red;
+	font-size: 20pt;
+}
+
+.icon-paw:before {
+	content: '\f1b0';
+	font-size: 20pt;
+}
+
+.gift {
+    width: 50pt;
+    height: 50pt;
+    margin: 10pt;
+}
+
+.gift:hover {
+    width: 60pt;
+    height: 60pt;
+}
+
+.z-grid-body {
+	overflow: hidden !important;
+}
+
+.login-center {
+	background-color: white;
+	border: none;
+}

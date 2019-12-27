@@ -1,0 +1,43 @@
+package bg.infosys.daeu.web.vm.profile;
+
+import org.zkoss.bind.annotation.AfterCompose;
+import org.zkoss.bind.annotation.Command;
+import org.zkoss.bind.annotation.ContextParam;
+import org.zkoss.bind.annotation.ContextType;
+import org.zkoss.bind.annotation.Init;
+import org.zkoss.zk.ui.Component;
+import org.zkoss.zk.ui.Executions;
+import org.zkoss.zk.ui.select.Selectors;
+import org.zkoss.zk.ui.select.annotation.VariableResolver;
+import org.zkoss.zk.ui.select.annotation.Wire;
+import org.zkoss.zkplus.spring.DelegatingVariableResolver;
+import org.zkoss.zul.Window;
+
+import bg.infosys.common.web.utils.ZulLocator;
+
+@VariableResolver(DelegatingVariableResolver.class)
+public class ProfileVM {
+	@Wire private Window changePassDlg;
+
+	@Init
+	public void init() {}
+	
+	@AfterCompose
+	public void afterCompose(@ContextParam(ContextType.VIEW) Component view) {
+		Selectors.wireComponents(view, this, false);
+	}
+
+	@Command
+	public void changePassword() {
+		// TODO: implement Refreshable<User> and open modal dialog
+		
+		Window window;
+		window = (Window) Executions.createComponents(ZulLocator.zulLocationByName("changePassword.zul"), null, null);
+		window.doModal();
+	}
+	
+	@Command
+	public void cancel() {
+		changePassDlg.detach();
+	}
+}
