@@ -100,6 +100,6 @@
     <mime-type>text/html</mime-type>
   </mime-mapping>
   <welcome-file-list>
-    <welcome-file>UI/zuls/index.zul</welcome-file>
+    <welcome-file>/login.zul</welcome-file>
   </welcome-file-list>
 </web-app>

@@ -11,6 +11,7 @@ import org.zkoss.bind.annotation.Init;
 import org.zkoss.util.resource.Labels;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.Executions;
+import org.zkoss.zk.ui.Sessions;
 import org.zkoss.zk.ui.select.Selectors;
 import org.zkoss.zk.ui.select.annotation.VariableResolver;
 import org.zkoss.zk.ui.select.annotation.Wire;
@@ -21,7 +22,6 @@ import org.zkoss.zul.Messagebox;
 import bg.verbo.project.db.entity.User;
 import bg.verbo.project.web._aux.Config;
 import bg.verbo.project.web.service.TeamService;
-import bg.verbo.project.web.utils.ZulLocator;
 
 @VariableResolver(DelegatingVariableResolver.class)
 public class LoginVM {
@@ -62,7 +62,8 @@ public class LoginVM {
 		if (user != null) {
 			Map<String, Object> params = new HashMap<String, Object>();
 			params.put(Config.PARAM, user);
-			Executions.createComponents(ZulLocator.zulLocationByName("index"), layout, params);
+			Sessions.getCurrent().setAttribute("user", user);
+			Executions.sendRedirect("UI/zuls/index.zul");
 		} else {
 			Messagebox.show(Labels.getLabel("validation.invalidUsernameOrPass"), Labels.getLabel("error"), Messagebox.OK, Messagebox.ERROR);
 		}

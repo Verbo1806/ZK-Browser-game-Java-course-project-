@@ -9,12 +9,15 @@ import org.zkoss.bind.annotation.BindingParam;
 import org.zkoss.bind.annotation.Command;
 import org.zkoss.bind.annotation.Init;
 import org.zkoss.util.resource.Labels;
+import org.zkoss.zk.ui.Sessions;
 import org.zkoss.zk.ui.select.annotation.VariableResolver;
 import org.zkoss.zk.ui.select.annotation.WireVariable;
 import org.zkoss.zkplus.spring.DelegatingVariableResolver;
 import org.zkoss.zul.Messagebox;
 
 import bg.verbo.project.db.entity.Team;
+import bg.verbo.project.db.entity.User;
+import bg.verbo.project.web._aux.Config;
 import bg.verbo.project.web.service.TeamService;
 
 @VariableResolver(DelegatingVariableResolver.class)
@@ -27,7 +30,7 @@ public class RankingVM {
 	@Init
 	public void init() {
 		teams = teamService.findAllUsersByRanking();
-		userTeam = teamService.getDefaultUser().getTeam();
+		userTeam = ((User) Sessions.getCurrent().getAttribute(Config.USER)).getTeam();
 	}
 
 	public List<Team> getTeams() {

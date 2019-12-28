@@ -7,11 +7,13 @@ import org.zkoss.bind.annotation.Command;
 import org.zkoss.bind.annotation.Init;
 import org.zkoss.bind.annotation.NotifyChange;
 import org.zkoss.zk.ui.Executions;
+import org.zkoss.zk.ui.Sessions;
 import org.zkoss.zk.ui.select.annotation.VariableResolver;
 import org.zkoss.zk.ui.select.annotation.WireVariable;
 import org.zkoss.zkplus.spring.DelegatingVariableResolver;
 
 import bg.verbo.project.db.entity.Team;
+import bg.verbo.project.db.entity.User;
 import bg.verbo.project.web._aux.Config;
 import bg.verbo.project.web.service.NomenclatureService;
 import bg.verbo.project.web.service.PlayersService;
@@ -33,7 +35,7 @@ public class BattleVM {
 	@Init
 	public void init() {
 		defender = (Team) Executions.getCurrent().getArg().get(Config.PARAM);
-		attacker = teamService.getDefaultUser().getTeam();
+		attacker = ((User) Sessions.getCurrent().getAttribute(Config.USER)).getTeam();
 		
 		battleLog = new ArrayList<>();
 		isStarted = false;

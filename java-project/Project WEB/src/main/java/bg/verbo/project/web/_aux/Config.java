@@ -4,6 +4,7 @@ import java.text.SimpleDateFormat;
 
 public class Config {
 	public static final String PARAM = "param";
+	public static final String USER = "user";
 	
 	public static final SimpleDateFormat DTF = new SimpleDateFormat("dd-MM-yyyy hh:mm");
 

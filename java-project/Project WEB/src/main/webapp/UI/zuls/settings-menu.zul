@@ -3,6 +3,6 @@
 		<label sclass="icon icon-paw" />
 	</hbox>
 	<hbox hflex="1">
-		<label sclass="icon icon-profile" tooltiptext="${labels.profile}" onClick="@command('logout')" />
+		<label sclass="icon icon-profile" tooltiptext="${labels.welcome} ${vm.user.name }" onClick="@command('logout')" />
 	</hbox>
 </hlayout>

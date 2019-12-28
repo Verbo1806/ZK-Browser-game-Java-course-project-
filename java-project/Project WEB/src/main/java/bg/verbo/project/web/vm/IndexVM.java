@@ -12,6 +12,7 @@ import org.zkoss.bind.annotation.GlobalCommand;
 import org.zkoss.bind.annotation.Init;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.Executions;
+import org.zkoss.zk.ui.Sessions;
 import org.zkoss.zk.ui.select.Selectors;
 import org.zkoss.zk.ui.select.annotation.VariableResolver;
 import org.zkoss.zk.ui.select.annotation.Wire;
@@ -29,7 +30,10 @@ public class IndexVM {
 	
 	@Init
 	public void init() {
-		user = (User) Executions.getCurrent().getArg().get(Config.PARAM);
+		user = (User) Sessions.getCurrent().getAttribute(Config.USER);
+		if (user == null) {
+			Executions.sendRedirect("/login.zul");
+		}
 	}
 
 	@AfterCompose
@@ -50,11 +54,11 @@ public class IndexVM {
 	public void logout() {
 		
 	}
-	
+
 	public User getUser() {
 		return user;
 	}
-	
+
 	private void detachCenterContent() {
 		if (centerContent != null) {
 			centerContent.getChildren().clear();

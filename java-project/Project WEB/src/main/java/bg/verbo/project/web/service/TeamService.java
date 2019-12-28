@@ -22,8 +22,8 @@ public class TeamService {
 		return teamDAO.findAllUsersByRanking();
 	}
 
-	public User getDefaultUser() {
-		return userDAO.findById(new Long(1));
+	public User getUser(int id) {
+		return userDAO.findById((long) id);
 	}
 
 	@Transactional

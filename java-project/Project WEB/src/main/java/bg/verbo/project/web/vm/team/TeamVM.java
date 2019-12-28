@@ -4,12 +4,15 @@ import org.zkoss.bind.annotation.BindingParam;
 import org.zkoss.bind.annotation.Command;
 import org.zkoss.bind.annotation.Init;
 import org.zkoss.bind.annotation.NotifyChange;
+import org.zkoss.zk.ui.Sessions;
 import org.zkoss.zk.ui.select.annotation.VariableResolver;
 import org.zkoss.zk.ui.select.annotation.WireVariable;
 import org.zkoss.zkplus.spring.DelegatingVariableResolver;
 
 import bg.verbo.project.db.entity.Player;
 import bg.verbo.project.db.entity.Team;
+import bg.verbo.project.db.entity.User;
+import bg.verbo.project.web._aux.Config;
 import bg.verbo.project.web.service.PlayersService;
 import bg.verbo.project.web.service.TeamService;
 
@@ -22,7 +25,7 @@ public class TeamVM {
 	
 	@Init
 	public void init() {
-		team = teamService.getDefaultUser().getTeam();
+		team = ((User) Sessions.getCurrent().getAttribute(Config.USER)).getTeam();
 	}
 
 	public Team getTeam() {
