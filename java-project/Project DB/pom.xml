@@ -33,7 +33,7 @@
 		<v.slf4j>1.7.26</v.slf4j>
 		
 		<!-- GSON (JSON) Version -->
-		<v.gson>2.8.5</v.gson>
+		<v.gson>2.8.9</v.gson>
 		
 		<!-- Java Mail Api Version -->
 		<v.mail>1.4</v.mail>
