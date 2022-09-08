@@ -21,7 +21,7 @@
 		<v.spring.retry>1.2.4.RELEASE</v.spring.retry>
 
 		<!-- PostgreSQL Driver Version -->
-		<v.postgres>42.2.7</v.postgres>
+		<v.postgres>42.4.1</v.postgres>
 		
 		<!-- JDBC Connection Pooling Version -->
 		<v.c3p0>0.9.5.2</v.c3p0>
