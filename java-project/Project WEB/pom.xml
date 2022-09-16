@@ -15,7 +15,7 @@
 		<v.plugin.war>2.1.1</v.plugin.war>
 
 		<!-- ZK -->
-		<v.zk>8.6.0.1</v.zk>
+		<v.zk>9.6.0.2</v.zk>
 		
 		<!-- DB Project Version -->
 		<v.base.db>0.0.1</v.base.db>
