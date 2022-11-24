@@ -13,7 +13,7 @@
 		<v.compiler.plugin>3.7.0</v.compiler.plugin>
 
 		<!-- Hibernate Version -->
-		<v.hibernate>5.3.3.Final</v.hibernate>
+		<v.hibernate>5.3.20.Final</v.hibernate>
 
 		<!-- Spring Versions -->
 		<v.spring>5.0.8.RELEASE</v.spring>
