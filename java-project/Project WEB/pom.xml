@@ -24,7 +24,7 @@
 		<v.javax.servlet>3.0.1</v.javax.servlet>
 		
 		<!-- Apache Commons Net Version -->
-		<v.apache.commons>3.6</v.apache.commons>
+		<v.apache.commons>3.9.0</v.apache.commons>
 		
 		<!-- Default encoding -->
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
