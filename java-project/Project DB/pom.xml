@@ -16,7 +16,7 @@
 		<v.hibernate>5.3.3.Final</v.hibernate>
 
 		<!-- Spring Versions -->
-		<v.spring>5.0.8.RELEASE</v.spring>
+		<v.spring>6.0.0</v.spring>
 		<v.spring.data>2.0.9.RELEASE</v.spring.data>
 		<v.spring.retry>1.2.4.RELEASE</v.spring.retry>
 
